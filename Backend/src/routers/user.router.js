@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { BAD_REQUEST } from "../constants/httpStatus.js";
 
 const router = Router()
-
+        
 router.post('/login',(req,res) => {
     const { userName, password} = req.body;
     const user = sample_user.find(
