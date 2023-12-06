@@ -1,6 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from "express";
 import cors from 'cors';
-import userRouter from './routers/user.router.js'
+import userRouter from './routers/user.router.js';
+
+import { dbconnect } from './config/database.config.js';
+dbconnect();
 
 const app = express();
 app.use(express.json());
