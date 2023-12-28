@@ -47,7 +47,37 @@ router.post(
         const result = await UserModel.create(newUser);
         res.send(generateTokenResponse(result));
     })
-)
+);
+
+router.post('/setAccess', handler(async (req, res) => {
+
+    const {userName,email, password, address, accessLevel, department} = req.body;
+
+        const user = await UserModel.findOne({email});
+
+        if (user) {
+            res.status(BAD_REQUEST).send('User name already taken, please enter another!');
+            return;
+        }
+
+        const hashedPassword = await bcrypt.hash(
+            password,
+            PASSWORD_HASH_SALT_ROUNDS
+        );
+
+        const newUser = {
+            id: (await generateID()).toString(),
+            userName,
+            email,
+            password: hashedPassword,
+            address,
+            accessLevel,
+            department,
+        };
+
+        const result = await UserModel.create(newUser);
+        res.send(generateTokenResponse(result));
+}));
 
 const generateTokenResponse = user => {
     const token = jwt.sign({
