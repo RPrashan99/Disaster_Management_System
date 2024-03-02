@@ -1,24 +1,54 @@
+import React from "react";
 
-export const MainMenuBar = () => {
+import { FaXmark, FaBars } from "react-icons/fa6";
+
+export const MainMenuBar = ({ isMenuOpen, toggleMenu}) => {
+
+
     return(
-        <div className="flex flex-row bg-menuBlue w-full px-10 py-2 border-b-[10px] border-green">
-            <ul className="flex w-full justify-between items-center gap-20">
+////////////////////////////////////////////////////
+
+    
+      <div className="flex justify-center w-full">
+        <div className="flex space-x-14 justify-center w-full items-center ">
+          <ul className="md:flex space-x-16 first:font-medium hidden text-white    gap-[10px]    !text-[14px]  ![font-family:'Inter',Helvetica] w-full justify-between items-center  ">
                 <li>
-                    <a class="text-white transition hover:text-gray-500/75" href="#"> Home </a>
+                    <a className="flex relative transform  hover:scale-110 flex-[0_0_auto] bg-transparent text-gray-300 transition hover:text-white" href="#"> Home </a>
                 </li>
                 <li>
-                    <a class="text-white transition hover:text-gray-500/75" href="#"> Disaster Status </a>
+                    <a className="flex relative transform transition-transform hover:scale-110 flex-[0_0_auto] bg-transparent text-gray-300 hover:bg-transparent hover:text-white" href="#"> Disaster Status </a>
                 </li>
                 <li>
-                    <a class="text-white transition hover:text-gray-500/75" href="#"> Requests </a>
+                    <a className="flex relative transform hover:scale-110 flex-[0_0_auto] bg-transparent text-gray-300 hover:bg-transparen transition hover:text-white" href="#"> Requests </a>
                 </li>
                 <li>
-                    <a class="text-white transition hover:text-gray-500/75" href="#"> Disaster Map </a>
+                    <a className="flex relative transform hover:scale-110 flex-[0_0_auto] bg-transparent  hover:bg-transparent text-gray-300 transition hover:text-white" href="#"> Disaster Map </a>
                 </li>
                 <li>
-                    <a class="text-white transition hover:text-gray-500/75" href="#"> User Control </a>
+                    <a className="flex relative transform  hover:scale-110 flex-[0_0_auto] bg-transparen hover:bg-transparent text-gray-300 transition hover:text-white" href="#"> User Control </a>
                 </li>
-            </ul>
+          </ul>
         </div>
-    )
+
+        {/* menu button for small devices-mobile */}
+
+        <div className="flex md:hidden w-full items-end justify-end ">
+          <button
+            onClick={toggleMenu}
+            className="text-black focus:outline-none justify-end focus:test-gray-500  "
+          >
+            {isMenuOpen ? (
+              <FaXmark className="h-6 w-6 " />
+            ) : (
+              <FaBars className="h-6 w-6 " />
+            )}
+          </button>
+        </div>
+      </div>
+    
+
+
+
+
+  )
 }

@@ -6,7 +6,8 @@ import Donations from './pages/Donations'
 import Weather from './pages/Weather'
 import Contact from './pages/Contact'
 import { BrowserRouter,Routes,Route } from "react-router-dom";
-import { DisasterStatusPage } from './pages/controller/DisasterStatusPage'
+import { DisasterStatusPage } from './pages/controller/DisasterStatusPage';
+import { ControllerHomePage } from './pages/controller/ControllerHomePage'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Weather" element={<Weather/>} />
         <Route path="/Contact" element={<Contact/>} />
         <Route path="/controller/status" element = {<DisasterStatusPage/>}/>
+        <Route path="/controller/home" element = {<ControllerHomePage/>}/>
 
       </Routes>
     </BrowserRouter>
