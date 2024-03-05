@@ -29,6 +29,7 @@ const More_from_us = () => {
         "Contribute today to support disaster relief efforts, helping communities rebuild and thrive. ",
       image: "/src/assets/Donation.png",
     },
+    
   ];
   return (
     <div className='md:px-14 px-4 py-8 max-w-screen-2xl mx-auto bg-grey'>

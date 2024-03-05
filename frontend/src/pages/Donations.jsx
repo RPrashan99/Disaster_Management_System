@@ -2,7 +2,7 @@ import React from "react";
 import Donation from "../assets/donations/donation_home.png";
 import LanguageBar from "../components/Common/LanguageBar";
 import NavBar from "../components/Common/Navbar";
-import Footer from "../components/Common/Footer";
+// import Footer from "../components/Common/Footer";
 import Overview from "../components/Donations/overview_pastevent";
 
 const Donations = () => {
@@ -28,7 +28,7 @@ const Donations = () => {
 
     <Overview/>
     
-    <Footer/>
+    {/* <Footer/> */}
     </div>
   );
 };

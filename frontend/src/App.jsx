@@ -8,6 +8,7 @@ import Contact from './pages/Contact'
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import { DisasterStatusPage } from './pages/controller/DisasterStatusPage'
 import { UserControlPage } from './pages/controller/UserControlPage'
+import { ControllerHomePage } from './pages/controller/ControllerHomePage'
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
         <Route path="/Contact" element={<Contact/>} />
         <Route path="/controller/status" element = {<DisasterStatusPage/>}/>
         <Route path="/controller/users" element = {<UserControlPage/>}/>
-
+        <Route path="/controller/home" element = {<ControllerHomePage/>}/>
       </Routes>
     </BrowserRouter>
   )

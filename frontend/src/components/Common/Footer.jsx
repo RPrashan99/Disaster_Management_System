@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React from "react";
 import { LuPhoneCall } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { HiOutlinePrinter } from "react-icons/hi2";
@@ -8,13 +7,13 @@ import playStore from '../../assets/Playstore.png';
 import AppStore from '../../assets/AppStore.png'
 import { FaFacebookF,FaWhatsapp,FaTwitter,FaTelegram ,FaInstagram } from "react-icons/fa";
 
-const Footer = () => {
+export const Footer = () => {
     
     return (
-        <footer  className='max-w-full bg-primary'>
+        <footer  className='w-full mt-10 bg-primary'>
             <div className="mx-auto w-full max-w-screen-xl">
                 <div className="grid grid-cols-1 gap-8 px-10 py-1 lg:py-8 md:grid-cols-3">
-                    <div classNameName='text-center'>
+                    <div className='text-center'>
                         <h2 className="mb-6 text-lg font-semibold text-white uppercase ">Contact Us</h2>
                         <ul className="text-white font-normal text-sm">
                             <li className="mb-4 flex gap-4  items-center">
@@ -121,5 +120,4 @@ const Footer = () => {
     )
 }
 
-export default Footer
 
