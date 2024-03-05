@@ -21,7 +21,9 @@ export default {
         'menuBlue':'#1D4176',
         'green':'#18B05C',
         'fontGray':'#050202',
-        'mapGreen':'#5CDB95'
+        'mapGreen':'#5CDB95',
+        'mapRed': '#E92660',
+        'userBlue': '#1D4176'
       },
 
       keyframes: {

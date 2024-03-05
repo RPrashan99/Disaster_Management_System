@@ -7,6 +7,7 @@ import Weather from './pages/Weather'
 import Contact from './pages/Contact'
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import { DisasterStatusPage } from './pages/controller/DisasterStatusPage'
+import { UserControlPage } from './pages/controller/UserControlPage'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Weather" element={<Weather/>} />
         <Route path="/Contact" element={<Contact/>} />
         <Route path="/controller/status" element = {<DisasterStatusPage/>}/>
+        <Route path="/controller/users" element = {<UserControlPage/>}/>
 
       </Routes>
     </BrowserRouter>

@@ -2,6 +2,8 @@ import React from "react";
 import { Report_Card } from "./Report_Card";
 import { Disaster_Map_Card } from "./Disaster_Map_Card";
 import { CheckBox } from "@mui/icons-material";
+import { IconButton, Button } from "@mui/material";
+import CreateIcon from '@mui/icons-material/Create';
 
 const testValues = [
     'Rathnapura',
@@ -53,21 +55,29 @@ export const Disaster_Map = () => {
 
                 </div>
 
+                {/* <GoogleApiWrapper/>*/}
+
                 <div className="flex flex-col bg-mapGreen border space-y-3 px-3 py-3 rounded-r-md">
-                    {Disaster_Map_Card("DISASTER TYPE", "FLOOD")}
+                    {Disaster_Map_Card("REPORT OF AFFECTED", "FLOOD")}
                     {Disaster_Map_Card("SHELTER LOCATIONS", "14")}
 
                     <div className="flex flex-col w-[300px] px-5 py-4 bg-white border rounded-md">
                         <div className="flex text-[16px] font-bold">RESPOND SETTINGS</div>
-                        <div className="flex flex-col space-y-5 items-center justify-end">
+                        <div className="flex flex-col space-y-2 items-end pt-3 pe-3">
                             <div className="flex flex-row items-center">
                                 <div className="text-[15px] text-right pe-4">RESPOND SENT</div>
                                 <CheckBox defaultChecked color="secondary"/>
+                                <IconButton>
+                                    <CreateIcon/>
+                                </IconButton>
                                 
                             </div>
                             <div className="flex flex-row items-center">
                                 <div className="text-[15px] text-right pe-4">ALERT SENT</div>
                                 <CheckBox defaultChecked color="secondary"/>
+                                <IconButton>
+                                    <CreateIcon/>
+                                </IconButton>
                                 
                             </div>
                         </div>
@@ -81,7 +91,25 @@ export const Disaster_Map = () => {
                         </div>
                     </div>
 
-                    {Disaster_Map_Card("CONFIRMATION", "CONFIRMED")}
+                    <div className="flex flex-col w-[300px] px-5 py-4 bg-white border rounded-md">
+                        <div className="flex text-[16px] font-bold">RESPOND SETTINGS</div>
+                        <div className="flex flex-col items-end space-y-2 pt-3 pe-1">
+                            <div className="flex flex-row items-center">
+                                <div className="text-[15px] text-right pe-4">EVACUATION ROUTES</div>
+                                <Button variant="contained" color="secondary">
+                                    ADD
+                                </Button>
+                                
+                            </div>
+                            <div className="flex flex-row items-center">
+                                <div className="text-[15px] text-right pe-4">ROAD CLOSURES</div>
+                                <Button variant="contained" color="secondary">
+                                    ADD
+                                </Button>
+                                
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
