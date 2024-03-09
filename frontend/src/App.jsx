@@ -7,11 +7,11 @@ import Weather from './pages/Weather'
 import Contact from './pages/Contact'
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import { DisasterStatusPage } from './pages/controller/DisasterStatusPage';
-import { ControllerHomePage } from './pages/controller/ControllerHomePage'
+import { ControllerHomePage } from './pages/controller/ControllerHomePage';
+import { NewsCreatorPage } from './pages/controller/NewsCreatorPage';
+import { Requests } from './pages/controller/Requests'
 
 function App() {
-
-
   return (
     <BrowserRouter>
       <Routes>
@@ -23,7 +23,8 @@ function App() {
         <Route path="/Contact" element={<Contact/>} />
         <Route path="/controller/status" element = {<DisasterStatusPage/>}/>
         <Route path="/controller/home" element = {<ControllerHomePage/>}/>
-
+        <Route path="/controller/news" element = {<NewsCreatorPage/>}/>
+        <Route path="/controller/requests" element = {<Requests/>}/>
       </Routes>
     </BrowserRouter>
   )

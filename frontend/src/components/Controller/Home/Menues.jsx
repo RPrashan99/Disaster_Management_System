@@ -61,7 +61,7 @@ export const Menues = () => {
     ];
 
     return(     
-      <div className="mt-10 grid group w-[80%] md:h-[100%] sm:h-[100%] lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 mx-auto px-2 grid-cols-1  md:w-11/18 gap-0">
+      <div className="mt-10 grid group w-[80%] md:h-[100%] sm:h-[100%] lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 mx-auto my-10 px-2 grid-cols-1  md:w-11/18 gap-0">
                 {service.map((service) => (
             <div key={service.id} className="px-4 py-8 text-center md:w-[300px] mx-auto md:h-80
                    hover:-translate-y-5 rounded-md cursor-pointer group-hover:scale-[0.85] hover:scale-100 group-hover:blur-sm hover:!blur-none hover:border-b-8 hover:border-secondary 

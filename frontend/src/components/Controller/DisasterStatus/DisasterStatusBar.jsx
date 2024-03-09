@@ -4,8 +4,8 @@ import { ColorItem } from "./color_item"
 
 export const DisasterStatusBar = () => {
     return(
-        <div className="flex flex-row bg-menuBlue px-5 py-1 justify-center space-x-10">
-            <div className="flex flex-row bg-white rounded border w-[680px] h-[250px] items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-full bg-menuBlue px-5 py-1 justify-center space-x-10">
+            <div className="flex flex-row bg-white rounded border w-[600px] h-[250px] items-center">
                 <div className="flex flex-col rounded">
                     <div className="flex flex-row items-center border px-5 py-3">
                         <div className="flex flex-col">
@@ -40,7 +40,7 @@ export const DisasterStatusBar = () => {
                     <span className="flex text-grey ml-auto mt-2">Last updated 1min ago</span>
                 </div>
             </div>
-            <div className="flex flex-row bg-white rounded border w-[680px] h-[250px]">
+            <div className="flex flex-row bg-white rounded border w-[600px] h-[250px]">
                 <div className="flex flex-col items-center justify-center w-4/5">
                     <img className="flex w-[150px] h-[150px]" src="../controller/analysis_2.png" alt="Ongoing Disasters"/>
                     <div className="flex">Ongoing Disasters</div>

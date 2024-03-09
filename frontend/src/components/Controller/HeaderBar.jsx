@@ -11,12 +11,12 @@ export const HeaderBar = () => {
     };
 
     return(
-        <div className='flex flex-row items-start justify-between px-0 py-[5px] relative self-stretch w-full flex-[0_0_auto]'>
-            <img className="flex flex-col md:w-[100px] lg:w-[150px]  sm:w-[80px] relative self-stretch w-[150px] h-[108px] object-cover" src="/controller/logo_us.png" alt="logo_us"/>
+        <div className='flex flex-row items-start justify-between px-0 py-[5px]  self-stretch h-full w-full flex-[0_0_auto]'>
+            <img className="flex flex-col md:w-[90px] lg:w-[120px]  sm:w-[70px] relative self-stretch w-[120px] h-full object-cover" src="/controller/logo_us.png" alt="logo_us"/>
             <div className="flex flex-col md:justify-center  w-[80%] flex-wrap relative grow">
                 <TitleBar/>
                 <div className="flex flex-grow items-start md:justify-center gap-[0] p-[5px] relative self-stretch w-full flex-[0_0_auto]">
-                <div className=" text-x1 container justify-end mx-auto  md:px-14 p-1 max-w-full flex flex-wrap bg-primary w-full px-10 py-2 border-b-[10px] border-secondary">
+                <div className=" text-x1 container justify-end mx-auto  md:px-14 p-1 max-w-full flex flex-wrap bg-ControllerPrim w-full px-10 py-2 border-b-[10px] border-ControllerSec">
                     <MainMenuBar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu}/>       
                     {/* Items for mobile nav links */}
                     <div

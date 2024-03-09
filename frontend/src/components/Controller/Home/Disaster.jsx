@@ -1,9 +1,7 @@
 import React from 'react'
 export const Disaster = () => {
     return(
-
-
-        <div className='flex flex-row relative justify-center items-center h-[30%] w-[100%] m-[0.8%] bg-gradient-to-r from-[#26268a] via-[#464545] to-green self-stretch flex-wrap md:text-wrap sm:text-wrap'>
+        <div className='flex flex-row relative justify-center items-center h-[30%] w-[100%] m-[0.8%] bg-gradient-to-r from-ControllerPrim via-[#464545] to-secondary self-stretch flex-wrap md:text-wrap sm:text-wrap'>
             <div className='flex relative p-[2%] h-[90%] m-[1%] w-[23%] bg-[transparent]'>
                 <img className='flex relative w-fit rounded-[20px]' src="/controller/Fire.png" alt="fire"/>
             </div>
