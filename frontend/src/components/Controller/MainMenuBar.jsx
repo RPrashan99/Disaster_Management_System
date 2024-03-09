@@ -4,28 +4,24 @@ import { FaXmark, FaBars } from "react-icons/fa6";
 
 export const MainMenuBar = ({ isMenuOpen, toggleMenu}) => {
 
-
     return(
-////////////////////////////////////////////////////
-
-    
       <div className="flex justify-center w-full">
         <div className="flex space-x-14 justify-center w-full items-center ">
           <ul className="md:flex space-x-16 first:font-medium hidden text-white    gap-[10px]    !text-[14px]  ![font-family:'Inter',Helvetica] w-full justify-between items-center  ">
                 <li>
-                    <a className="flex relative transform  hover:scale-110 flex-[0_0_auto] bg-transparent text-gray-300 transition hover:text-white" href="#"> Home </a>
+                    <a className="text-white transition hover:text-gray-500/75" href="#"> Home </a>
                 </li>
                 <li>
-                    <a className="flex relative transform transition-transform hover:scale-110 flex-[0_0_auto] bg-transparent text-gray-300 hover:bg-transparent hover:text-white" href="#"> Disaster Status </a>
+                    <a className="text-white transition hover:text-gray-500/75" href="/controller/status"> Disaster Status </a>
                 </li>
                 <li>
-                    <a className="flex relative transform hover:scale-110 flex-[0_0_auto] bg-transparent text-gray-300 hover:bg-transparen transition hover:text-white" href="#"> Requests </a>
+                    <a className="text-white transition hover:text-gray-500/75" href="#"> Requests </a>
                 </li>
                 <li>
-                    <a className="flex relative transform hover:scale-110 flex-[0_0_auto] bg-transparent  hover:bg-transparent text-gray-300 transition hover:text-white" href="#"> Disaster Map </a>
+                    <a className="text-white transition hover:text-gray-500/75" href="#"> Disaster Map </a>
                 </li>
                 <li>
-                    <a className="flex relative transform  hover:scale-110 flex-[0_0_auto] bg-transparen hover:bg-transparent text-gray-300 transition hover:text-white" href="#"> User Control </a>
+                    <a className="text-white transition hover:text-gray-500/75" href="/controller/users"> User Control </a>
                 </li>
           </ul>
         </div>
@@ -45,10 +41,5 @@ export const MainMenuBar = ({ isMenuOpen, toggleMenu}) => {
           </button>
         </div>
       </div>
-    
-
-
-
-
   )
 }

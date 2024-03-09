@@ -23,10 +23,10 @@ const LanguageBar = () => {
         </div>
       </div>
 
-      <div class="relative  overflow-hidden bg-white py-4 px-8 ">
-        <div class="-mx-4 flex flex-wrap items-center">
-          <div class="w-full px-4 lg:w-1/2 md:w-1/2">
-            <div class="text-center lg:text-left ">
+      <div className="relative  overflow-hidden bg-white py-4 px-8 ">
+        <div className="-mx-4 flex flex-wrap items-center">
+          <div className="w-full px-4 lg:w-1/2 md:w-1/2">
+            <div className="text-center lg:text-left ">
               <a
                 href="/"
                 className="lg:text-3xl text-2xl italic font-medium flex items-center space-x-3 text-primary"
@@ -36,18 +36,18 @@ const LanguageBar = () => {
               </a>
             </div>
           </div>
-          <div class="relative w-full lg:w-1/2 md:w-1/2 mt-5 px-10">
-            <div class="text-center lg:text-right relative ">
-              <i class="absolute text-black top-1/2 transform -translate-y-1/2 left-4">
+          <div className="relative w-full lg:w-1/2 md:w-1/2 mt-5 px-10">
+            <div className="text-center lg:text-right relative ">
+              <i className="absolute text-black top-1/2 transform -translate-y-1/2 left-4">
                 <FaSearch />
               </i>
               <input
                 type="text"
-                class="bg-white h-14 w-full pl-12 rounded-lg focus:outline-none hover:cursor-pointer"
+                className="bg-white h-14 w-full pl-12 rounded-lg focus:outline-none hover:cursor-pointer"
                 name=""
               />
-              <span class="absolute top-1/2 transform -translate-y-1/2 right-5 border-l pl-4 cursor-pointer">
-                <i class="fa fa-microphone text-black hover:text-primary">
+              <span className="absolute top-1/2 transform -translate-y-1/2 right-5 border-l pl-4 cursor-pointer">
+                <i className="fa fa-microphone text-black hover:text-primary">
                   <FaMicrophone />
                 </i>
               </span>

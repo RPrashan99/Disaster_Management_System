@@ -4,10 +4,10 @@ import { ColorItem } from "./color_item"
 
 export const DisasterStatusBar = () => {
     return(
-        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-full bg-menuBlue px-5 py-1 justify-center space-x-10">
-            <div className="flex flex-row bg-white rounded border w-[600px] h-[250px] items-center">
-                <div className="flex flex-col rounded">
-                    <div className="flex flex-row items-center border px-5 py-3">
+        <div className="flex flex-row bg-menuBlue px-5 py-1 justify-center space-x-10">
+            <div className="flex flex-row bg-white rounded border w-[680px] h-[250px] items-center">
+                <div className="flex flex-col rounded h-full justify-center">
+                    <div className="flex flex-row items-center px-5 py-3 border-b-2 h-full">
                         <div className="flex flex-col">
                             <span className="flex text-black text-[22px] font-bold">Disaster by type</span>
                             <span className="flex text-grey px-2 w-[250px]">Each Disaster report grouped by its type</span>
@@ -16,7 +16,7 @@ export const DisasterStatusBar = () => {
                             <img className="flex" src="/controller/analysis_report.png" alt="Analysis"/>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 px-5 py-2 border">
+                    <div className="grid grid-cols-2 gap-2 px-5 py-2">
                             {ColorItem("Flood Type","#BE3F3F")}
                             {ColorItem("Extreme wind","#7E1199")}
                             {ColorItem("Drought Type","#F4771D")}
@@ -25,9 +25,9 @@ export const DisasterStatusBar = () => {
                             {ColorItem("Wildfire Type","#E7A526")}
                     </div>
                 </div>
-                <div className="flex flex-col py-5 pe-5">
-                    <div className="flex flex-row mb-5 justify-center">
-                        <div className="flex flex-col justify-center items-center border w-[150px] me-5">
+                <div className="flex flex-col space-y-5 py-5 border-s-2 h-full">
+                    <div className="flex flex-row justify-center">
+                        <div className="flex flex-col justify-center items-centerw-[150px] me-5">
                             <span className="flex text-black text-[40px] font-bold">452</span>
                             <span className="flex text-black-[15px]">Total Disasters</span>
                         </div>
@@ -35,9 +35,9 @@ export const DisasterStatusBar = () => {
                     </div>
                     <div className="flex items-center gap-5 px-2">
                         <img src="/controller/plus_icon.png"/>
-                        <span className="flex text-grey">2 new Disaster Reports added!</span>
+                        <span className="flex text-grey text-[15px]">2 new Disaster Reports added!</span>
                     </div>
-                    <span className="flex text-grey ml-auto mt-2">Last updated 1min ago</span>
+                    <span className="flex text-grey justify-end pe-5 pt-4">Last updated 1min ago</span>
                 </div>
             </div>
             <div className="flex flex-row bg-white rounded border w-[600px] h-[250px]">
