@@ -157,8 +157,7 @@ const Navbar = () => {
             smooth={true}
             offset={-100}
             key={path}
-            className="block text-black 
-                             hover:text-white first:font-medium"
+            className="block text-black hover:text-white first:font-medium"
           >
             {link}
           </Link>

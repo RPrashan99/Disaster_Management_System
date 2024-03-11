@@ -9,7 +9,7 @@ export const MainMenuBar = ({ isMenuOpen, toggleMenu}) => {
         <div className="flex space-x-14 justify-center w-full items-center ">
           <ul className="md:flex space-x-16 first:font-medium hidden text-white    gap-[10px]    !text-[14px]  ![font-family:'Inter',Helvetica] w-full justify-between items-center  ">
                 <li>
-                    <a className="text-white transition hover:text-gray-500/75" href="#"> Home </a>
+                    <a className="text-white transition hover:text-gray-500/75" href="/controller/home"> Home </a>
                 </li>
                 <li>
                     <a className="text-white transition hover:text-gray-500/75" href="/controller/status"> Disaster Status </a>

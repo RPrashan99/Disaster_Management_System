@@ -1,4 +1,6 @@
 import React from "react";
+import { PieChart } from '@mui/x-charts/PieChart';
+import { Box } from "@mui/material";
 
 export const AnalysisCard = (title, description) => {
     return(
@@ -6,9 +8,13 @@ export const AnalysisCard = (title, description) => {
             <div className="text-[25px] font-bold">{title}</div>
             <div className="text-[15px]">{description}</div>
 
-            <div className="flex">
-                <img src="../controller/Analysis.png" alt="Analysis.png"/>
-            </div>
+            <Box>
+                <PieChart
+                series={[{ data: [{ value: 10 }, { value: 15 }, { value: 20 }] }]}
+                width={400}
+                height={200}
+                />
+            </Box>
         </div>
     )
 }

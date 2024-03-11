@@ -79,6 +79,32 @@ router.post('/setAccess', handler(async (req, res) => {
         res.send(generateTokenResponse(result));
 }));
 
+router.post('/searchUser', handler(async(req, res) => {
+
+    const {id} = req.body;
+    const user = await UserModel.findOne({id, accessLevel: 1});
+    if(user){
+        res.send(user);
+        return;
+    }
+
+    res.status(BAD_REQUEST).send("User id not found");
+
+}));
+
+router.post('/searchAdmin', handler(async(req, res) => {
+
+    const {id} = req.body;
+    const user = await UserModel.findOne({id, accessLevel: {$gt: 1}});
+    if(user){
+        res.send(user);
+        return;
+    }
+
+    res.status(BAD_REQUEST).send("User id not found");
+
+}));
+
 const generateTokenResponse = user => {
     const token = jwt.sign({
         id: user.id,
