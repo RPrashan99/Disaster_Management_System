@@ -4,26 +4,26 @@ import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { RequestsDetails } from "../../components/Controller/Requests/RequestsDetails";
 import { Footer } from "../../components/Controller/Footer"
 import { Card_Requests } from "../../components/Controller/Requests/Card_Requests";
+import { BarChart } from '@mui/x-charts/BarChart';
 
 
 export const Requests = () =>{
-    const [requests, setItems] = useState([]);
+    const [requests, setRequests] = useState([]);
 
 
     useEffect(() => {
         const fetchRequests = async () => {
           try {
-            // Replace 'your-api-endpoint' with the actual API endpoint for fetching request details
             const response = await fetch('http://localhost:5000/api/requests/requests');
             const data = await response.json();
-            setItems(data);
+            setRequests(data);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
         };
     
         fetchRequests();
-    }, []);
+    }, [requests]);
 
     return (
         <div>
@@ -58,9 +58,20 @@ export const Requests = () =>{
                     </div>
                 </div>
                 <div className="flex relative bg-ControllerPrim w-full justify-center items-center h-[20%] mt-10">
-                    <img src="../controller/chart.png" alt="chart" className="w-[70%] h-full m-10 rounded-lg shadow-2xl shadow-[#2c2c2c]"/>
+                <BarChart
+                    series={[
+                        { data: [3, 4, 1, 6, 5], stack: 'A', label: 'Series A1' },
+                        { data: [4, 3, 1, 5, 8], stack: 'A', label: 'Series A2' },
+                        { data: [4, 2, 5, 4, 1], stack: 'B', label: 'Series B1' },
+                        { data: [2, 8, 1, 3, 1], stack: 'B', label: 'Series B2' },
+                        { data: [10, 6, 5, 8, 9], label: 'Series C1' },
+                    ]}
+                    width={600}
+                    height={350}
+                    />
+                    {/* <img src="../controller/chart.png" alt="chart" className="w-[70%] h-full m-10 rounded-lg shadow-2xl shadow-[#2c2c2c]"/> */}
                 </div>
-                <Footer/>
+            <Footer/>
         </div>
     )
 }

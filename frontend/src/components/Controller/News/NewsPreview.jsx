@@ -42,7 +42,7 @@ export const NewsPreview = () =>{
     ];
     return(
         <div className="flex flex-col justify-between bg-ControllerPrim py-5 px-5 gap-5">
-            <h1 className="text-[white] font-mono text-[2rem] font-bold">News Preview</h1>
+            <h1 className="text-[white] font-sans text-[2rem] font-bold">News Preview</h1>
             <div className="flex flex-row gap-5">
                 {/* left Section */}
                 <div className="sm:w-2/3 bg-white ">
