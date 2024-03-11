@@ -18,17 +18,17 @@ router.post('/request',handler(async (req,res) => {
         const requestDate = currentDateTime.toDateString();
         const requestTime = currentDateTime.toTimeString();
 
-        const newID = generateRequestID(disasterType);
+        const newID = await generateRequestID(disasterType);
 
         const newRequest = {
-            requestId: newID,
+            requestID: newID,
             disasterType,
             disasterLocation,
             affectedCount,
             medicalNeed,
             otherNeeds,
-            requestDate,
-            requestTime
+            requestTime,
+            requestDate
         };
 
         const result = await DisasterRequestModel.create(newRequest);
@@ -60,8 +60,10 @@ const generateRequestID = async(disasterType) => {
     const requestNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
     const newID = disasterCode + requestNumber.toString();
+    console.log("ID",newID);
 
     return newID;
+
 };
 
 export default router

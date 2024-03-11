@@ -9,7 +9,7 @@ export const DisasterRequestSchema = new Schema(
         medicalNeed: {type: Boolean, default: false},
         otherNeeds: {type: String, required: false},
         requestTime: {type: String, required: true},
-        reqtuestDate: {type: String, required: true},
+        requestDate: {type: String, required: true},
     },
 
     {
