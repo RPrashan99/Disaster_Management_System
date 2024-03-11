@@ -11,7 +11,7 @@ export const RequestsDetails = () => {
                     <div className="flex flex-col items-center justify-center gap-1 px-4 ">
                         <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-1">
                             <span className="flex text-ControllerPrim  items-center justify-center text-[16px] font-bold">Read Requests</span>
-                            <img className="flex " src="/controller/Circle.png" alt="Analysis"/>
+                            <img className="flex " src="/controller/Circle2.png" alt="Analysis"/>
                         </div>
                         <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
                             <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>

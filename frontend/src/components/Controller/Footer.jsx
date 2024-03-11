@@ -101,7 +101,7 @@ export const Footer = () => {
                     </div>
 
                 </div>
-                <div className="px-4 py-3 bg-ControllerSec border-b-[10px] border-ControllerPrim md:flex md:items-center md:justify-between ">
+                <div className="px-4 py-3 bg-secondary border-b-[10px] border-ControllerPrim md:flex md:items-center md:justify-between ">
                     <span className="text-sm text-black sm:text-center">© 2023 <a href="https://www.bing.com/search?pglt=43&q=Disaster+management+website+in+sri+lanka&cvid=e63b08b5be554115b7071953d5196b3c&gs_lcrp=EgZjaHJvbWUqBggDEEUYOzIGCAAQRRg5MgYIARAAGEAyBggCEAAYQDIGCAMQRRg7MgYIBBAAGEAyBggFEC4YQDIGCAYQRRg8MgYIBxBFGDwyBggIEEUYPNIBCDQ2NTRqMGoxqAIAsAIA&FORM=ANNTA1&PC=PCMEDGEDP">
                         Disaster Management Center™</a> | All Rights Reserved.
                     </span>

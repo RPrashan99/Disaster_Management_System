@@ -1,5 +1,5 @@
 import React from 'react';
-export const Card = ({imageUrl,d_type,severity,time,date,location, affectedPeople}) => {
+export const Card_Requests = ({imageUrl,d_type,severity,time,date,location, affectedPeople}) => {
 
     return(
         <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 shadow-2xl border-b-[5px] border-[gray] relative rounded-lg justify-center items-center h-full w-[100%]  self-stretch flex-wrap md:text-wrap sm:text-wrap'>
@@ -7,7 +7,7 @@ export const Card = ({imageUrl,d_type,severity,time,date,location, affectedPeopl
                 {imageUrl && <img src={imageUrl} alt="Image" className="w-[200px] h-[100px] shadow-2xl  rounded-lg" />}
             </div>
             <div className='flex flex-col relative text-center justify-center items-center mb-2 w-full h-full m-1'>
-                {d_type && <text className="w-[50%] h-[30%] bg-[#04262c] mx-10 my-3 shadow-lg rounded-[50px] border-none justify-center items-center text-center text-[white]  text-[1.5rem]">{d_type}</text>}
+                {d_type && <text className="w-[60%] h-[30%] bg-ControllerSec mx-10 my-3 shadow-2xl rounded-[50px] border-none justify-center items-center text-center text-[#000000]  text-[1.5rem]">{d_type}</text>}
                 {severity && <text className="w-full h-full font-bold text-[#b43333] text-[1.3rem]  mx-2">{severity}</text>}
             </div>
             <div className='flex flex-col relative text-center justify-center items-center  shadow-2xl w-full h-full m-1'>
