@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./index.html",
@@ -8,6 +9,8 @@ export default {
   theme: {
     extend: {
       colors:{
+        'ControllerPrim': "#05386B",
+        'ControllerSec': "#18B05C",
         'primary':"#124E70",
         'secondary':"#DCAA15",
         'grey':"#D9D9D9",
@@ -24,6 +27,14 @@ export default {
         'mapGreen':'#5CDB95',
         'mapRed': '#E92660',
         'userBlue': '#1D4176'
+      },
+      fontFamily:{
+        sans:[
+          'Apple Color Emoji'
+        ],
+        serif:['Times'],
+        mono:['monospace']
+
       },
 
       keyframes: {
