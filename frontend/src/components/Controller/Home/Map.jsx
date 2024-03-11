@@ -19,7 +19,7 @@ export const Map = () => {
                 </div> 
             </div>
             <div className='flex item-center justify-center  flex-wrap relative self-stretch w-[80%] lg:h-[98%] md:h-[98%] sm:h-[98%] flex-[0_0_auto] '>               
-                <img  className= 'border-l-[20px] border-l-secondary border-b-[20px] rounded-l-full border-b-primary shadow-sm flex  relative self-stretch lg:h-[98%] md:h-[98%] sm:h-[98%] w-[96%] flex-[0_0_auto] m-[1%] ' src='/controller/Map.png' alt='Map'/>
+                <img  className= 'border-l-[20px] border-l-ControllerSec border-b-[20px] rounded-l-full border-b-ControllerPrim shadow-sm flex  relative self-stretch lg:h-[98%] md:h-[98%] sm:h-[98%] w-[96%] flex-[0_0_auto] m-[1%] ' src='/controller/Map.png' alt='Map'/>
             </div>
         </div>
     )

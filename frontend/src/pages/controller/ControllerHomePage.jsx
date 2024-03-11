@@ -4,7 +4,7 @@ import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { DisasterStatus } from "../../components/Controller/Home/DisasterStatus";
 import { Map } from "../../components/Controller/Home/Map"
 import { Menues } from "../../components/Controller/Home/Menues";
-import { Footer } from "../../components/Common/Footer"
+import { Footer } from "../../components/Controller/Footer"
 
 export const ControllerHomePage = () => {
     return(
@@ -17,7 +17,7 @@ export const ControllerHomePage = () => {
                     <HeaderBar/>
                 </div>
             </div>
-            <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 w-full  bg-primary h-full grid-cols-1 self-stretch ">
+            <div className="grid lg:grid-cols-2 font-sans md:grid-cols-2 sm:grid-cols-1 w-full  bg-ControllerPrim h-full grid-cols-1 self-stretch ">
                 <div className="flex bg-[#ffffff] self-stretch lg:h-[500px] md:h-[400px] sm:h-[400px]">
                     <DisasterStatus/>
                 </div >
