@@ -6,8 +6,11 @@ import cors from 'cors';
 import userRouter from './routers/user.router.js';
 import disasterRequestRouter from './routers/request.router.js'
 
-import { dbconnect } from './config/database.config.js';
+import {dbconnect} from './config/database.config.js';
+
 dbconnect();
+
+
 
 const app = express();
 app.use(express.json());
