@@ -19,4 +19,6 @@ export const NewsSchema = new Schema(
             virtuals: true,
         },
     }
-)
+);
+
+export const NewsModel = model('news', NewsSchema);
