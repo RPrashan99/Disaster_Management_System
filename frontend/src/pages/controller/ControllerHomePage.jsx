@@ -5,6 +5,7 @@ import { DisasterStatus } from "../../components/Controller/Home/DisasterStatus"
 import { Map } from "../../components/Controller/Home/Map"
 import { Menues } from "../../components/Controller/Home/Menues";
 import { Footer } from "../../components/Controller/Footer"
+import { WindowComponent } from "../../Windows/RequestWindow";
 
 export const ControllerHomePage = () => {
     return(

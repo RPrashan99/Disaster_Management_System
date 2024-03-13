@@ -34,6 +34,7 @@ export default {
         ],
         serif:['Times'],
         mono:['monospace']
+        
 
       },
 
