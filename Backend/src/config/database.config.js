@@ -3,6 +3,7 @@ import { UserModel } from "../models/user.model.js";
 import { DisasterRequestModel } from "../models/disasterRequest.model.js";
 import { sample_user } from "../data.js";
 import bcrypt from 'bcrypt';
+import { NewsModel } from "../models/news.model.js";
 
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 
@@ -57,5 +58,17 @@ async function seedUsers() {
     console.log('User seed is done!');
 }
 
+async function seedNews(){
+    const newsCount = await NewsModel.countDocuments();
+
+    if(newsCount > 0){
+        console.log('News seed is already done!');
+        return;
+    }
+
+    for(let news of sample_news){
+        await NewsModel.create(news);
+    }
+}
 
 
