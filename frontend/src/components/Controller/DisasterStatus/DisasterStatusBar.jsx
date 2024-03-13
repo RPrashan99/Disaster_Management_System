@@ -40,7 +40,7 @@ export const DisasterStatusBar = () => {
                     <span className="flex text-grey justify-end pe-5 pt-4">Last updated 1min ago</span>
                 </div>
             </div>
-            <div className="flex flex-row bg-white rounded border w-[680px] h-[250px]">
+            <div className="flex flex-row bg-white rounded border w-[600px] h-[250px]">
                 <div className="flex flex-col items-center justify-center w-4/5">
                     <img className="flex w-[150px] h-[150px]" src="../controller/analysis_2.png" alt="Ongoing Disasters"/>
                     <div className="flex">Ongoing Disasters</div>

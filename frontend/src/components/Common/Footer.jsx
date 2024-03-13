@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import { LuPhoneCall } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { HiOutlinePrinter } from "react-icons/hi2";
@@ -10,7 +10,7 @@ import { FaFacebookF,FaWhatsapp,FaTwitter,FaTelegram ,FaInstagram } from "react-
 export const Footer = () => {
     
     return (
-        <footer  className='w-full mt-10 bg-primary'>
+        <footer  className='w-full mt-10 bg-ControllerPrim'>
             <div className="mx-auto w-full max-w-screen-xl">
                 <div className="grid grid-cols-1 gap-8 px-10 py-1 lg:py-8 md:grid-cols-3">
                     <div className='text-center'>
