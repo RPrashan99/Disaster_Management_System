@@ -1,7 +1,7 @@
 import './App.css'
 import Home from './pages/home'
 import LoginPage from './pages/Login'
-import Registration from './pages/Registration'
+import { Registration } from './pages/Registration'
 import Donations from './pages/Donations'
 import Weather from './pages/Weather'
 import Contact from './pages/Contact'
@@ -11,9 +11,11 @@ import { UserControlPage } from  './pages/controller/UserControlPage';
 import { ControllerHomePage } from './pages/controller/ControllerHomePage';
 import { NewsCreatorPage } from './pages/controller/NewsCreatorPage';
 import { Requests } from './pages/controller/Requests'
+import { WindowComponent } from './Windows/RequestWindow'
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>} />
@@ -27,9 +29,11 @@ function App() {
         <Route path="/controller/home" element = {<ControllerHomePage/>}/>
         <Route path="/controller/news" element = {<NewsCreatorPage/>}/>
         <Route path="/controller/requests" element = {<Requests/>}/>
+        <Route path="/registration" element = {<Registration/>}/>
+        <Route path="/window/:requestID" element={<WindowComponent/>} /> 
       </Routes>
     </BrowserRouter>
+    
   )
 }
-
 export default App
