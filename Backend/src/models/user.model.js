@@ -8,7 +8,7 @@ export const UserSchema = new Schema(
         password: {type: String, required: true},
         address: {type: String, default: "none"},
         accessLevel: {type: Number, default: 1},
-        department: {type: String, default: "None"},
+        department: {type: String, default: "None"}
     },
     {
         timestamps: true,

@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card_Status } from "../../Common/Card_Status";
 import { CountCard } from "./Users_CountCard";
+import { getAllUsers } from "../../../services/userService";
 
 export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, DisctrictAdminDate) => {
+
+    const [newData, setNewData] = useState('');
+
+    useEffect ( () => {
+        const fetchUserData = async () => {
+            try{
+                const data = await getAllUsers();
+        
+                const groupedData = data.reduce((acc,user) => {
+                    const accessLevel = user.accessLevel;
+        
+                    if(acc[accessLevel]){
+                        acc[accessLevel].count++;
+                    } else {
+                        acc[accessLevel] = {
+                            accessLevel,
+                            count: 1,
+                        };
+                    }
+        
+                    return acc;
+                },{})
+                setNewData(groupedData);
+        
+            } catch (error) {
+                console.error("Data not found");
+            }
+        };
+        fetchUserData();
+    },[]);
+
+    useEffect(()=> {
+        if(newData.length != 0) console.log("newData:",newData);
+    },[newData]);
+
     return(
         <div className="flex flex-col bg-grey">
 
@@ -17,10 +53,10 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 </div>
 
                 {
-                    CountCard("USERS", "Total Users Count")
+                    CountCard("USERS", "Total Users Count",3,newData)
                 }
                 {
-                    CountCard("ADMINS", "Total Admins Count")
+                    CountCard("ADMINS", "Total Admins Count",1, newData)
                 }
 
                 <div className="flex flex-col space-y-5">

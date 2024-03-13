@@ -1,69 +1,106 @@
-import React, { useState } from "react";
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { assignAdmin } from '../../../services/userService';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 
-export const AdminSearch = () => {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-    const [searchId, setSearchId] = useState('');
+const DetailsForm = ({ initialDetails }) => {
+  const [details, setDetails] = useState(initialDetails || { name: '', department: '',email: '', password: '', address: ''});
+  const [openAlert, setOpenAlert] = useState(false);
+  const [reset, setReset] = useState(false);
 
-    const search = async () => {
-        
-    };
+  const handleOpen = () => {
+    setOpenAlert(true);
+  };
 
-    return(
-        <div className="flex flex-col w-full h-[300px] bg-grey items-center p-3 space-y-3">
-            <div className="flex w-full justify-center text-[25px] bg-white font-bold">Admin Assign</div>
-            <div className="flex flex-row w-full items-center bg-white justify-center p-1">
-                <div className="flex text-[15px] pr-5 font-bold">Enter Admin ID for search</div>
-                <Box 
-                    sx={
-                        {width: 250,
-                        maxWidth: '100%',}
-                    }>
-                        <TextField
-                            fullWidth
-                            label="Enter Admin ID"
-                            required
-                            variant="outlined"
-                            id="validation-outlined-input"
-                            value = {searchId}
-                            size="small"
-                            onChange = {
-                                (e) => {setSearchId(e.target.value)}
-                            }
-                        />
-                    </Box>
+  const handleClose = () => {
+    setOpenAlert(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    assignAdmin(details);
+    setOpenAlert(false);
+    handleReset();
+  };
+
+  const handleReset = () => {
+    setDetails({ name: '', department: '',email: '', password: '', address: '', accessLevel: ''});
+  };
+
+  return (
+    <div className="flex flex-col w-full h-[400px] bg-grey items-center p-3 space-y-3">
+        <div className="flex w-full justify-center text-[25px] bg-white font-bold">Admin Search</div>
+        <form 
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center">
+            
+            <div className="grid grid-cols-2 gap-1 items-center">
+                <div className="flex font-bold">Admin Name : </div>
+                <input type="text" name="name" value={details.name} onChange={handleChange} required />
+                <div className="flex font-bold">Department : </div>
+                <input type="text" name="department" value={details.department} onChange={handleChange} required/>
+                <div className="flex font-bold">Email : </div>
+                <input type="text" name="email" value={details.email} onChange={handleChange} required/>
+                <div className="flex font-bold">Password : </div>
+                <input type="text" name="password" value={details.password} onChange={handleChange} required/>
+                <div className="flex font-bold">Access Level : </div>
+                <select
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    name="accessLevel"
+                    value={details.accessLevel}
+                    onChange={handleChange}
+                    required
+                    >
+                    <option value="">Select Access Level</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+                <div className="flex font-bold">Address : </div>
+                <input type="text" name="address" value={details.address} onChange={handleChange} required />
             </div>
-            <div className="flex flex-rows space-x-5">
-                <div className="grid grid-cols-2 gap-4 p-1 items-center">
-                    <div className="flex font-bold">Admin Name :</div>
-                    <Box 
-                    sx={
-                        {width: 250,
-                        maxWidth: '100%',}
-                    }>
-                        <TextField
-                            fullWidth
-                            label="Enter Admin Name"
-                            required
-                            variant="outlined"
-                            id="validation-outlined-input"
-                            value = {searchId}
-                            size="small"
-                            onChange = {
-                                (e) => {setSearchId(e.target.value)}
-                            }
-                        />
-                    </Box>
-                    <div className="flex font-bold">Department :</div>
-                    <div className="flex bg-white ps-2">value</div>
-                    <div className="flex font-bold">Telephone Number :</div>
-                    <div className="flex bg-white ps-2">value</div>
-                </div>
+            <div className="flex pt-2">
+                <Button variant="contained"
+                    onClick={handleOpen}>
+                    Assign
+                </Button> 
             </div>
-        </div>
-    )
-}
+            <Dialog
+              open={openAlert}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleClose}
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <DialogTitle>{"Add New admin?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  {details.name}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>No</Button>
+                <Button onClick={handleSubmit}>Yes</Button>
+              </DialogActions>
+            </Dialog>
+    </form>
+    </div>
+    
+  );
+};
+
+export default DetailsForm;
