@@ -28,52 +28,48 @@ export const sample_user = [
 
 export const sample_news = [
     {
-      id: 1,
+      newsId: 1,
       heading: "This is news heading 1",
-      Auther: "Auther",
-      date: "31 Dec 2023",
-      time: "8AM",
-      // image: image,
-      news_body:
+      auther: "auther 1",
+      createdDate: "31 Dec 2023",
+      createdTime: "8AM",
+      newsBody:
         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
     },
     {
-      id: 1,
+      newsId: 2,
       heading: "This is news heading 2 dw  dwef  ew fcds fsdf sdfdssdfsdf fdsfsdfdsf fdsfds",
-      Auther: "Auther 2",
-      date: "31 Dec 2023",
-      time: "8AM",
-      // image: image2,
-      news_body:
+      auther: "auther 2",
+      createdDate: "31 Dec 2023",
+      createdTime: "8AM",
+      newsBody:
         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
     },
     {
-      id: 1,
+      newsId: 3,
       heading: "This is news heading 3",
-      Auther: "Auther 3",
-      date: "31 Dec 2023",
-      time: "8AM",
-      // image: image,
-      news_body:
+      auther: "auther 3",
+      createdDate: "31 Dec 2023",
+      createdTime: "8AM",
+      newsBody:
         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
     },
     {
-      id: 1,
+      newsId: 4,
       heading: "This is news heading 4",
-      Auther: "Auther 4",
-      date: "31 Dec 2023",
-      time: "8AM",
-      // image: image2,
-      news_body:
+      auther: "auther 4",
+      createdDate: "31 Dec 2023",
+      createdTime: "8AM",
+      newsBody:
         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
     },
     {
-        id: 2,
-        heading: "This is news heading 4",
-        Auther: "Auther 4",
-        date: "31 Dec 2023",
-        time: "8AM",
-        news_body:
-          "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
+      newsId: 5,
+      heading: "This is news heading 4",
+      auther: "auther 4",
+      createdDate: "31 Dec 2023",
+      createdTime: "8AM",
+      newsBody:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
       },
   ];

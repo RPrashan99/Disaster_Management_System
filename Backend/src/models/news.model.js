@@ -2,13 +2,13 @@ import {model, Schema} from 'mongoose'
 
 export const NewsSchema = new Schema(
     {
-        newsId: {type: String, required: true},
-        userName: {type: String, required: true, unique: true},
-        email: {type: String, required: true, unique: true},
-        password: {type: String, required: true},
-        address: {type: String, default: "none"},
-        accessLevel: {type: Number, default: 1},
-        department: {type: String, default: "None"},
+        newsId: {type: String, required: true, unique: true},
+        heading: {type: String, required: true},
+        auhter: {type: String, required: true},
+        createdDate: {type: String, required: true},
+        createdTime: {type: String, required: true},
+        image: {type: String, default: "None"},
+        newsBody: {type: Number, required: true},
     },
     {
         timestamps: true,

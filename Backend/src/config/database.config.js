@@ -16,8 +16,8 @@ export const dbconnect = async () => {
             useUnifiedTopology: true,
         });
 
-        // Seed users
         await seedUsers();
+        await seedNews();
 
         console.log('Connected successfully!');
 
