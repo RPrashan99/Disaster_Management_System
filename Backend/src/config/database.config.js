@@ -70,6 +70,7 @@ async function seedNews(){
     for(let news of sample_news){
         await NewsModel.create(news);
     }
+    console.log('News seed is done!');
 }
 
 

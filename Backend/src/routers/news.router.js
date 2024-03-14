@@ -9,9 +9,8 @@ const router = Router();
 router.post('/createNews', handler(async (req, res) => {
 
     const {heading, auther, image, newsBody} = req.body;
-
-    const currentTime = new Date().toLocaleTimeString;
     const currentDate = currentDateExtract();
+    const currentTime = "8AM";
 
     const newNews = {
         newsId: await generateNewsId(),
@@ -32,10 +31,19 @@ router.post('/createNews', handler(async (req, res) => {
 
 }));
 
+router.post('/getNews', handler( async(req,res) => {
+    try{
+        const result = await NewsModel.find({});
+        res.send(result);
+    } catch(error){
+        res.status(BAD_REQUEST).send("News fetch error");
+    }
+}));
+
 const generateNewsId = async() => {
     var count = await NewsModel.countDocuments();
 
-    while(await NewsModel.findOne({reportID: count.toString()})) {
+    while(await NewsModel.findOne({newsId: count.toString()})) {
         count++;
     }
 

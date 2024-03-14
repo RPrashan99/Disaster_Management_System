@@ -2,7 +2,7 @@ import {model, Schema} from 'mongoose'
 
 export const NewsSchema = new Schema(
     {
-        newsId: {type: String, required: true, unique: true},
+        newsId: {type: String, required: true},
         heading: {type: String, required: true},
         auther: {type: String, required: true},
         createdDate: {type: String, required: true},

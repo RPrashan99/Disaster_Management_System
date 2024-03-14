@@ -25,7 +25,6 @@ export const sample_user = [
     }
 ];
 
-
 export const sample_news = [
     {
       newsId: 1,
