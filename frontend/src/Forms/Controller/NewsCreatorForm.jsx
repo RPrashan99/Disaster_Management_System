@@ -1,5 +1,3 @@
-
-import { Button } from "antd";
 import React from "react";
 import { DragDrop } from "../../components/Controller/News/DragDrop";
 
@@ -61,7 +59,7 @@ export const NewsCreatorForm = () => {
             ></input>
 
             <label>Content</label>
-            <input
+            <textarea
               type="Form"
               id="content"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full h-auto p-2.5 mt-1 mb-3"

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 export const Menues = () => {
 
@@ -74,17 +73,17 @@ export const Menues = () => {
                 {service.map((service) => (
             <a key={service.id} href={service.url} className="px-4 py-8 text-center md:w-[300px] mx-auto md:h-80
                    hover:-translate-y-5 rounded-md cursor-pointer group-hover:scale-[0.85] hover:scale-100 group-hover:blur-sm hover:!blur-none hover:border-b-8 hover:border-ControllerSec
-                   hover:bg-[#9a9b9b]  hover:text-white transition-all duration-300 flex items-center justify-center h-full 
+                   hover:bg-[#a5a4a4]  hover:text-[black] transition-all duration-300 flex items-center justify-center h-full 
                    bg-[#ffffff] shadow-xl hover:rounded-[20px] shadow-[gray]">
               <div className="">
-              <div className="flex items-end h-[10%] w-[20%] p-[2%] bg-ControllerSec rounded-[50%] mb-4 mx-auto ">
+              <div className="flex items-end h-[10%] w-[20%] p-[2%] bg-ControllerSec shadow-lg rounded-[50%] mb-4 mx-auto ">
                 <img src={service.image} alt="" className="flex items-end h-[70%] w-[90%] p-[2%] rounded-[10%] ml-1 " />
 
               </div>
-              <h4 className="text-2xl font-bold text-[#474747] mb-2 px-2 hover:text-[#ffffff]">
+              <h4 className="text-2xl font-bold text-[#474747] mb-2 px-2 rounded hover:text-[white]">
                 {service.title}
               </h4>
-              <p className="text-sm text-[#727272] hover:text-[#ffffff]">{service.description}</p>
+              <p className="text-sm text-[#727272] font-serif font-bold hover:text-[#ffffff]">{service.description}</p>
             </div>
           </a>
         ))}

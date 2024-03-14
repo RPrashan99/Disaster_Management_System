@@ -5,7 +5,7 @@ import { DisasterRequestModel } from "../models/disasterRequest.model.js";
 
 const router = Router();
 
-router.post('/request',handler(async (req,res) => {
+router.get('/request',handler(async (req,res) => {
 
     const {
         disasterType,
@@ -36,20 +36,32 @@ router.post('/request',handler(async (req,res) => {
         res.send(result);
 }));
 
-router.get('/reuqests', handler(async(req, res) => {
-
-    const currentDateTime = new Date();
-    const currentDate = currentDateTime.toDateString();
+router.post('/getAll', handler(async(req, res) => {
 
     try{
-        const allRequests = DisasterRequestModel.find({requestDate : currentDate}); //need to change accordingly
-
-        res.json(allRequests);
+        const allRequests = await DisasterRequestModel.find({}); //need to change accordingly
+        res.send(allRequests);
     } catch (error) {
         console.error(error);
-        res.status(INTERNAL_SERVER_ERROR).send("Internal server erro");
+        res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
     }
 }));
+
+router.get('/getRequest/:requestID', handler(async(req, res) => {
+        const { requestID } = req.params;
+        console.log("requestID: ", requestID)
+
+    try{
+        const request = await DisasterRequestModel.findOne({requestID}); //need to change accordingly
+        console.log("Request:",request);
+        res.send(request);
+    } catch (error) {
+        console.error(error);
+        res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+    }
+}));
+
+
 
 //need to change accordingly
 const generateRequestID = async(disasterType) => {
