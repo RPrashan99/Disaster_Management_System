@@ -4,14 +4,14 @@ export const NewsSchema = new Schema(
     {
         newsId: {type: String, required: true, unique: true},
         heading: {type: String, required: true},
-        auhter: {type: String, required: true},
+        auther: {type: String, required: true},
         createdDate: {type: String, required: true},
         createdTime: {type: String, required: true},
         image: {type: String, default: "None"},
-        newsBody: {type: Number, required: true},
+        newsBody: {type: String, required: true},
     },
     {
-        timestamps: true,
+        timestamps: false,
         toJSON: {
             virtuals: true,
         },

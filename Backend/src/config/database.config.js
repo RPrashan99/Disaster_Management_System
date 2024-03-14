@@ -2,6 +2,7 @@ import { connect, set } from "mongoose";
 import { UserModel } from "../models/user.model.js";
 import { DisasterRequestModel } from "../models/disasterRequest.model.js";
 import { sample_user } from "../data.js";
+import { sample_news } from "../data.js";
 import bcrypt from 'bcrypt';
 import { NewsModel } from "../models/news.model.js";
 
