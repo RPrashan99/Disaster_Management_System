@@ -4,6 +4,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { UserSearch } from "./User_Search";
 import { AdminSearch } from "./Admin_Search";
+import DetailsForm from "./Admin_Assign";
 
 function AccessWindow({Type}){
 
@@ -18,7 +19,7 @@ function AccessWindow({Type}){
             )
         default:
             return(
-                <></>
+                <DetailsForm/>
             )
     }
 
@@ -31,7 +32,6 @@ export const UsersAccess = () => {
     const formRef = useRef(null);
 
     const handleButtonPressed = (type) =>{
-        console.log("buttonPressed",type);   
         setType(type)
         setWindowOpen(true);
     }

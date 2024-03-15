@@ -105,6 +105,56 @@ router.post('/searchAdmin', handler(async(req, res) => {
 
 }));
 
+router.post('/getAll', handler(async(req, res) => {
+
+    try{
+        const users = await UserModel.find({});
+        res.send(users);
+    } catch (error) {
+        res.status(BAD_REQUEST).send("Users not found");
+    }
+
+}));
+
+router.post(
+    '/assignAdmin',
+    handler(async (req, res) => {
+        const {name, department, email, password, accessLevel, address} = req.body;
+
+        const user = await UserModel.findOne({email});
+
+        if (user) {
+            res.status(BAD_REQUEST).send('User name already taken, please enter another!');
+            return; 
+        }
+
+        const hashedPassword = await bcrypt.hash(
+            password,
+            PASSWORD_HASH_SALT_ROUNDS
+        );
+
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const newUser = {
+            id: (await generateID()).toString(),
+            userName: name,
+            email,
+            password: hashedPassword, 
+            address,
+            accessLevel,
+            department: department
+        };
+
+        const result = await UserModel.create(newUser);
+        res.send(generateTokenResponse(result));
+    })
+);
+
 const generateTokenResponse = user => {
     const token = jwt.sign({
         id: user.id,
