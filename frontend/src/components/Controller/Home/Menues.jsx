@@ -80,10 +80,10 @@ export const Menues = () => {
                 <img src={service.image} alt="" className="flex items-end h-[70%] w-[90%] p-[2%] rounded-[10%] ml-1 " />
 
               </div>
-              <h4 className="text-2xl font-bold text-[#474747] mb-2 px-2 rounded hover:text-[white]">
+              <h4 className="text-2xl font-bold text-[#474747] mb-2 px-2 rounded hover:text-[#000000]">
                 {service.title}
               </h4>
-              <p className="text-sm text-[#727272] font-serif font-bold hover:text-[#ffffff]">{service.description}</p>
+              <p className="text-sm text-[#727272] font-serif font-bold hover:text-[#000000]">{service.description}</p>
             </div>
           </a>
         ))}

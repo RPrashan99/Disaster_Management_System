@@ -5,13 +5,13 @@ import { FaMicrophone } from "react-icons/fa";
 import { Button } from "../components/Controller/common/Button";
 import { MdPermMedia } from "react-icons/md";
 
-export const WindowComponent = ({requestDetails}) => {
-  console.log('Request Details:', requestDetails);
+export const WindowComponent = ({requestID,requesterName, disasterLocation, disasterType, affectedCount, medicalNeed, otherNeeds}) => {
+  console.log('Request Details:', requestID);
 
   useEffect(() => {
-    console.log("requestDetails:", requestDetails);
+    console.log("requestDetails:", requestID);
 
-  },[requestDetails.requestID]);
+  },[requestID]);
 
   return (
     <div>
@@ -25,18 +25,18 @@ export const WindowComponent = ({requestDetails}) => {
               Notified Disaster
             </span><span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">verified</span>
             <br />
-            {requestDetails.requestID}
+            {requestID}
           </h1>
           <div className="grid grid-cols-2 d:grid-cols-2 items-center justify-center ml-5 ">
             <div className=" flex flex-col relative m-5 gap-3">
                 <div className="flex relative flex-row items-center justify-start px-1">
                   <label className="block mx-1 my-2 w-[50%]">Name</label>
-                  <text type="text" id="name" className="block p-2.5 mx-3 w-full  text-gray-900 bg-gray-50  text-sm rounded-lg border-b-4 border-gray-300">{requestDetails.requesterName}</text>
+                  <text type="text" id="name" className="block p-2.5 mx-3 w-full  text-gray-900 bg-gray-50  text-sm rounded-lg border-b-4 border-gray-300">{requesterName}</text>
                 </div>
     
                 <div className="flex relative flex-row items-center justify-start px-1">
                   <label className="block mx-1 my-2 w-[50%]">Location</label>
-                  <text type="text" id="location" className="block ml-5 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"> {requestDetails.disasterLocation}</text>
+                  <text type="text" id="location" className="block ml-5 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"> {disasterLocation}</text>
                   <a
                       type= "view" 
                       href="https://www.google.com/maps/"
@@ -52,9 +52,9 @@ export const WindowComponent = ({requestDetails}) => {
                   <text
                     id="emergency_type"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"       
-                  > {requestDetails ? (
+                  > {requestID ? (
                     <div>
-                      <p>{requestDetails.disasterType}</p>
+                      <p>{disasterType}</p>
                     </div>
                   ) : (
                     <p>No request details available.</p>
@@ -65,15 +65,15 @@ export const WindowComponent = ({requestDetails}) => {
                   <text
                     id="No_of_people_effected"
                     className="block p-2.5 text-sm w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  >{requestDetails.affectedCount}</text>
+                  >{affectedCount}</text>
                 </div>
               <div className="flex items-center relative flex-row justify-start px-1">
                 <label className="block mx-1 my-2 w-[50%]">Medical Needs</label>
                 <text
                   id="country-option-1"
-                  values={requestDetails.medicalNeed}
+                  values={medicalNeed}
                   className="block p-2.5 text-sm w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                ></text>
+                >{medicalNeed.toString()}</text>
               </div>
               <div className="flex items-center relative flex-row justify-start px-1" >
                 <label htmlFor="message" className="block mx-1 my-2 w-[50%]">
@@ -84,7 +84,7 @@ export const WindowComponent = ({requestDetails}) => {
                   rows="4"
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                   placeholder="If you need any special thing to say..."
-                >{requestDetails.otherNeeds}</textarea>
+                >{otherNeeds}</textarea>
               </div>
             </div>
             <div>
@@ -92,7 +92,7 @@ export const WindowComponent = ({requestDetails}) => {
                   <label htmlFor="dropzone-file"
                     className="flex items-center justify-center flex-col w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 ">
                     <div className="flex flex-col items-center justify-center py-3">
-                      {requestDetails.Media}
+                      {}
                       <MdPermMedia />
                       <p className="mb-2 text-sm text-gray-500 ">
                         <span className="font-semibold">Click to view</span>

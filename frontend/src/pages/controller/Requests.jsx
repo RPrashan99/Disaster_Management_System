@@ -75,7 +75,16 @@ export const Requests = () =>{
                     {selectedRequest ? (
                         <div>
                             <div>
-                            <WindowComponent requestDetails={selectedRequest} />
+                            <WindowComponent 
+                                requestID={selectedRequest.requestID}
+                                requesterName={selectedRequest.requesterName}
+                                disasterLocation={selectedRequest.disasterLocation}
+                                disasterType={selectedRequest.disasterType}
+                                affectedCount={selectedRequest.affectedCount}
+                                medicalNeed={selectedRequest.medicalNeed} 
+                                otherNeeds={selectedRequest.otherNeeds}
+                            />
+                        
                             </div>
                         </div>
                         ) : (
@@ -97,7 +106,7 @@ export const Requests = () =>{
                                 />
                             </div>
                             ))}
-                            </div>
+                        </div>
                         )}
                     </div>
                 </div>

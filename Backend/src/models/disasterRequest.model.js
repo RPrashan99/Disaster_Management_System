@@ -12,12 +12,14 @@ export const DisasterRequestSchema = new Schema(
         requestTime: {type: String, required: true},
         requestDate: {type: String, required: true},
     },
-
+   
     {
-        toJSON: {
+        toJSON:
+        {
             virtuals: true,
         },
-        toObject: {
+        toObject: 
+        {
             virtuals: true,
         },
         timestamps: true,
