@@ -11,7 +11,7 @@ export const NewsPreview = () =>{
         {
           newsId: 1,
           heading: "Colombo residents should be vigilant on COVID and other diseases CMC",
-          auther: "Auther",
+          author: "Auther",
           createdDate: "31 Dec 2023",
           createdTime: "8AM",
           image: "/controller/NewsCreator.png",
@@ -21,7 +21,7 @@ export const NewsPreview = () =>{
         {
           newsId: 1,
           heading: "Tens of thousands affected as severe flooding hits Thailand's south",
-          auther: "Auther 2",
+          author: "Auther 2",
           createdDate: "24 Nov 2023",
           createdTime: "7.30AM",
           image: "/controller/NewsItem2.webp",
@@ -31,7 +31,7 @@ export const NewsPreview = () =>{
         {
           newsId: 1,
           heading: "Papar district declared drought disaster area",
-          auther: "Auther 3",
+          author: "Auther 3",
           createdDate: "29 Jan 2024",
           createdTime: "9.30AM",
           image: "/controller/NewsItem3.jpg",
@@ -41,7 +41,7 @@ export const NewsPreview = () =>{
         {
           newsId: 1,
           heading: "'Weak and insufficient' progress made towards disaster risk reduction ",
-          auther: "Auther 4",
+          author: "Auther 4",
           createdDate: "11 Mar 2024",
           createdTime: "8AM",
           image: "/controller/NewsItem4.jpg",
@@ -66,7 +66,7 @@ export const NewsPreview = () =>{
                         <h1 className="text-primary font-bold md:text-3xl text-lg">
                         {selectedNews.heading}
                         </h1>
-                        <p className="my-3 text-base">{selectedNews.auther}</p>
+                        <p className="my-3 text-base">{selectedNews.author}</p>
                         <div className="w-1/4 flex justify-between text-xs text-gray-500">
                         <p>{selectedNews.createdTime} </p>
                         <p>{selectedNews.createdDate}</p>
@@ -133,7 +133,7 @@ export const NewsPreview = () =>{
                                             </h1>
 
                                             <div className=" mt-3 flex justify-between text-xs">
-                                                <p className="text-black">{news.auther}</p>
+                                                <p className="text-black">{news.author}</p>
                                                 <p className="text-gray-800">{news.createdDate}</p>
                                             </div>
                                         </div>
