@@ -5,7 +5,7 @@ export const GoogleMap = () => {
   const position = {lat: 7.291418, lng: 80.636696};
 
   return (
-    <APIProvider apiKey={'AIzaSyB1POitDbSJVck_L2fehxcu5ng5THk6TP4'}>
+    <APIProvider apiKey={process.env.GOOGLEMAP_api}>
       <div style={{height: "90vh", width: "100vh"}}>
         <Map zoom={7} center={position}/>
       </div>
