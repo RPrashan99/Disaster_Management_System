@@ -1,4 +1,3 @@
-
 import React, { useEffect} from "react";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaMicrophone } from "react-icons/fa";
@@ -23,7 +22,8 @@ export const WindowComponent = ({requestID,requesterName, disasterLocation, disa
           <h1 className=" text-center font-bold m-3">
             <span className="text-3xl md:text-5xl mr-3 mt-10">
               Notified Disaster
-            </span><span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">verified</span>
+            </span>
+            <span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">verified</span>
             <br />
             {requestID}
           </h1>
@@ -74,6 +74,7 @@ export const WindowComponent = ({requestID,requesterName, disasterLocation, disa
                   values={medicalNeed}
                   className="block p-2.5 text-sm w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 >{medicalNeed.toString()}</text>
+
               </div>
               <div className="flex items-center relative flex-row justify-start px-1" >
                 <label htmlFor="message" className="block mx-1 my-2 w-[50%]">
@@ -112,14 +113,13 @@ export const WindowComponent = ({requestID,requesterName, disasterLocation, disa
                     <text
                       type=""
                       id=""
-                      className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-black focus:black block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "                    
-                    ></text>
+                      className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-black focus:black block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
                 </div>
-              </div>          
+              </div>
             </div>
           </div>     
         </form>
       </div>
     </div>
-  );
+  )
 }

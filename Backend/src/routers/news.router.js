@@ -84,7 +84,7 @@ const generateNewsId = async() => {
     while(await NewsModel.findOne({newsId: count.toString()})) {
         count++;
     }
-
+  
     return count.toString();
 };
 

@@ -34,6 +34,7 @@ export const Requests = () =>{
             // Sort requests by date and time in descending order
             const sortedRequests = requests.sort((a, b) => {
                 const dateComparison = new Date(b.requestDate) - new Date(a.requestDate);
+              
                 //const converted = requestTime.split(' ')[0].split(':');
                 if (dateComparison !== 0) {
                     return dateComparison;
@@ -81,7 +82,6 @@ export const Requests = () =>{
                                 medicalNeed={selectedRequest.medicalNeed} 
                                 otherNeeds={selectedRequest.otherNeeds}
                             />
-                        
                             </div>
                         </div>
                         ) : (

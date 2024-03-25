@@ -1,33 +1,14 @@
 import React from "react";
-import { Map, GoogleApiWrapper} from 'google-map-react';
+import {APIProvider, Map, AdvancedMarker} from '@vis.gl/react-google-maps';
 
-const mapStyles = {
-    width: '100%',
-    height: '100%'
+export const GoogleMap = () => {
+  const position = {lat: 7.291418, lng: 80.636696};
+
+  return (
+    <APIProvider apiKey={'AIzaSyB1POitDbSJVck_L2fehxcu5ng5THk6TP4'}>
+      <div style={{height: "90vh", width: "100vh"}}>
+        <Map zoom={7} center={position}/>
+      </div>
+    </APIProvider>
+  );
 };
-
-export class MapContainer extends Component {
-    render() {
-      return (
-        <Map
-          google={this.props.google}
-          zoom={14}
-          style={mapStyles}
-          initialCenter={
-            {
-              lat: -1.2884,
-              lng: 36.8233
-            }
-          }
-        />
-      );
-    }
-}
-
-export default GoogleApiWrapper({
-
-    apiKey: 'YOUR_GOOGLE_MAPS_API_KEY_GOES_HERE'
-
-  })
-
-  (MapContainer);

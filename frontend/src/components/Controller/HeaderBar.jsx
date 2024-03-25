@@ -9,6 +9,7 @@ export const HeaderBar = () => {
     };
 
     return(
+
         <div className='flex flex-row items-start justify-between px-0 py-[0px]  self-stretch h-full w-full flex-[0_0_auto]'>
             <img className="flex flex-col md:w-[110px] lg:w-[120px]  sm:w-[100px] relative self-stretch w-[110px] h-[100px] object-cover" src="/controller/logo_us.png" alt="logo_us"/>
             <div className="flex flex-col md:justify-center  w-[80%] flex-wrap relative grow">

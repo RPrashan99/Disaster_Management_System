@@ -12,6 +12,8 @@ import { ControllerHomePage } from './pages/controller/ControllerHomePage';
 import { NewsCreatorPage } from './pages/controller/NewsCreatorPage';
 import { Requests } from './pages/controller/Requests'
 import { WindowComponent } from './Windows/RequestWindow'
+import { ReportForm } from './components/Controller/DisasterStatus/DisasterReportForm'
+import { EditReport } from './components/Controller/DisasterStatus/DisasterEditReport'
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/Weather" element={<Weather/>} />
         <Route path="/Contact" element={<Contact/>} />
         <Route path="/controller/status" element = {<DisasterStatusPage/>}/>
+        <Route path="/controller/status/newReport" element = {<ReportForm/>}/>
+        <Route path="/controller/status/editReport" element = {<EditReport/>}/>
         <Route path="/controller/users" element = {<UserControlPage/>}/>
         <Route path="/controller/home" element = {<ControllerHomePage/>}/>
         <Route path="/controller/news" element = {<NewsCreatorPage/>}/>
