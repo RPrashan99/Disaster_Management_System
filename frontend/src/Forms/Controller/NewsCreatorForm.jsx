@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDrop } from "../../components/Controller/News/DragDrop";
 import axios from "axios";
 import {message} from "antd";
 
-export const NewsCreatorForm = () => {
+export const NewsCreatorForm = ({selection}) => {
 
   const [ formData, setFormData ] = useState({
+    newsId:'',
     heading:'',
     author:'',
     image:null,
     newsBody:'',
+    show: ''
   });
+  useEffect(() =>{
+    if (selection){
+      setFormData({
+        newsId: selection.newsId || '',
+        heading: selection.heading || '',
+        author: selection.author || '',
+        image: selection.image || null,
+        newsBody: selection.newsBody || '',
+        show: selection.show || ''
+      });
+    }
+    console.log("selectionData:",selection)
+  },[selection]);
 
   const handleChange = (e) => {
     if(e.target.type === "file"){
@@ -34,8 +49,8 @@ export const NewsCreatorForm = () => {
     }
     else{
       try{
-        const response = await axios.post('http://localhost:5000/api/news/createNews',  formData
-      );
+
+        const response = await axios.post('http://localhost:5000/api/news/createNews',  formData);
         console.log('Form submitted succedded: ', response.data);
         message.success('News is created!')
         setFormData({
@@ -43,6 +58,7 @@ export const NewsCreatorForm = () => {
           author:'',
           image:null,
           newsBody:'',
+          show: ''
         });
       } catch (error){
         console.error('Error submitting form:', error);
@@ -50,10 +66,35 @@ export const NewsCreatorForm = () => {
   
     }
   };
+  const editHandler = async(e) =>{
+    e.preventDefault();
+    if (!formData.heading || !formData.author || !formData.newsBody  || !formData.newsBody) {
+      message.error('Missing required fields');
+      return;
+    }
+    else{
+      try{
+        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId,  formData);
+        console.log('Form update succedded: ', response.data);
+        message.success('News is updated!')
+        setFormData({
+          newsId:'',
+          heading:'',
+          author:'',
+          image:null,
+          newsBody:'',
+          show: false
+        });
+      } catch (error){
+        console.error('Error updating form:', error);
+      }
+  
+    }
+  }
 
   return (
-    <div>
-      <div className="pt-10 pl-5">
+    <div className="border-[10px] border-[gray]">
+      <div className="pt-10 pl-5 ">
         <div className="px-5">
           <h1 className="text-[2rem] md:text-4xl  font-bold font-sans">News Creator</h1>
         </div>
@@ -66,42 +107,45 @@ export const NewsCreatorForm = () => {
                 </div>
                 <div className="px-5 border-spacing-x-24 border-[5px] border-ControllerSec m-5" >
                   <h1 className="text-2xl md:text-3xl  font-semibold">Details</h1>
-                    <label >Author</label>
+                    <label htmlFor="author">Author</label>
                     <input 
                       type="text"
                       id="author"
+                      name="author"
                       value={formData.author}
                       onChange={handleChange}
                       required
                       placeholder="Enter Name"
                       className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-[50%] p-2.5 my-2"
                     ></input>
-                    <label>Media Files</label>
+                    <label htmlFor="profile_pic">Media Files</label>
                     <DragDrop/>    
                 </div>
             </div>
 
-            <div className="bg-[#c2c0c0] p-5 rounded-lg text-black text-base">
+            <div className="bg-[#dfdede] p-3  text-black text-base border-[5px] border-[gray]">
               <div className="font-semibold text-primary text-center py-5">
                 <h1 className=" md:text-2xl">Create News</h1>
               </div>
 
-              <div className="p-1 md:p-1">
-                <label>Heading</label>
+              <div className="p-1 md:p-1 ">
+                <label htmlFor="heading">Heading</label>
                 <input 
                   type="text"
                   id="heading"
-                  value={formData.heading}
+                  name="heading"
+                  value={(formData.heading)}
                   onChange={handleChange}
                   required
                   placeholder="Enter Subject"
                   className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg  focus:ring-[Gray] focus:border-[gray] block w-full  p-2.5 mt-1 mb-3"
                 ></input>
 
-                <label>Body</label>
+                <label htmlFor="newsBody">Body</label>
                 <textarea
                   type="Form"
                   id="newsBody"
+                  name="newsBody"
                   value={formData.newsBody}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-full h-[280px] p-2.5 mt-1 mb-3"
@@ -110,7 +154,7 @@ export const NewsCreatorForm = () => {
                 />
 
                 <div className="flex items-center justify-center mt-5 shadow-2xl ">
-                  <button type="submit" onClick={handleSubmit} className="bg-ControllerSec border-[2px] border-[white] py-2 px-10 w-full text-white font-semiboldtext-xl rounded">
+                  <button type="submit" onClick={(selection? editHandler:handleSubmit)} className="bg-ControllerSec focus:ring-4 focus:outline-none hover:bg-[gray] border-[2px] border-[white] py-2 px-10 w-full text-white font-semiboldtext-xl rounded text-[1.2rem]">
                       Done
                   </button>
                 </div>

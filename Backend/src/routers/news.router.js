@@ -11,6 +11,7 @@ router.post('/createNews', handler(async (req, res) => {
     const currentDateTime = new Date(); //real time
     const createdDate = currentDateTime.toDateString();
     const createdTime = currentDateTime.toTimeString();
+    const show = false;
         // Validate required fields
         if (!heading || !author || !newsBody ) {
             return res.status(BAD_REQUEST).send("Missing required fields");
@@ -26,11 +27,33 @@ router.post('/createNews', handler(async (req, res) => {
             newsBody,
             createdDate,
             createdTime,
+            show,
           });
         res.send(newNews);
     } catch(error){
         console.error("Error creating news:", error);
         res.status(BAD_REQUEST).send("News create failed");
+    }
+
+}));
+
+router.patch('/updateNews/:newsId', handler(async (req, res) => {
+    const { newsId } = req.params;
+    const {heading, author, image, newsBody, show} = req.body;
+        // Validate required fields
+        if (!heading || !author || !newsBody ) {
+            return res.status(BAD_REQUEST).send("Missing required fields");
+          }    
+    try{
+        const updatedNews = await NewsModel.findOneAndUpdate(
+            { newsId: newsId },
+            { heading, author, image, newsBody, show },
+            { new: true }
+        );
+        res.send(updatedNews);
+    } catch(error){
+        console.error("Error updating news:", error);
+        res.status(BAD_REQUEST).send("News update failed");
     }
 
 }));
@@ -44,6 +67,17 @@ router.post('/getNews', handler( async(req,res) => {
     }
 }));
 
+router.delete('/deleteNews/:newsId',handler(async(req,res) => {
+    const { newsId } = req.params;
+    try{
+        const deleteNewsItem = await NewsModel.findOneAndDelete({newsId});
+        res.send(deleteNewsItem);
+
+    } catch(error){
+        res.status(BAD_REQUEST).send("News fetch error");
+    }
+}));
+
 const generateNewsId = async() => {
     var count = await NewsModel.countDocuments();
 
@@ -51,7 +85,7 @@ const generateNewsId = async() => {
         count++;
     }
 
-    return count;
+    return count.toString();
 };
 
 export default router;

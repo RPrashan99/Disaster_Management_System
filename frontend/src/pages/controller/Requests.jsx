@@ -60,7 +60,7 @@ export const Requests = () =>{
         <div>
             <LanguageBar/>
             <HeaderBar/>
-                <div className="flex flex-wrap gap-0 items-center relative bg-[#a7a6a6] justify-center w-full h-full">
+                <div className="flex flex-wrap gap-0 items-center relative bg-[#dbdbdb] justify-center w-full h-full">
                     <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-ControllerPrim">Details on Requests</h1>
                     <div className="flex justify-center items-center w-full h-full flex-wrap">
                         <RequestsDetails/>
