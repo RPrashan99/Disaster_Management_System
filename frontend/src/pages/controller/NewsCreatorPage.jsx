@@ -3,7 +3,6 @@ import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { Footer } from "../../components/Controller/Footer"
 import { NewsPreview } from "../../components/Controller/News/NewsPreview";
-import { NewsCreatorForm } from "../../Forms/Controller/NewsCreatorForm"
 
 export const NewsCreatorPage = () =>{
     return (
@@ -11,7 +10,6 @@ export const NewsCreatorPage = () =>{
             <LanguageBar/>
             <HeaderBar/>
             <NewsPreview/>
-            <NewsCreatorForm/> 
             <Footer />
         </div>
     );

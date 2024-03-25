@@ -6,7 +6,7 @@ import { Footer } from "../../components/Controller/Footer"
 import { Card_Requests } from "../../components/Controller/Requests/Card_Requests";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { getRequests } from "../../services/requestService";
-import {  parseISO } from 'date-fns';
+// import {  parseISO } from 'date-fns';
 import { WindowComponent } from "../../Windows/RequestWindow";
 
 const intialState = { requests: []};
@@ -34,15 +34,15 @@ export const Requests = () =>{
             // Sort requests by date and time in descending order
             const sortedRequests = requests.sort((a, b) => {
                 const dateComparison = new Date(b.requestDate) - new Date(a.requestDate);
-
-                if (dateComparison === 0) {
-                    // If dates are equal, sort by time in descending order
-                    const timeA = parseISO(a.requestTime);
-                    const timeB = parseISO(b.requestTime);
-                    return timeA-timeB;
+              
+                //const converted = requestTime.split(' ')[0].split(':');
+                if (dateComparison !== 0) {
+                    return dateComparison;
                 }
-
-                return dateComparison;
+                const timeA = (a.requestTime).split(' ')[0];
+                const timeB = (b.requestTime).split(' ')[0];
+                return timeB.localeCompare(timeA); 
+         
             });
 
         dispatch({ type: 'Request_Loaded', payload: sortedRequests });
@@ -61,7 +61,7 @@ export const Requests = () =>{
         <div>
             <LanguageBar/>
             <HeaderBar/>
-                <div className="flex flex-wrap gap-0 items-center relative bg-[#a7a6a6] justify-center w-full h-full">
+                <div className="flex flex-wrap gap-0 items-center relative bg-[#dbdbdb] justify-center w-full h-full">
                     <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-ControllerPrim">Details on Requests</h1>
                     <div className="flex justify-center items-center w-full h-full flex-wrap">
                         <RequestsDetails/>
@@ -73,29 +73,37 @@ export const Requests = () =>{
                     {selectedRequest ? (
                         <div>
                             <div>
-                            {WindowComponent(selectedRequest)}
+                            <WindowComponent 
+                                requestID={selectedRequest.requestID}
+                                requesterName={selectedRequest.requesterName}
+                                disasterLocation={selectedRequest.disasterLocation}
+                                disasterType={selectedRequest.disasterType}
+                                affectedCount={selectedRequest.affectedCount}
+                                medicalNeed={selectedRequest.medicalNeed} 
+                                otherNeeds={selectedRequest.otherNeeds}
+                            />
                             </div>
                         </div>
                         ) : (
                         <div className="max-h-[500px] overflow-auto">
                         {Array.isArray(requests) &&
                             requests.map((request) => (
-                            <div
+                            <div 
                                 key={request.requestID}
-                                className="flex justify-center items-center bg-[white] w-full flex-wrap"
+                                className="flex justify-center items-center bg-[white] w-full flex-wrap cursor-pointer"
                                 onClick={() => handleCardClick(request)}
                             >
                                 <Card_Requests
                                 d_type={request.disasterType}
                                 verification={"verified"}
-                                time={request.requestTime}
+                                time={request.requestTime.split(' ')[0]}
                                 date={request.requestDate}
                                 location={request.disasterLocation}
                                 affectedPeople={request.affectedCount}
                                 />
                             </div>
                             ))}
-                            </div>
+                        </div>
                         )}
                     </div>
                 </div>
