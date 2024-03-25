@@ -10,7 +10,7 @@ const PASSWORD_HASH_SALT_ROUNDS = 10;
 
 set('strictQuery', true);
 
-export const dbconnect = async () => {
+export const dbconnect = async (io) => {
     try {
         await connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
@@ -23,14 +23,14 @@ export const dbconnect = async () => {
         console.log('Connected successfully!');
 
         // Watch for changes only after seeding is done
-        await watchUsers();
+        await watchUsers(io);
     } catch (error) {
         console.log(error);
     }
 };
 
 
-async function watchUsers(){
+async function watchUsers(io){
     
     const changeStream = UserModel.watch();
 
@@ -38,10 +38,11 @@ async function watchUsers(){
         console.log(change);
 
     const userList = await UserModel.find();
-    console.log('Updated user list:', userList); 
+    console.log('Updated user list:', userList);
+    io.emit('updatedUserData', userList);
     });
 
-    await new Promise(()=>{});
+    return;
 }
 
 async function seedUsers() {

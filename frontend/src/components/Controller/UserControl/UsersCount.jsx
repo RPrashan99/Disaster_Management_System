@@ -2,17 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Card_Status } from "../../Common/Card_Status";
 import { CountCard } from "./Users_CountCard";
 import { getAllUsers } from "../../../services/userService";
+//rela time
+import socketIOClient from 'socket.io-client';
+const ENDPOINT = 'http://localhost:5000';
 
 export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, DisctrictAdminDate) => {
 
     const [newData, setNewData] = useState('');
+    //real time
+    const [userData, setUserData] = useState('');
 
     useEffect ( () => {
         const fetchUserData = async () => {
             try{
-                const data = await getAllUsers();
+                //const data = await getAllUsers();
         
-                const groupedData = data.reduce((acc,user) => {
+                const groupedData = userData.reduce((acc,user) => {
                     const accessLevel = user.accessLevel;
         
                     if(acc[accessLevel]){
@@ -33,7 +38,32 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
             }
         };
         fetchUserData();
-    },[]);
+    },[userData]);
+
+    //real time
+    useEffect(() =>{
+
+        const socket = socketIOClient(ENDPOINT);
+
+        socket.on('updatedUserData', (updatedData)=>{
+            setUserData(updatedData);
+        })
+
+        return () => socket.disconnect();
+    },[])
+
+    useEffect(() =>{
+        const fetchInitialData = async () =>{
+            try{
+                const data = await getAllUsers();
+                return data;
+            } catch(error){
+                console.error("Data not found");
+            }
+        }
+
+        setUserData(fetchInitialData());
+    },[])
 
     useEffect(()=> {
         if(newData.length != 0) console.log("newData:",newData);
