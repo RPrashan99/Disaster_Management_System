@@ -43,7 +43,7 @@ const DetailsForm = ({ initialDetails }) => {
 
   return (
     <div className="flex flex-col w-full h-[400px] bg-grey items-center p-3 space-y-3">
-        <div className="flex w-full justify-center text-[25px] bg-white font-bold">Admin Search</div>
+        <div className="flex w-full justify-center text-[25px] bg-white font-bold">Admin Assign</div>
         <form 
             onSubmit={handleSubmit}
             className="flex flex-col items-center">

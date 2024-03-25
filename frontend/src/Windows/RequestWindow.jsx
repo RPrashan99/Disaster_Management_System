@@ -1,17 +1,10 @@
-
 import React, { useEffect} from "react";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaMicrophone } from "react-icons/fa";
 import { Button } from "../components/Controller/common/Button";
 import { MdPermMedia } from "react-icons/md";
 
-export const WindowComponent = ({requestDetails}) => {
-  console.log('Request Details:', requestDetails);
-
-  useEffect(() => {
-    console.log("requestDetails:", requestDetails);
-
-  },[requestDetails.requestID]);
+export const WindowComponent = (requestDetails) => {
 
   return (
     <div>
@@ -23,7 +16,8 @@ export const WindowComponent = ({requestDetails}) => {
           <h1 className=" text-center font-bold m-3">
             <span className="text-3xl md:text-5xl mr-3 mt-10">
               Notified Disaster
-            </span><span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">verified</span>
+            </span>
+            <span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">verified</span>
             <br />
             {requestDetails.requestID}
           </h1>
@@ -71,9 +65,7 @@ export const WindowComponent = ({requestDetails}) => {
                 <label className="block mx-1 my-2 w-[50%]">Medical Needs</label>
                 <text
                   id="country-option-1"
-                  values={requestDetails.medicalNeed}
-                  className="block p-2.5 text-sm w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                ></text>
+                  className="block p-2.5 text-sm w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300">{requestDetails.medicalNeed.toString()}</text>
               </div>
               <div className="flex items-center relative flex-row justify-start px-1" >
                 <label htmlFor="message" className="block mx-1 my-2 w-[50%]">
@@ -112,14 +104,13 @@ export const WindowComponent = ({requestDetails}) => {
                     <text
                       type=""
                       id=""
-                      className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-black focus:black block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "                    
-                    ></text>
+                      className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-black focus:black block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"/>
                 </div>
-              </div>          
+              </div>
             </div>
           </div>     
         </form>
       </div>
     </div>
-  );
+  )
 }

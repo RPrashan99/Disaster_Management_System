@@ -1,4 +1,3 @@
-
 import React from "react";
 import { ColorItem } from "../DisasterStatus/color_item";
 

@@ -43,7 +43,7 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
         <div className="flex flex-col bg-grey">
 
             <div className="flex justify-center bg-grey border bg-white mt-3 mx-5">
-                <span className="flex justify-center text-[25px] font-bold">Users Status</span>
+                <span className="flex justify-center text-[25px] font-bold font-Inter">Users Status</span>
             </div>
 
             <div className="flex flex-row-4 justify-around items-center p-5">

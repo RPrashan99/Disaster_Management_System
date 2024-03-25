@@ -26,15 +26,22 @@ export default {
         'fontGray':'#050202',
         'mapGreen':'#5CDB95',
         'mapRed': '#E92660',
-        'userBlue': '#1D4176'
+        'userBlue': '#1D4176',
+        'sevHigh': '#FF0000',
+        'sevMedium': '#E8A31D',
+        'sevLow': '#20BF43',
+        'barContentLow': '#B8BBCF',
+        'reportDetailsBg': '#E4E4E4',
+        'reportTitleBg': '#62BB66'
+
       },
       fontFamily:{
         sans:[
           'Apple Color Emoji'
         ],
         serif:['Times'],
-        mono:['monospace']
-        
+        mono:['monospace'],
+        Inter:['Inter']
 
       },
 

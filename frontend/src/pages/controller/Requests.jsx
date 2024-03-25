@@ -39,8 +39,6 @@ export const Requests = () =>{
                     // If dates are equal, sort by time in descending order
                     const timeA = parseISO(a.requestTime);
                     const timeB = parseISO(b.requestTime);
-                    console.log("time",timeA);
-                    console.log("time",timeB);
                     return timeA-timeB;
                 }
 
@@ -75,7 +73,7 @@ export const Requests = () =>{
                     {selectedRequest ? (
                         <div>
                             <div>
-                            <WindowComponent requestDetails={selectedRequest} />
+                            {WindowComponent(selectedRequest)}
                             </div>
                         </div>
                         ) : (

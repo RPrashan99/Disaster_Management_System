@@ -49,3 +49,5 @@ const generateNewsId = async() => {
 
     return count;
 };
+
+export default router

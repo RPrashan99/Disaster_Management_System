@@ -4,6 +4,7 @@ import { BAD_REQUEST } from "../constants/httpStatus.js";
 import handler from 'express-async-handler';
 import { UserModel } from "../models/user.model.js";
 import bcrypt from 'bcrypt';
+import { currentDateExtract } from "../common/dateExtract.js";
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 const router = Router()
         
@@ -133,12 +134,7 @@ router.post(
             PASSWORD_HASH_SALT_ROUNDS
         );
 
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-        const day = String(currentDate.getDate()).padStart(2, '0');
-
-        const formattedDate = `${year}-${month}-${day}`;
+        const currentDate = currentDateExtract();
 
         const newUser = {
             id: (await generateID()).toString(),
