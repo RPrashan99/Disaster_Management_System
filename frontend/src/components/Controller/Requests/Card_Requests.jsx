@@ -12,33 +12,33 @@ export const Card_Requests = ({d_type,verification,time,date,location, affectedP
                 {verification && <text className="w-[60%] h-[2/3] font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-[1rem] ">{verification}</text>}
             </div>
             <div className='flex flex-row relative text-center justify-center items-center  shadow-2xl w-full h-full m-1'>
-                <div className='flex relative justify-center items-center h-[80%] flex-row'>
-                    <img src='/controller/time.png' alt='time' className='w-5 h-5  mx-2'/>
+                <div className='flex relative justify-center items-center h-[80%] w-[50%] flex-row'>
+                    <img src='/controller/time.png' alt='time' className='w-5 h-5 ml-5 mx-2'/>
                     <div className='flex relative w-full justify-center items-center'>
-                        {time && <text className="w-full h-full   text-[black] text-[0.8rem]  mx-2">{time}</text>}
+                        {time && <text className="w-full h-full  text-[black] text-[0.8rem]  mx-2">{time}</text>}
                     </div>
                     <text>|</text>
                 </div>
-                <div className='flex relative justify-center items-center h-[80%] flex-row'>
+                <div className='flex relative justify-center items-center w-[50%] h-[80%] flex-row'>
                     <text>|</text>
-                        <img src='/controller/Location.png' alt='time' className='w-5 h-5 mx-2'/>
+                        <img src='/controller/Location.png' alt='time' className='w-5 h-5 ml-5 mx-2'/>
                         <div className='flex relative w-full justify-center items-center'>
                         {location && <text className="w-full h-full rounded-lg text-[black] font-bold text-[1.2rem] mx-2">{location}</text>}
                     </div>         
                 </div>
             </div>
             <div className='flex flex-row relative justify-center items-center  shadow-2xl  text-center w-full h-full m-1'>
-                <div className='flex relative justify-center items-center h-[80%] flex-row'>
+                <div className='flex relative justify-center items-center w-[50%] h-[80%] flex-row'>
                     <text>|</text>
-                        <img src='/controller/calendar.png' alt='time' className='w-5 h-5 mx-2'/>
+                        <img src='/controller/calendar.png' alt='time' className='w-5 h-5 ml-5 mx-2'/>
                         <div className='flex relative w-full justify-center items-center'>
                             {date && <text className="w-full h-full rounded-lg text-[black] text-[0.8rem] mx-2">{date}</text>}
                         </div>       
                     <text>|</text>
                 </div>
-                <div className='flex relative justify-center items-center h-[80%] flex-row'>
+                <div className='flex relative justify-center items-center w-[50%] h-[80%] flex-row'>
                     <text>|</text>
-                        <img src='/controller/people.png' alt='time' className='w-5 h-5 mx-2'/>
+                        <img src='/controller/people.png' alt='time' className='w-5 h-5 ml-5 mx-2 justify-center items-center'/>
                         <div className='flex flex-wrap relative w-full justify-center items-center'>
                             {affectedPeople && <text className="w-full h-full rounded-lg text-[black] text-[0.8rem] mx-1">{affectedPeople}</text>}
                         </div> 

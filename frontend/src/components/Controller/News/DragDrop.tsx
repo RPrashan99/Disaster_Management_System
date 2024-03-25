@@ -1,7 +1,7 @@
 // components/FileUpload.tsx
 import React, { useRef, useState } from "react";
 import classNames from "classnames";
-export const DragDrop = () => {
+export const DragDrop = ({onChange,value}) => {
   const [fileList, setFileList] = useState<File[] | null>(null);
   const [shouldHighlight, setShouldHighlight] = useState(false);
   const preventDefaultHandler = (e: React.DragEvent<File>) => {
@@ -26,8 +26,8 @@ export const DragDrop = () => {
   return (
     <div
       className={classNames({
-        "w-[100%]": true,
-        "h-[100%]":true,
+        "mb-3":true,
+        "relative":true,
         "p-4 grid place-content-center cursor-pointer": true,
         "text-[#3d3d3d] rounded-lg": true,
         "border-4 border-dashed ": true,
@@ -57,17 +57,18 @@ export const DragDrop = () => {
       }}
     >
         <div className="flex flex-col relative justify-center items-center">
-            <img src="/controller/Upload icon.png" alt="" className="w-10 h-10"/>
-            <h1 className="font-sans text-[20px] font-bold m-1">Drag & Drop files or Browse</h1>
+            <img src="/controller/Upload icon.png" alt="" className="w-8 h-8"/>
+            <h1 className="font-sans ml:text-[20px] md:text-[16px] ms:text-[14px]  font-bold m-1">Drag & Drop files or Browse</h1>
         </div>  
-        <div className="flex flex-wrap flex-row md:w-[100%] h-full items-center justify-center w-[100%]">
+        <div className="grid md:grid-cols-1 w-full h-full items-center justify-center">
         {!fileList ? (
             <>
-                <div className="flex flex-row w-[100%] rounded-lg mx-5 items-center justify-center bg-white">
+                <div className="grid grid-cols-1 rounded-lg  bg-[#f7f5f5]">
                     <input
-                        className="rounded-xl p-5 md:w-3/3 placeholder:bg-[gray] mt-4"
+                        className="rounded-xl  placeholder:bg-[#883f3f] mx-5 my-10  border-[black] border-[1px]"
                         title="Browse"
                         placeholder="Browse"
+                        value={value}
                         type="file"
                         id="profile_pic"
                         name="profile_pic"
@@ -110,13 +111,13 @@ export const DragDrop = () => {
             ) : (
                 <>
                     <div className="flex relative flex-col">
-                        <div className="flex relative items-center text-[#3f3f3f] hover:text-[black] text-[30psx] justify-center ">
+                        <div className="flex relative items-center text-[#3f3f3f] hover:text-[black] text-[1.2rem] justify-center ">
                             <h2>Files to Upload</h2>
                         </div>
                         {fileList.map((file, i) => {
                         return <span key={i} className="flex justify-center">{file.name}</span>;
                         })}
-                        <div className="flex flx-col relative gap-2 mt-2">
+                        <div className="flex flx-col justify-center relative gap-2 mt-2">
                             <button className="bg-ControllerSec text-white px-2 py-1 rounded-md hover:bg-[#3d3d3d]">
                                 Upload
                             </button>

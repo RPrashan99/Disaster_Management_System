@@ -16,7 +16,7 @@ export const SearchBar = () => {
             </div>
             <InputBase className="flex self-stretch h-[10px] w-[80%] pl-20px mt-[15px] mb-[7.50px] rounded-[5px] font-input-value font-[number:var(--input-value-font-weight)] text-palette-text-disabled
             text-[length:var(--input-value-font-size)] tracking-[var(--input-value-letter-spacing)] leading-[var(--input-value-line-height)] [font-style:var(--input-value-font-style)] [background:transparent]
-            border-[none] p-0" placeholder="Search.."/>
+            border-[none] p-0" placeholder="Search.." id='search' name='search'/>
             
         </div>
     )
