@@ -20,9 +20,24 @@ app.use(cors({
 );
 
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server,{
+    cors: {
+        credentials:true,
+        origin: ['http://localhost:5173']
+    }
+});
 
 dbconnect(io);
+
+io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    // Handle socket events here
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});
 
 app.use('/api/users',userRouter);
 app.use('/api/requests',disasterRequestRouter);

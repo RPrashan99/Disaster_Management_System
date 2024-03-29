@@ -37,9 +37,9 @@ async function watchUsers(io){
     changeStream.on('change', async (change) => {
         console.log(change);
 
-    const userList = await UserModel.find();
-    console.log('Updated user list:', userList);
-    io.emit('updatedUserData', userList);
+        const userList = await UserModel.find();
+        console.log('Updated user list:', userList);
+        io.emit('updatedUserData', userList);
     });
 
     return;

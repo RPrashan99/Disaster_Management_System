@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card_Status } from "../../Common/Card_Status";
 import { CountCard } from "./Users_CountCard";
 import { getAllUsers } from "../../../services/userService";
-//rela time
+//real time
 import socketIOClient from 'socket.io-client';
 const ENDPOINT = 'http://localhost:5000';
 
@@ -56,13 +56,13 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
         const fetchInitialData = async () =>{
             try{
                 const data = await getAllUsers();
-                return data;
+                setUserData(data);
             } catch(error){
                 console.error("Data not found");
             }
         }
 
-        setUserData(fetchInitialData());
+        fetchInitialData();
     },[])
 
     useEffect(()=> {
