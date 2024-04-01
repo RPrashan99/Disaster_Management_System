@@ -2,12 +2,13 @@ import React, {useEffect, useState, useReducer} from "react"
 import { getNews } from "../../../services/newsServices";
 import { deleteNewsItem } from "../../../services/newsServices";
 import { message } from "antd";
-import { NewsCreatorForm } from "../../../Forms/Controller/NewsCreatorForm";
+import NewsCreatorForm from "../../../Forms/Controller/NewsCreatorForm";
 import { FormControlLabel } from "@mui/material";
 import Switch from '@mui/material/Switch';
 import { alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 import axios from "axios";
+
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
@@ -43,7 +44,7 @@ export const NewsPreview = () =>{
         newsId:'',
         heading:'',
         author:'',
-        image:null,
+        image:'',
         newsBody:'',
         show: ''
       });
@@ -54,7 +55,7 @@ export const NewsPreview = () =>{
               newsId: selectedNews.newsId || '',
               heading: selectedNews.heading || '',
               author: selectedNews.author || '',
-              image: selectedNews.image || null,
+              image: selectedNews.image || '',
               newsBody: selectedNews.newsBody || '',
               show: selectedNews.show || ''
             });
@@ -173,7 +174,11 @@ export const NewsPreview = () =>{
                             </div>
 
                             <div className="mt-5">
-                                <img src={selectedNews.image} alt="" className="object-cover w-full h-full shadow-2xl" />
+                                {selectedNews.image && (
+                                    <img src={`http://localhost:5000/uploads/${selectedNews.image}`} alt="News" />
+                                )}
+                                {selectedNews.image} 
+                                <img src={`http://localhost:5000/uploads/${selectedNews.image}`} alt="" className="object-cover w-full h-full shadow-2xl" />
                             </div>
 
                             <div className="mt-5">
@@ -198,6 +203,8 @@ export const NewsPreview = () =>{
                                 <FormControlLabel 
                                     control={<GreenSwitch  checked={formData.show? true : false} onChange={(IsShow? handleShowDisable:handleShowEnable)}/>}
                                     label={(IsShow? "Disable Show" : "Enable Show")}
+                                    name="Show switch"
+                                    id="Show switch"
                                     className="bg-transparent p-2 rounded"
                                 />
 
@@ -232,11 +239,15 @@ export const NewsPreview = () =>{
                                     <div className="focus:bg-opacity-50"  onClick={() => handleCardClick(news)}>
                                         <div className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2">
                                             <div className="w-full   py-0 h-full">
-                                                <img
-                                                    src={news.image}
+                                                {/* {news.image} */}
+                                                {/* <img
+                                                    src={`http://localhost:5000/upload/${news.image}`}
                                                     alt=""
                                                     className="object-cover w-full h-full"
-                                                />
+                                                /> */}
+                                                {news.image && (
+                                                    <img src={`../../../../../Backend/Uploads/${news.image}`} alt="News" />
+                                                )}
                                             </div>
                                         </div>
                                         <div className="mr-2 py-2">

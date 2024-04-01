@@ -12,6 +12,12 @@ export const getRequestDetails = async (requestID) => {
     return data;
 };
 
+// export const updateRequests = async (requestId, newData) => {
+//     const {data} = await axios.put('/api/requests/updateRequest/' + requestId, newData);
+//     console.log("UpdatedData", data);
+//     return data;
+// }
+
 // export const getRequestDetails = async (requestID) => {
 //     try {
 //       // Assuming you have an API call or some asynchronous operation to fetch data

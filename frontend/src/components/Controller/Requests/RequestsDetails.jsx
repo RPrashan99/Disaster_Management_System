@@ -1,7 +1,9 @@
 import React from "react";
 import { ColorItem } from "../DisasterStatus/color_item";
 
-export const RequestsDetails = () => {
+
+export const RequestsDetails = ({all,flood,tsunami,today, monthly,todayRead, monthlyRead}) => {
+
     return(
         <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[80%] rounded-md bg-green justify-center mx-10 mb-10 space-x-2 h-full">
             <div className="flex flex-col bg-white rounded-lg border w-full h-full items-center my-1">
@@ -10,6 +12,7 @@ export const RequestsDetails = () => {
                     <div className="flex flex-col items-center justify-center gap-1 px-4 ">
                         <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-1">
                             <span className="flex text-ControllerPrim  items-center justify-center text-[16px] font-bold">Read Requests</span>
+                            <div>{todayRead}</div>
                             <img className="flex " src="/controller/Circle2.png" alt="Analysis"/>
                         </div>
                         <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
@@ -19,7 +22,8 @@ export const RequestsDetails = () => {
                     </div>
                     <div className="flex flex-col justify-center mx-5 mb-10 rounded-md shadow-lg ">
                         <div className="flex justify-center h-[65%] w-full ">
-                            <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/>
+                            {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
+                            <div>{today}</div>
                         </div>
                         <div className="flex flex-col h-[35%] w-full items-center m-0 justify-center rounded-b-lg bg-slate-600">
                             <span className="flex text-white text-[14px] items-center justify-center font-bold">Total Requests</span>
@@ -51,16 +55,18 @@ export const RequestsDetails = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mb-0 rounded w-full">
                     <div className="flex flex-col justify-center mx-5 mb-10 rounded-md shadow-lg ">
                         <div className="flex justify-center h-[65%] w-full ">
-                            <img className="flex p-2 " src="/controller/NumofUsers2.png" alt="Analysis"/>
+                            {/* <img className="flex p-2 " src="/controller/NumofUsers2.png" alt="Analysis"/> */}
+                            <div>{monthly}</div>
                         </div>
                         <div className="flex flex-col h-[35%] w-full m-0 items-center justify-center rounded-b-lg bg-slate-600">
                             <span className="flex text-white text-[14px] items-center justify-center font-bold">Total Requests</span>
-                            <span className="flex text-white text-[22px] items-center justify-center font-bold">March</span>
+                            <div className="flex text-white text-[22px] items-center justify-center font-bold">{(new Date()).toLocaleString('default', { month: 'long' })}</div>
                         </div>
                     </div>
                     <div className="flex flex-col items-center justify-center gap-1 px-4">
                         <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-1">
                             <span className="flex text-ControllerPrim  items-center justify-center text-[16px] font-bold">Read Requests</span>
+                            <div>{monthlyRead}</div>
                             <img className="flex " src="/controller/1510.png" alt="Analysis"/>
                         </div>
                         <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">

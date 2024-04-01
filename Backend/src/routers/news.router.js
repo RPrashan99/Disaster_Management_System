@@ -1,13 +1,44 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/httpStatus.js";
 import handler from 'express-async-handler';
 import { NewsModel } from "../models/news.model.js";
+import path from 'path';
+import multer from 'multer';
 
 const router = Router();
 
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'Uploads/'); // Uploads folder
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // Unique filename
+    }
+});
+
+const upload = multer({ storage: storage });
+
+router.post('/upload', upload.single('file'), (req, res) => {
+    
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        // Return the image path in the response
+        res.status(201).json({ message: 'File uploaded successfully', imagePath: path.join('Uploads/', req.file.filename) });
+        // res.json({ message: 'File uploaded successfully' });
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        res.status(BAD_REQUEST).send("File upload failed");
+      }
+});
+
+
 router.post('/createNews', handler(async (req, res) => {
 
-    const {heading, author, image, newsBody} = req.body;
+    const {heading, author,imagePath, newsBody} = req.body;
     const currentDateTime = new Date(); //real time
     const createdDate = currentDateTime.toDateString();
     const createdTime = currentDateTime.toTimeString();
@@ -16,14 +47,14 @@ router.post('/createNews', handler(async (req, res) => {
         if (!heading || !author || !newsBody ) {
             return res.status(BAD_REQUEST).send("Missing required fields");
           }
-    const newID = await generateNewsId(heading);      
+    const newID = await generateNewsId(heading);    
 
     try{
         const newNews = await NewsModel.create({
             newsId: newID,
             heading,
             author,
-            image,
+            image : imagePath || '',
             newsBody,
             createdDate,
             createdTime,
@@ -39,17 +70,24 @@ router.post('/createNews', handler(async (req, res) => {
 
 router.patch('/updateNews/:newsId', handler(async (req, res) => {
     const { newsId } = req.params;
-    const {heading, author, image, newsBody, show} = req.body;
+    const {heading, author, imagePath, newsBody, show} = req.body;
         // Validate required fields
         if (!heading || !author || !newsBody ) {
             return res.status(BAD_REQUEST).send("Missing required fields");
           }    
     try{
+        let updateData = { heading, author, newsBody, show };
+
+        if (imagePath) {
+            updateData.image = imagePath;
+        }
+
         const updatedNews = await NewsModel.findOneAndUpdate(
             { newsId: newsId },
-            { heading, author, image, newsBody, show },
+            updateData,
             { new: true }
         );
+
         res.send(updatedNews);
     } catch(error){
         console.error("Error updating news:", error);
@@ -78,6 +116,8 @@ router.delete('/deleteNews/:newsId',handler(async(req,res) => {
     }
 }));
 
+
+
 const generateNewsId = async() => {
     var count = await NewsModel.countDocuments();
 
@@ -87,5 +127,12 @@ const generateNewsId = async() => {
   
     return count.toString();
 };
+
+// Route for serving static images
+router.get('/uploads/:imageName', (req, res) => {
+    const imageName = req.params.imageName;
+    const imagePath = path.join(__dirname, '../Uploads/', imageName);
+    res.sendFile(imagePath);
+});
 
 export default router;
