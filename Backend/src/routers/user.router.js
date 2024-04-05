@@ -168,6 +168,7 @@ const generateTokenResponse = user => {
         id: user.id,
         userName: user.userName,
         address: user.address,
+        email: user.email,
         accessLevel: user.accessLevel,
         token,
     };
