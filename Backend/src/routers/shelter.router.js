@@ -1,7 +1,7 @@
 import { Router } from "express";
 import handler from "express-async-handler";
-import { ShelterModel } from "../models/shelter.model";
-import { BAD_REQUEST } from "../constants/httpStatus";
+import { ShelterModel } from "../models/shelter.model.js";
+import { BAD_REQUEST } from "../constants/httpStatus.js";
 
 const router = Router();
 
