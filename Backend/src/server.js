@@ -8,12 +8,14 @@ import disasterReportRouter from './routers/report.router.js'
 import newsRouter from './routers/news.router.js'
 import shelterRouter from './routers/shelter.router.js'
 import mapRouter from './routers/maps.router.js'
-
 import {dbconnect} from './config/database.config.js';
+import multer from 'multer';
 
 dbconnect();
 
 const app = express();
+
+
 app.use(express.json());
 
 app.use(cors({

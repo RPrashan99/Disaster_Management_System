@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { DragDrop } from "../../components/Controller/News/DragDrop";
+// import { DragDrop } from "../../components/Controller/News/DragDrop";
 import axios from "axios";
 import {message} from "antd";
+import PropTypes from 'prop-types';
 
-export const NewsCreatorForm = ({selection}) => {
+const NewsCreatorForm = ({selection}) => {
 
   const [ formData, setFormData ] = useState({
     newsId:'',
     heading:'',
     author:'',
-    image:null,
+    image:'',
     newsBody:'',
     show: ''
   });
@@ -19,7 +20,7 @@ export const NewsCreatorForm = ({selection}) => {
         newsId: selection.newsId || '',
         heading: selection.heading || '',
         author: selection.author || '',
-        image: selection.image || null,
+        image: selection.image || '',
         newsBody: selection.newsBody || '',
         show: selection.show || ''
       });
@@ -41,52 +42,102 @@ export const NewsCreatorForm = ({selection}) => {
     }
   };
 
+  const handleFileUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await axios.post("/api/news/upload", formData);
+      const imagePath = response.data.imagePath; // Assuming the response contains the imagePath
+      setFormData({ ...formData, image: imagePath }); // Set imagePath in state
+      return imagePath; // Assuming the response contains the file path
+
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     if (!formData.heading || !formData.author || !formData.newsBody  || !formData.newsBody) {
       message.error('Missing required fields');
       return;
     }
+    // else if (formData.image) {
+    //   try {
+    //     const filePath = await handleFileUpload(formData.image);
+    //     // Update the form data with the file path if needed
+    //     setFormData({ ...formData, image: filePath });
+    //   } catch (error) {
+    //     console.error("Error handling file upload:", error);
+    //     // Handle error, show message, etc.
+    //     return;
+    //   }
+    // } 
     else{
       try{
-
-        const response = await axios.post('http://localhost:5000/api/news/createNews',  formData);
+        let imagePath = !formData.image ? formData.image:await handleFileUpload(formData.image) ;
+        // if (formData.image) {
+        //     imagePath = await handleFileUpload(formData.image);
+        // }
+        // const newsData = { ...formData, imagePath };
+        const response = await axios.post('http://localhost:5000/api/news/createNews', {
+          heading: formData.heading,
+          author: formData.author,
+          newsBody: formData.newsBody,
+          imagePath: imagePath // Make sure imagePath is properly set before sending the request
+        });
         console.log('Form submitted succedded: ', response.data);
         message.success('News is created!')
         setFormData({
           heading:'',
           author:'',
-          image:null,
+          image: '',
           newsBody:'',
-          show: ''
+          show: false
         });
       } catch (error){
         console.error('Error submitting form:', error);
+        message.error('Failed to create news!')
       }
   
     }
   };
   const editHandler = async(e) =>{
     e.preventDefault();
-    if (!formData.heading || !formData.author || !formData.newsBody  || !formData.newsBody) {
+    if (!formData.heading || !formData.author || !formData.newsBody ) {
       message.error('Missing required fields');
       return;
     }
     else{
       try{
-        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId,  formData);
-        console.log('Form update succedded: ', response.data);
+        let imagePath = formData.image || null; // Set imagePath to null if no new image uploaded
+
+        if (formData.image instanceof File) {
+          // If a new image is uploaded, handle file upload and get the new imagePath
+          imagePath = await handleFileUpload(formData.image);
+        }
+
+
+        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {
+            heading: formData.heading,
+            author: formData.author,
+            newsBody: formData.newsBody,
+            imagePath: imagePath, // Send imagePath as null if no new image uploaded
+            show: formData.show
+        });
+
+        console.log('Form update succeeded: ', response.data);
         message.success('News is updated!')
+
+
         setFormData({
-          newsId:'',
-          heading:'',
-          author:'',
-          image:null,
-          newsBody:'',
-          show: false
+          ...formData,
+          image:'',
         });
       } catch (error){
         console.error('Error updating form:', error);
+        message.error('Failed to update news!')
       }
   
     }
@@ -118,8 +169,17 @@ export const NewsCreatorForm = ({selection}) => {
                       placeholder="Enter Name"
                       className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-[50%] p-2.5 my-2"
                     ></input>
-                    <label htmlFor="profile_pic">Media Files</label>
-                    <DragDrop/>    
+                    <label htmlFor="image">Media Files</label>
+                    {/* <DragDrop/>     */}
+                    <input 
+                      type="file"
+                      id="image"
+                      name="image"
+                      onChange={(e) => handleChange(e)}
+                      required
+                      placeholder="Enter Name"
+                      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-[50%] p-2.5 my-2"
+                    ></input>
                 </div>
             </div>
 
@@ -165,3 +225,8 @@ export const NewsCreatorForm = ({selection}) => {
     </div>
   );
 };
+
+NewsCreatorForm.propTypes = {
+  selection: PropTypes.any.isRequired // Adjust the PropTypes type according to your needs
+};
+export default NewsCreatorForm;

@@ -2,10 +2,10 @@ import React from "react";
 import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { DisasterStatus } from "../../components/Controller/Home/DisasterStatus";
-import { Map } from "../../components/Controller/Home/Map"
 import { Menues } from "../../components/Controller/Home/Menues";
 import { Footer } from "../../components/Controller/Footer"
 import { WindowComponent } from "../../Windows/RequestWindow";
+import { GoogleMap } from "../../components/Controller/Home/GoogleMap";
 
 export const ControllerHomePage = () => {
     return(
@@ -18,14 +18,14 @@ export const ControllerHomePage = () => {
                     <HeaderBar/>
                 </div>
             </div>
-            <div className="grid lg:grid-cols-2 font-sans md:grid-cols-2 sm:grid-cols-1 w-full  bg-ControllerPrim h-full grid-cols-1 self-stretch ">
-                <div className="flex bg-[#ffffff] self-stretch lg:h-[500px] md:h-[400px] sm:h-[400px]">
+            <div className="grid lg:grid-cols-2 font-sans md:grid-cols-2 sm:grid-cols-1 w-full  bg-[#444343] h-full grid-cols-1 self-stretch ">
+                <div className="flex bg-[#ffffff] self-stretch lg:h-[500px] md:h-[400px] sm:h-[400px] ">
                     <DisasterStatus/>
                 </div >
 
-                <div className="flex flex-row shadow-sm bg-[#ffffff] rounded-l-[50%]
-                    self-stretch lg:h-[500px] md:h-[400px] sm:h-[400px] ">
-                    <Map/>
+                <div className="flex flex-row shadow-sm bg-[#ffffff] rounded-l-[20%]
+                    self-stretch lg:h-[500px] md:h-[400px] sm:h-[400px] w-full">
+                    <GoogleMap/>
                 </div>  
             </div>
                 <Menues/>
