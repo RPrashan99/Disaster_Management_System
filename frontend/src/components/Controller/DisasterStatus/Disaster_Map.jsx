@@ -133,7 +133,7 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
 
                 </div>
 
-                <GoogleMap/>
+                <GoogleMap location={selectedReport.disasterLocation}/>
 
                 <div className="flex flex-col bg-mapGreen border space-y-3 px-3 py-3 rounded-r-md">
                     <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md">
