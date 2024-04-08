@@ -12,7 +12,8 @@ router.get('/request',handler(async (req,res) => {
         disasterLocation,
         affectedCount,
         medicalNeed,
-        otherNeeds} = req.body;
+        otherNeeds,
+        read} = req.body;
 
         const currentDateTime = new Date();
         const requestDate = currentDateTime.toDateString();
@@ -28,7 +29,8 @@ router.get('/request',handler(async (req,res) => {
             medicalNeed,
             otherNeeds,
             requestTime,
-            requestDate
+            requestDate,
+            read
         };
 
         const result = await DisasterRequestModel.create(newRequest);
@@ -58,6 +60,22 @@ router.get('/getRequest/:requestID', handler(async(req, res) => {
     } catch (error) {
         console.error(error);
         res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+    }
+}));
+
+router.put('/updateRequest/:requestID', handler(async (req, res) => {
+    const { requestID } = req.params;
+
+    try {
+        const request = await DisasterRequestModel.findOneAndUpdate(
+            { requestID },
+            { read: true },
+            { new: true } // Return the updated document
+        );
+        return res.status(INTERNAL_SERVER_ERROR).send(request);
+    } catch (error) {
+        console.error(error);
+        return res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
     }
 }));
 

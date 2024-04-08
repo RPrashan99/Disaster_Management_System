@@ -9,7 +9,7 @@ export const Card_Requests = ({d_type,verification,time,date,location, affectedP
             </div> */}
             <div className='flex flex-row relative text-center justify-center items-center mb-2 w-full h-full m-1 px-5'>
                 {d_type && <text className="w-[60%] h-1/3 bg-Transparent mx-10 my-3 shadow-2xl rounded-[50px] border-none justify-center items-center font-bold text-center text-ControllerPrim  text-[1.6rem]">{d_type}</text>}
-                {verification && <text className="w-[60%] h-[2/3] font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-[1rem] ">{verification}</text>}
+                {verification && <text className=" w-32 h-[2/3] font-bold rounded shadow-xl bg-ControllerSec text-[#ffffff] text-[1rem] ">{verification}</text>}
             </div>
             <div className='flex flex-row relative text-center justify-center items-center  shadow-2xl w-full h-full m-1'>
                 <div className='flex relative justify-center items-center h-[80%] w-[50%] flex-row'>
