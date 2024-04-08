@@ -1,100 +1,275 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ColorItem } from "../DisasterStatus/color_item";
+import { PieChart } from "@mui/x-charts/PieChart";
+import PropTypes from "prop-types";
 
 
-export const RequestsDetails = ({all,flood,tsunami,today, monthly,todayRead, monthlyRead}) => {
+export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) => {
+
+    const monthlyflood = Array.isArray(monthly)
+    ? flood.filter(eachFlood => {
+        return eachFlood.requestDate.split(" ")[1] === "Mar";
+      })
+    : [];
+    const monthlyTsunami = Array.isArray(tsunami)
+    ? tsunami.filter(eachTsunami => {
+        return eachTsunami.requestDate.split(" ")[1] === "Mar";
+      })
+    : [];
+    const monthlyFire = Array.isArray(fire)
+    ? fire.filter(eachFire => {
+        return eachFire.requestDate.split(" ")[1] === "Mar";
+      })
+    : [];
+    const monthlyWind = Array.isArray(wind)
+    ? flood.filter(eachWind => {
+        return eachWind.requestDate.split(" ")[1] === "Ma";
+      })
+    : [];
+    const monthlyOther = Array.isArray(other)
+    ? other.filter(eachOther => {
+        return eachOther.requestDate.split(" ")[1] === "Mar";
+      })
+    : [];
+    const todayflood = Array.isArray(monthly)
+    ? flood.filter(eachFlood => {
+        return eachFlood.requestDate.split(" ")[2] === "15";
+      })
+    : [];
+    const todayTsunami = Array.isArray(tsunami)
+    ? tsunami.filter(eachTsunami => {
+        return eachTsunami.requestDate.split(" ")[2] === "15";
+      })
+    : [];
+    const todayFire = Array.isArray(fire)
+    ? fire.filter(eachFire => {
+        return eachFire.requestDate.split(" ")[2] === "15";
+      })
+    : [];
+    const todayWind = Array.isArray(wind)
+    ? flood.filter(eachWind => {
+        return eachWind.requestDate.split(" ")[2] === "15";
+      })
+    : [];
+    const todayOther = Array.isArray(other)
+    ? other.filter(eachOther => {
+        return eachOther.requestDate.split(" ")[2] === "15";
+      })
+    : [];
+    const monthlyRead = Array.isArray(monthly)
+    ? monthly.filter(eachRequest => {
+        return eachRequest.read === true;
+      })
+    : [];
+    const monthlyNotRead = Array.isArray(monthly)
+    ? monthly.filter(eachRequest => {
+        return eachRequest.read === false;
+      })
+    : [];
+    const todayRead = Array.isArray(today)
+    ? today.filter(eachFlood => {
+        return eachFlood.read === true;
+      })
+    : [];
+    const todayNotRead = Array.isArray(today)
+    ? today.filter(eachRequest => {
+        return eachRequest.read === false;
+      })
+    : [];
+   
 
     return(
-        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[80%] rounded-md bg-green justify-center mx-10 mb-10 space-x-2 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[80%] rounded-md bg-[green] justify-center mx-10 mb-10 space-x-2 h-full">
             <div className="flex flex-col bg-white rounded-lg border w-full h-full items-center my-1">
                 <span className="flex text-ControllerPrim text-[22px] items-center justify-center font-bold">Daily Forcast</span>
                 <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mb-0 rounded w-full">
                     <div className="flex flex-col items-center justify-center gap-1 px-4 ">
-                        <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-1">
-                            <span className="flex text-ControllerPrim  items-center justify-center text-[16px] font-bold">Read Requests</span>
-                            <div>{todayRead}</div>
-                            <img className="flex " src="/controller/Circle2.png" alt="Analysis"/>
+                        <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
+                            <span className="flex text-ControllerPrim font-mono items-center justify-center text-[20px] font-bold">Read Requests</span>    
+                                
+                                <PieChart
+                                
+                                    colors={[ '#9c9c9c','#4ca0d8']}
+                                    series={[
+                                            {
+                                                data: [
+                                                    { id: 0, value:flood.length},
+                                                    { id: 1, value:fire.length},
+                                                  ],
+                                            
+                                                  outerRadius: 50,
+                                                  innerRadius:40,
+                                                  paddingAngle: 1,
+                                                  cornerRadius: 5,
+                                                  startAngle: 0,
+                                                  endAngle: 360,
+                                                  cx: 45,
+                                                  cy: 35,
+                                                },
+                                                
+                                        
+                                              ]}
+                                              width={100}
+                                              height={100}
+                                              
+                                />  
                         </div>
                         <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
                             <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>
                             <img className="flex " src="/controller/Circle1.png" alt="Analysis"/>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center mx-5 mb-10 rounded-md shadow-lg ">
-                        <div className="flex justify-center h-[65%] w-full ">
+                    <div className="flex flex-col justify-center mx-5 mb-3 rounded-md shadow-lg ">
+                        <div className="flex justify-center h-[65%] w-full bg-[#bcbcfa] ">
                             {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
-                            <div>{today}</div>
+                            <div className=" w-28 h-28 bg-[#cf3535] m-5 border-[8px] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">{today.length}</div>
                         </div>
-                        <div className="flex flex-col h-[35%] w-full items-center m-0 justify-center rounded-b-lg bg-slate-600">
-                            <span className="flex text-white text-[14px] items-center justify-center font-bold">Total Requests</span>
-                            <span className="flex text-white text-[22px] items-center justify-center font-bold">Today</span>
+                        <div className="flex flex-col h-[35%] w-full mt-1 items-center m-0 justify-center rounded-b-lg bg-[#2b2424]">
+                            <span className="flex text-white text-[14px] items-center  justify-center font-bold">Total Requests</span>
+                            <span className="flex text-white text-[22px] items-center  justify-center font-bold">Today</span>
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row items-center justify-center pt-3 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
+                <div className="flex flex-row items-center justify-center pt-1 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
                     <div className="flex flex-col m- text-wrap w-[60%] justify-center">
-                        <span className="flex text-black text-[1.5rem] font-bold">Requests by Disaster Type</span>
-                        <span className="flex text-[15px] text-[#c43e3e]">All confirmed requests are categorized by disaster type</span>
+                        <span className="flex text-black text-[1.5rem] font-bold">Requests by Disaster Type{monthlyNotRead.length}</span>
+                        <span className="flex text-[15px] text-[#3f3838]">All confirmed requests are categorized by disaster type{monthlyRead.length}{monthly.length}</span>
                     </div>
-                    <div className="flex items-center justify-center w-[20%] px-1">
-                        <img src="/controller/Group.png"/>
+                    <div className="flex items-center justify-center w-[100%] h-[100%] px-1">
+                        <PieChart
+                                    
+                                    colors={[ 'purple','red', 'green', 'blue','yellow']}
+                                    series={[
+                                            {
+                                                data: [
+                                                    { id: 0, value:todayflood.length, label: 'Flood' },
+                                                    { id: 1, value:todayTsunami.length,label: 'Tsunami'},
+                                                    { id: 2, value:todayFire.length,label: 'Fire'},
+                                                    { id: 3, value:todayWind.length, label: 'Extreme Wind'},
+                                                    { id: 4, value:todayOther.length, label: 'Other'},
+                                                ],
+                                            
+                                                outerRadius: 60,
+                                                innerRadius:50,
+                                                paddingAngle: 1,
+                                                cornerRadius: 5,
+                                                startAngle: 0,
+                                                endAngle: 360,
+                                                cx:60,
+                                                cy:100,
+                                                
+                                                },
+                                            ]}
+                                            width={300}
+                                            height={200}
+                                            
+                                /> 
                     </div>
                 </div>
-                <div className="grid grid-cols-2 items-center justify-ceter mb-5 py-2 px-5 w-[95%] rounded-md border-b-[5px]  border-[gray] shadow-xl ">
-                    {ColorItem({d_type:"Flood Type",color:"#c43e3e",margin:"40px"})}
-                    {ColorItem({d_type:"Extreme wind",color:"#7E1199",margin:"20px"})}
-                    {ColorItem({d_type:"Drought Type",color:"#F4771D",margin:"25px"})}
-                    {ColorItem({d_type:"Tsunami Type",color:"#1C22B6",margin:"20px"})}
-                    {ColorItem({d_type:"Earthquake Type",color:"#0A8D2E",margin:"7px"})}
-                    {ColorItem({d_type:"Wildfire Type",color:"#E7A526",margin:"22px"})}
-                </div>
-
+              
             </div>
             <div className="flex flex-col bg-white rounded-lg border w-full h-full items-center my-1">
                 <span className="flex text-ControllerPrim text-[22px] items-center justify-center font-bold">Monthly Forcast</span>
                 <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mb-0 rounded w-full">
-                    <div className="flex flex-col justify-center mx-5 mb-10 rounded-md shadow-lg ">
-                        <div className="flex justify-center h-[65%] w-full ">
-                            {/* <img className="flex p-2 " src="/controller/NumofUsers2.png" alt="Analysis"/> */}
-                            <div>{monthly}</div>
+                    <div className="flex flex-col justify-center mx-5 mb-3 rounded-md shadow-lg ">
+                        <div className="flex justify-center h-[65%] w-full bg-[#f8f892] ">
+                            {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
+                            <div className=" w-28 h-28 bg-[#cf3535] m-5 border-[8px] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">{monthly.length}</div>
                         </div>
-                        <div className="flex flex-col h-[35%] w-full m-0 items-center justify-center rounded-b-lg bg-slate-600">
-                            <span className="flex text-white text-[14px] items-center justify-center font-bold">Total Requests</span>
-                            <div className="flex text-white text-[22px] items-center justify-center font-bold">{(new Date()).toLocaleString('default', { month: 'long' })}</div>
+                        <div className="flex flex-col h-[35%] w-full mt-1 items-center m-0 justify-center rounded-b-lg bg-[#2c2727]">
+                            <span className="flex text-white text-[14px] items-center  justify-center font-bold">Total Requests</span>
+                            <span className="flex text-white text-[22px] items-center  justify-center font-bold">{(new Date()).toLocaleString('default', { month: 'long' })}</span>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center gap-1 px-4">
-                        <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-1">
-                            <span className="flex text-ControllerPrim  items-center justify-center text-[16px] font-bold">Read Requests</span>
-                            <div>{monthlyRead}</div>
-                            <img className="flex " src="/controller/1510.png" alt="Analysis"/>
+                    <div className="flex flex-col items-center justify-center gap-1 px-4 ">
+                        <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
+                            <span className="flex text-ControllerPrim font-mono items-center justify-center text-[20px] font-bold">Read Requests</span>    
+                                
+                                <PieChart
+                                
+                                    colors={[ '#9c9c9c','#4ca0d8']}
+                                    series={[
+                                            {
+                                                data: [
+                                                    { id: 0, value:monthlyNotRead.length},
+                                                    { id: 1, value:monthlyRead.length},
+                                                  ],
+                                            
+                                                  outerRadius: 50,
+                                                  innerRadius:40,
+                                                  paddingAngle: 1,
+                                                  cornerRadius: 5,
+                                                  startAngle: 0,
+                                                  endAngle: 360,
+                                                  cx: 45,
+                                                  cy: 35,
+                                                },
+                                                
+                                        
+                                              ]}
+                                              width={100}
+                                              height={100}
+                                              
+                                />  
                         </div>
                         <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
                             <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>
-                            <img className="flex " src="/controller/1300.png" alt="Analysis"/>
+                            <img className="flex " src="/controller/Circle1.png" alt="Analysis"/>
                         </div>
                     </div>
+                    
                 </div>
-                <div className="flex flex-row items-center justify-center w-[95%] pt-3 px-4 border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
-                    <div className="flex flex-col text-wrap w-[60%] justify-center">
+                <div className="flex flex-row items-center justify-center pt-1 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
+                    <div className="flex flex-col m- text-wrap w-[60%] justify-center">
                         <span className="flex text-black text-[1.5rem] font-bold">Requests by Disaster Type</span>
-                        <span className="flex text-[15px] text-[#c43e3e]">All confirmed requests are categorized by disaster type</span>
+                        <span className="flex text-[15px] text-[#3f3838]">All confirmed requests are categorized by disaster type</span>
                     </div>
-                    <div className="flex items-center justify-center w-[20%] px-1">
-                        <img src="/controller/Group2.png"/>
+                    <div className="flex items-center justify-center w-[100%] h-[100%] px-1">
+                        <PieChart
+                                    
+                                    colors={[ 'purple','red', 'green', 'blue','yellow']}
+                                    series={[
+                                            {
+                                                data: [
+                                                    { id: 0, value:monthlyflood.length, label: 'Flood' },
+                                                    { id: 1, value:monthlyTsunami.length,label: 'Tsunami'},
+                                                    { id: 2, value:monthlyFire.length,label: 'Fire'},
+                                                    { id: 3, value:monthlyWind.length, label: 'Extreme Wind'},
+                                                    { id: 4, value:monthlyOther.length, label: 'Other'},
+                                                ],
+                                            
+                                                outerRadius: 60,
+                                                innerRadius:50,
+                                                paddingAngle: 1,
+                                                cornerRadius: 5,
+                                                startAngle: 0,
+                                                endAngle: 360,
+                                                cx:60,
+                                                cy:100,
+                                                
+                                                },
+                                            ]}
+                                            width={300}
+                                            height={200}
+                                            
+                                /> 
                     </div>
-                </div>
-                <div className="grid grid-cols-2 items-center justify-ceter mb-5 py-2 px-5 w-[95%] rounded-md border-b-[5px]  border-[gray] shadow-xl ">
-                    {ColorItem({d_type:"Flood Type",color:"#c43e3e",margin:"40px"})}
-                    {ColorItem({d_type:"Extreme wind",color:"#7E1199",margin:"20px"})}
-                    {ColorItem({d_type:"Drought Type",color:"#F4771D",margin:"25px"})}
-                    {ColorItem({d_type:"Tsunami Type",color:"#1C22B6",margin:"20px"})}
-                    {ColorItem({d_type:"Earthquake Type",color:"#0A8D2E",margin:"7px"})}
-                    {ColorItem({d_type:"Wildfire Type",color:"#E7A526",margin:"22px"})}
-                </div>
-
+                </div>  
             </div>
-
         </div>
     )
 }
+
+RequestsDetails.propTypes = {
+    all: PropTypes.number.isRequired,
+    flood: PropTypes.array.isRequired, // Ensure 'flood' is an array
+    tsunami: PropTypes.number.isRequired,
+    fire: PropTypes.number.isRequired,
+    wind: PropTypes.number.isRequired,
+    other: PropTypes.number.isRequired,
+    today: PropTypes.number.isRequired,
+    monthly: PropTypes.number.isRequired,
+    todayRead: PropTypes.number.isRequired,
+    monthlyRead: PropTypes.number.isRequired,
+    allRead: PropTypes.number.isRequired
+  };

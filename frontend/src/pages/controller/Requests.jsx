@@ -98,8 +98,8 @@ export const Requests = () =>{
             const today = requests.filter(request => (request.requestDate).split(' ')[2] === (new Date()).toDateString().split(' ')[2]);
             const monthly = requests.filter(request =>  (request.requestDate).split(' ')[1] === (new Date()).toDateString().split(' ')[1]);
             const allRead = requests.filter(request => request.read === true );
-            const todayRead = requests.filter(request => request.read === true && (request.requestDate).split(' ')[2] === "15");
-            const monthlyRead = requests.filter(request => request.read === true && (request.requestDate).split(' ')[1] === "Mar" );
+            const todayRead = requests.filter(request => request.read === true && (request.requestDate).split(' ')[2] === (new Date()).toDateString().split(' ')[2]);
+            const monthlyRead = requests.filter(request => request.read === true && (request.requestDate).split(' ')[1] === (new Date()).toDateString().split(' ')[1]);
             //setFilteredRequests.verifiedRequests(verifiedRequests);
             setFilteredCounts({
                 all:requests.length,
@@ -189,13 +189,18 @@ export const Requests = () =>{
                     <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-ControllerPrim">Details on Requests</h1>
                     <div className="flex justify-center items-center w-full h-full flex-wrap">
                         <RequestsDetails 
-                            flood={filteredCounts.flood}
-                            tsunami={filteredCounts.tsunami}
-                            all={filteredCounts.all}
-                            today={filteredCounts.today}
-                            monthly={filteredCounts.monthly}
-                            todayRead={filteredCounts.todayRead}
-                            monthlyRead={filteredCounts.monthlyRead}
+                            flood={filteredRequests.floodRequests}
+                            tsunami={filteredRequests.tsunamiRequests}
+                            fire={filteredRequests.fireRequests}
+                            wind={filteredRequests.extremeWindRequests}
+                            other={filteredRequests.otherRequests}
+                            all={filteredRequests.allRequests}
+                            today={filteredRequests.todayRequests}
+                            monthly={filteredRequests.monthlyRequests}
+                            todayRead={filteredRequests.todayReadRequests}
+                            monthlyRead={filteredRequests.monthlyReadRequests}
+                            allRead={filteredRequests.allReadRequests}
+                           
                         />
                     </div>
                 </div>
@@ -232,12 +237,7 @@ export const Requests = () =>{
                                 <Tag className="w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("read")}>Read</Tag>
                             </div>
                             <div className="max-h-[500px] overflow-auto mx-10">
-                                <div>
-                                    {filteredCounts.flood}
-                                    {filteredCounts.tsunami}
-                                    {filteredCounts.fire}
-                                    {filteredCounts.read}
-                                </div>    
+                                
                                 {Array.isArray(showRequests) &&
                                         showRequests.map((request) => (
                                     <div 

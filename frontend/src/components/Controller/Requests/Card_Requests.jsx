@@ -14,9 +14,9 @@ export const Card_Requests = ({d_type,verification,time,date,location, affectedP
             <div className='flex flex-row relative text-center justify-center items-center  shadow-2xl w-full h-full m-1'>
                 <div className='flex relative justify-center items-center h-[80%] w-[50%] flex-row'>
                     <img src='/controller/time.png' alt='time' className='w-5 h-5 ml-5 mx-2'/>
-                    <div className='flex relative w-full justify-center items-center'>
-                        {time && <text className="w-full h-full  text-[black] text-[0.8rem]  mx-2">{time}</text>}
-                    </div>
+                        <div className='flex relative w-full justify-center items-center'>
+                            {time && <text className="w-full h-full  text-[black] text-[0.8rem]  mx-2">{time}</text>}
+                        </div>
                     <text>|</text>
                 </div>
                 <div className='flex relative justify-center items-center w-[50%] h-[80%] flex-row'>
