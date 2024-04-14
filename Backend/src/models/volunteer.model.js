@@ -12,7 +12,8 @@ export const VolunteerSchema = new Schema(
         skills: {type: [String], default: []},
         experience: {type: String, default: "None"},
         motivation: {type: String, default: "None"},
-        createdDate: {type: String, required: true}
+        createdDate: {type: String, required: true},
+        status: {type: String, default: "Pending"}
     },
     {
         timestamps: true,
