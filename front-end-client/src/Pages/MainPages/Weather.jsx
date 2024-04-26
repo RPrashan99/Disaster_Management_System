@@ -1,8 +1,11 @@
 import React,{useEffect,useState} from 'react'
+
 import axios from 'axios'
+
+
 const API_endpoint= `https://api.openweathermap.org/data/2.5/weather?`
 // const API_endpoint= `https://api.openweathermap.org/data/3.0/onecall?`
-const API_KEY= `a6eef03c3b56485b065c2e625dc5d0c1`
+const API_KEY = process.env.API_KEY
 
 const Weather = () => {
   const [latitude, setLatitude] = useState('')
