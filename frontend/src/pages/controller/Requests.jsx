@@ -4,12 +4,13 @@ import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { RequestsDetails } from "../../components/Controller/Requests/RequestsDetails";
 import { Footer } from "../../components/Controller/Footer"
 import { Card_Requests } from "../../components/Controller/Requests/Card_Requests";
-import { BarChart } from '@mui/x-charts/BarChart';
 import { getRequests } from "../../services/requestService";
 // import {  parseISO } from 'date-fns';
 import { WindowComponent } from "../../Windows/RequestWindow";
 import { Tag, message } from "antd";
 import axios from "axios";
+import {BarSlideShow} from "../../components/Controller/Requests/BarSlideShow";
+import { FaXmark, FaBars } from "react-icons/fa6";
 
 const intialState = { 
     requests: [],
@@ -29,9 +30,6 @@ const intialState = {
                 return state;
         }
     };
-
-
-
 export const Requests = () =>{
 
     const [state,dispatch] = useReducer(reducer, intialState);
@@ -69,7 +67,6 @@ export const Requests = () =>{
           monthlyRead:0
         });
         const disasters = ["flood", "tsunami","fire", "wind", "landslide"];
-
     useEffect(() => {
     
         const loadRequests = getRequests();
@@ -179,14 +176,17 @@ export const Requests = () =>{
             return [];
         }
     }
-    
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
     return (
         <div>
             <LanguageBar/>
             <HeaderBar/>
-                <div className="flex flex-wrap gap-0 items-center relative bg-[#dbdbdb] justify-center w-full h-full">
-                    <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-ControllerPrim">Details on Requests</h1>
+                <div className="flex flex-wrap gap-0 items-center relative bg-[#383838] justify-center w-full h-full">
+                    <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-[white]">Details on Requests</h1>
                     <div className="flex justify-center items-center w-full h-full flex-wrap">
                         <RequestsDetails 
                             flood={filteredRequests.floodRequests}
@@ -222,56 +222,92 @@ export const Requests = () =>{
                             </div>
                         </div>
                         ) : (
-                         <div >
-                            <div className="grid grid-cols-11 lg:grid-cols-11 md:grid-cols-5 sm:grid-cols-2 flex-row justify-center items-center my-3 mx-10"> 
-                                <Tag className=" w-30 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer" onClick={() => handleTag("all")} >All </Tag>  
-                                <Tag className=" w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer" onClick={() => handleTag("flood")} >Flood </Tag>
-                                <Tag className=" w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[#ffffff] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("tsunami")} >Tsunami</Tag>
-                                <Tag className=" w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("extreme wind")}>Extreme Wind</Tag>
-                                <Tag className=" w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("fire")}>Fire</Tag>
-                                <Tag className=" w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("landslide")}>Landslide</Tag>
-                                <Tag className=" w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("other")}>Other</Tag>
-                                <Tag className="w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("today")}>Today</Tag>
-                                <Tag className="w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("monthly")}>Monthly</Tag>
-                                <Tag className="w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("verified")}>Verified</Tag>
-                                <Tag className="w-30 h-8 bg-[#919192] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("read")}>Read</Tag>
-                            </div>
-                            <div className="max-h-[500px] overflow-auto mx-10">
-                                
-                                {Array.isArray(showRequests) &&
-                                        showRequests.map((request) => (
-                                    <div 
-                                    key={request.requestID}
-                                    className="flex justify-center items-center bg-[white] w-full flex-wrap cursor-pointer"
-                                    onClick={() => handleCardClick(request)}
-                                    >
-                                    <Card_Requests
-                                    d_type={request.disasterType}
-                                    verification={"verified"}
-                                    time={request.requestTime.split(' ')[0]}
-                                    date={request.requestDate}
-                                    location={request.disasterLocation}
-                                    affectedPeople={request.affectedCount}
-                                    />
+                            <div >
+                                <div>
+                                    <div > 
+                                        < div className="md:flex hidden flex-row justify-center items-center my-3 mx-10" > 
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer" onClick={() => handleTag("all")} >All </Tag>  
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer" onClick={() => handleTag("flood")} >Flood </Tag>
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[#ffffff] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("tsunami")} >Tsunami</Tag>
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("extreme wind")}>Extreme Wind</Tag>
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("fire")}>Fire</Tag>
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("landslide")}>Landslide</Tag>
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("other")}>Other</Tag>
+                                            <Tag className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("today")}>Today</Tag>
+                                            <Tag className="w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("monthly")}>Monthly</Tag>
+                                            <Tag className="w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("verified")}>Verified</Tag>
+                                            <Tag className="w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer" onClick={() => handleTag("read")}>Read</Tag>
+                                        </div>
+                                        <div className="flex md:hidden w-full items-center justify-end  ">
+                                                <button
+                                                    onClick={toggleMenu}
+                                                    className="text-black focus:outline-none justify-end m-4 focus:test-gray-500  "
+                                                >
+                                                    {isMenuOpen ? (
+                                                    <FaXmark className="h-6 w-6 " />
+        
+                                                    ) : (
+                                                    <FaBars className="h-6 w-6 " />
+                                                    )}
+                                                </button>
+                                        </div>
+                                        
+                                    </div>  
+                                    <div
+                                        className={`absolute space-y-2 z-30  right-0 mt-10 w-[200px] mb-10 rounded-l-lg text-center justify-end items-center py-3 transition-all duration-500000 ease-in-out  bg-primary bg-opacity-10  shadow-lg border-[4px] border-[white] border-opacity-50 ${
+                                        isMenuOpen ? " h-auto pl-10 w-[200px] block text-center justify-center items-center hover:transition-transform hovet:text-opacity-100  hover:duration-50000 hover:ease-in-out text-opacity-0 text-[#c2c2c2] hover:text-opacity-100 hover:bg-ControllerPrim hover:border-opacity-100 mb-10" : "hidden"
+                                        }`}>
+                    
+                                    <ul className=" flex flex-col gap-1 relative justify-center w-full !mt-[8.00px] !text-[14px] cursor-pointer  ![font-family:'Inter',Helvetica]  items-start mb-5 ">
+                                            <li><a className="flex relative transform  transition-transform w-full hover:font-bold bg-transparent  hover:text-[white]" onClick={() => handleTag("all")} > All </a></li>
+                                            <li><a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent  hover:text-[white] hover:bg-transparent " onClick={() => handleTag("flood")}> Flood </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent  hover:text-[white] hover:bg-transparen transition " onClick={() => handleTag("tsunami")}> Tsunami </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-[white]  hover:bg-transparent transition" onClick={() => handleTag("extreme wind")}> Extreme Wind </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("fire")}> Fire </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("landslide")}> Landslide </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("other")}> other </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition "  onClick={() => handleTag("monthly")}> Monthly </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent hover:text-[white] transition " onClick={() => handleTag("verified")}> Verified </a></li>
+                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent hover:text-[white] transition " onClick={() => handleTag("read")}> Read </a></li>
+                                        </ul>
+                                    </div>                                    
+                            </div>                              
+                                <div className="max-h-[500px] overflow-auto mx-10 ">
+                                    <table className="flex w-[100%] lg:visible invisible">
+                                        <tr className="flex w-full sm:no relative text-[1.2rem] text-[white]  bg-ControllerPrim" >
+                                            <th className="flex relative ml-5 w-[22%] justify-center items-center ">Disaster</th>
+                                            <th className="flex w-[14%] justify-center items-center ">Verification</th>
+                                            <th className="flex  w-[17%] justify-center items-center ">Time</th>
+                                            <th className="flex  w-[17%] justify-center items-center ">Location</th>
+                                            <th className="flex  w-[18%] justify-center items-center ">Date</th>
+                                            <th className="flex  w-[17%] justify-center items-center ">Affected Count</th>
+                                        </tr>
+                                    </table>
+                                    
+                                    {Array.isArray(showRequests) &&
+                                            showRequests.map((request) => (
+                                        <div 
+                                        key={request.requestID}
+                                        className="flex justify-center items-center bg-[white] w-full flex-wrap cursor-pointer"
+                                        onClick={() => handleCardClick(request)}
+                                        >
+                                        <Card_Requests
+                                        d_type={request.disasterType}
+                                        verification={"verified"}
+                                        time={request.requestTime.split(' ')[0]}
+                                        date={request.requestDate}
+                                        location={request.disasterLocation}
+                                        affectedPeople={request.affectedCount}
+                                        />
+                                    </div>
+                                    ))}
                                 </div>
-                                ))}
                             </div>
-                        </div>
                         )}
                     </div>
                 </div>
-                <div className="flex relative bg-ControllerPrim w-full justify-center items-center h-[20%] mt-10">
-                <BarChart
-                    series={[
-                        { data: [3, 4, 1, 6, 5], stack: 'A', label: 'Series A1' },
-                        { data: [4, 3, 1, 5, 8], stack: 'A', label: 'Series A2' },
-                        { data: [4, 2, 5, 4, 1], stack: 'B', label: 'Series B1' },
-                        { data: [2, 8, 1, 3, 1], stack: 'B', label: 'Series B2' },
-                        { data: [10, 6, 5, 8, 9], label: 'Series C1' },
-                    ]}
-                    width={600}
-                    height={350}
-                    />
+                <div className="flex relative bg-[#616161] w-100% h-[20%] mt-10">
+                    <BarSlideShow req={requests}/>
                 </div>
             <Footer/>
         </div>

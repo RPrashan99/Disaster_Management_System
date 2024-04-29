@@ -82,19 +82,18 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
         <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[80%] rounded-md bg-[green] justify-center mx-10 mb-10 space-x-2 h-full">
             <div className="flex flex-col bg-white rounded-lg border w-full h-full items-center my-1">
                 <span className="flex text-ControllerPrim text-[22px] items-center justify-center font-bold">Daily Forcast</span>
-                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mb-0 rounded w-full">
-                    <div className="flex flex-col items-center justify-center gap-1 px-4 ">
-                        <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
-                            <span className="flex text-ControllerPrim font-mono items-center justify-center text-[20px] font-bold">Read Requests</span>    
-                                
+                <div className="grid grid-cols-1 lg:grid-cols-2 mb-0 rounded w-full">
+                    <div className="lg:col-start-1 lg:row-start-1 order-2 lg:order-none items-center justify-center gap-1 px-4 ">
+                        <div className="flex w-[100%] gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
+                            <span className="flex text-ControllerPrim font-sarif items-center justify-center text-[20px] font-bold">Read Requests</span>    
                                 <PieChart
                                 
-                                    colors={[ '#9c9c9c','#4ca0d8']}
+                                    colors={['#4172cc', '#bbbaba']}
                                     series={[
                                             {
                                                 data: [
-                                                    { id: 0, value:flood.length},
-                                                    { id: 1, value:fire.length},
+                                                    { id: 0, value:flood.length, label: `${flood.length}`},
+                                                    { id: 1, value:flood.length},
                                                   ],
                                             
                                                   outerRadius: 50,
@@ -104,23 +103,42 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                                                   startAngle: 0,
                                                   endAngle: 360,
                                                   cx: 45,
-                                                  cy: 35,
+                                                  cy: 45,
+                                                  
                                                 },
+                                                
                                                 
                                         
                                               ]}
                                               width={100}
                                               height={100}
+                                              segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+                                              segmentsShift={(index) => (index === 0 ? 2 : 0)}
+                                              slotProps={{
+                                                legend: {
+                                                  direction: 'row',
+                                                  position: { vertical: 'middle', horizontal: 'middle' },
+                                                  padding: 0,
+                                                  labelStyle: {
+                                                    fontSize: 35,
+                                                    fill: 'black',
+                                                    fontWeight: 'bolder'
+                                                  },
+                                                  itemMarkWidth: 0,
+                                                  itemMarkHeight: 0,
+                                                },                                    
+                                    }}
+                                           
                                               
-                                />  
+                                /> 
                         </div>
-                        <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
+                        <div className="flex w-[100%] relative gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
                             <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>
-                            <img className="flex " src="/controller/Circle1.png" alt="Analysis"/>
+                            <img className=" flex" src="/controller/Circle1.png" alt="Analysis"/>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center mx-5 mb-3 rounded-md shadow-lg ">
-                        <div className="flex justify-center h-[65%] w-full bg-[#bcbcfa] ">
+                    <div className="lg:col-start-2 lg:row-start-1 order-1 lg:order-none justify-center mx-5 mb-3 rounded-md shadow-lg ">
+                        <div className="flex justify-center h-[65%] w-full bg-ControllerPrim ">
                             {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
                             <div className=" w-28 h-28 bg-[#cf3535] m-5 border-[8px] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">{today.length}</div>
                         </div>
@@ -130,10 +148,10 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row items-center justify-center pt-1 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
-                    <div className="flex flex-col m- text-wrap w-[60%] justify-center">
-                        <span className="flex text-black text-[1.5rem] font-bold">Requests by Disaster Type{monthlyNotRead.length}</span>
-                        <span className="flex text-[15px] text-[#3f3838]">All confirmed requests are categorized by disaster type{monthlyRead.length}{monthly.length}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-center gap-3 pt-1 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
+                    <div className="flex flex-col w-[100%] justify-center items-center">
+                        <span className=" text-black text-[1.5rem] font-bold justify-center items-center">Requests by Disaster Type</span>
+                        <span className="text-[15px] text-[#3f3838] justify-center items-center ">All confirmed requests are categorized by disaster type</span>
                     </div>
                     <div className="flex items-center justify-center w-[100%] h-[100%] px-1">
                         <PieChart
@@ -170,9 +188,9 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
             </div>
             <div className="flex flex-col bg-white rounded-lg border w-full h-full items-center my-1">
                 <span className="flex text-ControllerPrim text-[22px] items-center justify-center font-bold">Monthly Forcast</span>
-                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mb-0 rounded w-full">
-                    <div className="flex flex-col justify-center mx-5 mb-3 rounded-md shadow-lg ">
-                        <div className="flex justify-center h-[65%] w-full bg-[#f8f892] ">
+                <div className="grid grid-cols-1 lg:grid-cols-2 mb-0 rounded w-full">
+                    <div className="lg:col-start-1 lg:row-start-1 order-1 lg:order-none justify-center mx-5 mb-3 rounded-md shadow-lg ">
+                        <div className="flex justify-center h-[65%] w-full bg-secondary ">
                             {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
                             <div className=" w-28 h-28 bg-[#cf3535] m-5 border-[8px] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">{monthly.length}</div>
                         </div>
@@ -181,18 +199,18 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                             <span className="flex text-white text-[22px] items-center  justify-center font-bold">{(new Date()).toLocaleString('default', { month: 'long' })}</span>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center gap-1 px-4 ">
-                        <div className="flex gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
-                            <span className="flex text-ControllerPrim font-mono items-center justify-center text-[20px] font-bold">Read Requests</span>    
+                    <div className="lg:col-start-2 lg:row-start-1 order-2 lg:order-none items-center justify-center gap-1 px-4 ">
+                        <div className="flex w-[100%] gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
+                            <span className="flex text-ControllerPrim font-sarif items-center justify-center text-[20px] font-bold">Read Requests</span>    
                                 
                                 <PieChart
                                 
-                                    colors={[ '#9c9c9c','#4ca0d8']}
+                                    colors={[  '#bbbaba', '#4172cc']}
                                     series={[
                                             {
                                                 data: [
                                                     { id: 0, value:monthlyNotRead.length},
-                                                    { id: 1, value:monthlyRead.length},
+                                                    { id: 1, value:monthlyRead.length, label: `${monthlyRead.length}`},
                                                   ],
                                             
                                                   outerRadius: 50,
@@ -202,25 +220,41 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                                                   startAngle: 0,
                                                   endAngle: 360,
                                                   cx: 45,
-                                                  cy: 35,
+                                                  cy: 45,
                                                 },
                                                 
                                         
                                               ]}
                                               width={100}
                                               height={100}
+                                              segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+                                              segmentsShift={(index) => (index === 0 ? 2 : 0)}
+                                              slotProps={{
+                                                legend: {
+                                                  direction: 'row',
+                                                  position: { vertical: 'middle', horizontal: 'middle' },
+                                                  padding: 0,
+                                                  labelStyle: {
+                                                    fontSize: 35,
+                                                    fill: 'black',
+                                                    fontWeight: 'bolder'
+                                                  },
+                                                  itemMarkWidth: 0,
+                                                  itemMarkHeight: 0,
+                                                },    
+                                              }}    
                                               
                                 />  
                         </div>
-                        <div className="flex gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
+                        <div className="flex w-[100%] gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
                             <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>
                             <img className="flex " src="/controller/Circle1.png" alt="Analysis"/>
                         </div>
                     </div>
                     
                 </div>
-                <div className="flex flex-row items-center justify-center pt-1 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
-                    <div className="flex flex-col m- text-wrap w-[60%] justify-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-3 justify-center pt-1 px-4 w-[95%] border-b-[5px] border-[#6d6d6d] shadow-md rounded-lg">
+                    <div className="flex flex-col m- text-wrap w-[100%] justify-center">
                         <span className="flex text-black text-[1.5rem] font-bold">Requests by Disaster Type</span>
                         <span className="flex text-[15px] text-[#3f3838]">All confirmed requests are categorized by disaster type</span>
                     </div>
