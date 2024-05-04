@@ -1,13 +1,13 @@
 import React from 'react'
-import { GrFormPrevious } from "react-icons/gr";
+import { GrFormNext } from "react-icons/gr";
 
-export const BackButton = ({header, onClick}) => {
+export const NextButton = ({header, onClick}) => {
   return (
     <div>
         <a onClick={onClick}>
           <button className="bg-ControllerPrim px-4 py-2 rounded-lg text-white font-semibold ">
             <div className="flex gap-2 items-center ">
-              <GrFormPrevious className="w-6 h-6" />
+              <GrFormNext className="w-6 h-6" />
               <h1>{header}</h1>
             </div>
           </button>

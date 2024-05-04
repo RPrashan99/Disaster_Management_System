@@ -173,12 +173,12 @@ export const NewsPreview = () =>{
                                 <p>{selectedNews.createdDate}</p>
                             </div>
 
-                            <div className="mt-5">
-                                {selectedNews.image && (
+                            <div className="mt-5 w-full h-40">
+                                {/* {selectedNews.image && (
                                     <img src={`http://localhost:5000/uploads/${selectedNews.image}`} alt="News" />
-                                )}
-                                {selectedNews.image} 
-                                <img src={`http://localhost:5000/uploads/${selectedNews.image}`} alt="" className="object-cover w-full h-full shadow-2xl" />
+                                )} */}
+                                {/* {selectedNews.image}  */}
+                                <img src="/controller/NewsItem4.jpg" alt="" className="object-cover w-full h-full shadow-2xl" />
                             </div>
 
                             <div className="mt-5">
@@ -238,16 +238,17 @@ export const NewsPreview = () =>{
                                 <React.Fragment key={i}>
                                     <div className="focus:bg-opacity-50"  onClick={() => handleCardClick(news)}>
                                         <div className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2">
-                                            <div className="w-full   py-0 h-full">
+                                            <div className=" w-full   py-0 h-full">
                                                 {/* {news.image} */}
                                                 {/* <img
                                                     src={`http://localhost:5000/upload/${news.image}`}
                                                     alt=""
                                                     className="object-cover w-full h-full"
                                                 /> */}
-                                                {news.image && (
+                                                <img className="w-full h-full" src="/controller/NewsItem3.jpg" alt=" "/>
+                                                {/* {news.image && (
                                                     <img src={`../../../../../Backend/Uploads/${news.image}`} alt="News" />
-                                                )}
+                                                )} */}
                                             </div>
                                         </div>
                                         <div className="mr-2 py-2">

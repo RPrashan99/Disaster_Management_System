@@ -19,25 +19,25 @@ export const HeaderBar = () => {
                     <MainMenuBar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu}/>       
                     {/* Items for mobile nav links */}
                     <div
-                        className={`space-y-2 fixed z-50 right-0 mt-10 w-[200px] mb-10 rounded-l-lg text-center justify-end items-center py-3 bg-[#e4e2e2] shadow-2xl border-[4px] border-secondary ${
-                        isMenuOpen ? " h-[25%] pl-10 w-[200px] block text-center justify-center items-cente hover:bg-[#ffffff] mb-10" : "hidden"
+                        className={`space-y-2 fixed z-50 right-0 mt-10 w-[200px] mb-10 rounded-l-lg text-center justify-end items-center py-3 transition-all duration-500000 ease-in-out  bg-secondary bg-opacity-10  shadow-lg border-[4px] border-[white] border-opacity-50 ${
+                        isMenuOpen ? " h-auto pl-10 w-[200px] block text-center justify-center items-cente hover:transition-transform  hover:duration-50000 hover:ease-in-out text-opacity-0 hover:text-opacity-100 text-[white] hover:bg-secondary hover:border-opacity-100 mb-10" : "hidden"
                         }`}>
       
-                        <ul className=" flex flex-col gap-1 relative justify-center w-full !mt-[8.00px] !text-[#525151] !text-[14px]  ![font-family:'Inter',Helvetica]  items-start mb-5 ">
+                        <ul className=" flex flex-col gap-1 relative justify-center w-full !mt-[8.00px] !text-[14px]  ![font-family:'Inter',Helvetica]  items-start mb-5 ">
                             <li>
-                                <a className="flex relative transform w-full hover:font-bold bg-transparent text-[#474747]  hover:text-black" href="/"> Home </a>
+                                <a className="flex relative transform w-full hover:font-bold bg-transparent  hover:text-ControllerPrim" href="/"> Home </a>
                             </li>
                             <li>
-                                <a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent text-[#474747]  hover:text-black hover:bg-transparent " href="#"> Disaster Status </a>
+                                <a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent  hover:text-ControllerPrim hover:bg-transparent " href="#"> Disaster Status </a>
                             </li>
                             <li>
-                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent text-[#474747]  hover:text-black hover:bg-transparen transition " href="#"> Requests </a>
+                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-ControllerPrim hover:bg-transparen transition " href="#"> Requests </a>
                             </li>
                             <li>
-                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent text-[#474747]  hover:text-black  hover:bg-transparent transition" href="#"> Disaster Map </a>
+                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-ControllerPrim over:text-black  hover:bg-transparent transition" href="#"> Disaster Map </a>
                             </li>
                             <li>
-                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent text-[#474747]  hover:text-black transition " href="#"> User Control </a>
+                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-ControllerPrim   transition " href="#"> User Control </a>
                             </li>
                         </ul>
                     </div> 
