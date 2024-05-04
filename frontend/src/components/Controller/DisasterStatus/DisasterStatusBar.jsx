@@ -101,7 +101,7 @@ export const DisasterStatusBar = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col space-y-5 py-5 border-s-2 h-full">
+                <div className="flex flex-col space-y-5 p-5 pb-0 border-s-2 h-full justify-around">
                     <div className="flex flex-row justify-center">
                         <div className="flex flex-col justify-center items-center me-5">
                             <span className="flex text-black text-[40px] font-bold">{reports.length}</span>
@@ -116,7 +116,7 @@ export const DisasterStatusBar = (props) => {
                             <span className="flex text-barContentLow text-[15px] text-left">{newReportCount} new Reports added within 7 days</span>
                         </div>
                     }
-                    <span className="flex text-grey justify-end pe-5 pt-4">Last updated 1min ago</span>
+                    <span className="flex text-grey pe-5 pt-4 border">Last updated 1min ago</span>
                 </div>
             </div>
             <div className="flex flex-row bg-white rounded border w-[600px] h-[250px]">

@@ -5,6 +5,7 @@ import { sample_user } from "../data.js";
 import { sample_news } from "../data.js";
 import bcrypt from 'bcrypt';
 import { NewsModel } from "../models/news.model.js";
+import { AlertModel } from "../models/alert.model.js";
 
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 
@@ -29,7 +30,7 @@ export const dbconnect = async () => {
     }
 };
 
-
+//real time users
 async function watchUsers(){
     
     const changeStream = UserModel.watch();
@@ -39,6 +40,21 @@ async function watchUsers(){
 
     const userList = await UserModel.find();
     console.log('Updated user list:', userList); 
+    });
+
+    await new Promise(()=>{});
+}
+
+//real time alerts
+async function watchAlerts(){
+    
+    const changeStream = AlertModel.watch();
+
+    changeStream.on('change', async (change) => {
+        console.log(change);
+
+    const alerts = await AlertModel.find();
+    console.log('Alerts :', alerts); 
     });
 
     await new Promise(()=>{});
