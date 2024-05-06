@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import GoogleImg from "../assets/google.png";
 import axios from "axios";
 import { message } from "antd";
+import { login } from "../services/loginService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,13 +13,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const result = await login(email, password);
       
       message.success("Login success");
        
@@ -27,10 +22,6 @@ const Login = () => {
       message.error("Login failed" + error);
     }
   };
-
- 
-    
-  
 
   return (
     <div className="container mx-auto p-10">
