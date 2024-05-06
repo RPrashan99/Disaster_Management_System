@@ -17,6 +17,7 @@ import { EditReport } from './components/Controller/DisasterStatus/DisasterEditR
 import ContactInfoAdder from './pages/controller/ContactInfoAdder'
 
 function App() {
+
   return (
     
     <BrowserRouter>

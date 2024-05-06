@@ -83,26 +83,36 @@ router.post('/setAccess', handler(async (req, res) => {
 router.post('/searchUser', handler(async(req, res) => {
 
     const {id} = req.body;
-    const user = await UserModel.findOne({id, accessLevel: 1});
-    if(user){
-        res.send(user);
-        return;
+    try{
+        const user = await UserModel.findOne({id, accessLevel: 1});
+        if(user){
+            res.send(user);
+            return;
+        } else {
+            res.send('');
+            return;
+        }
+    } catch(error){
+        res.status(BAD_REQUEST).send("User id not found");
     }
-
-    res.status(BAD_REQUEST).send("User id not found");
 
 }));
 
 router.post('/searchAdmin', handler(async(req, res) => {
 
     const {id} = req.body;
-    const user = await UserModel.findOne({id, accessLevel: {$gt: 1}});
-    if(user){
-        res.send(user);
-        return;
+    try{
+        const user = await UserModel.findOne({id, accessLevel: {$gt: 1}});
+        if(user){
+            res.send(user);
+            return;
+        } else {
+            res.send('');
+            return;
+        }
+    } catch(error){
+        res.status(BAD_REQUEST).send("User id not found");
     }
-
-    res.status(BAD_REQUEST).send("User id not found");
 
 }));
 

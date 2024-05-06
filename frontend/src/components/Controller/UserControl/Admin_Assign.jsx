@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+//import Snackbar from '@mui/material/Snackbar';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -15,7 +16,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const DetailsForm = ({ initialDetails }) => {
   const [details, setDetails] = useState(initialDetails || { name: '', department: '',email: '', password: '', address: ''});
   const [openAlert, setOpenAlert] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
   const [reset, setReset] = useState(false);
+
+  const snackClose = () =>{
+    setOpenSnack(false);
+  }
 
   const handleOpen = () => {
     setOpenAlert(true);
@@ -97,6 +103,12 @@ const DetailsForm = ({ initialDetails }) => {
                 <Button onClick={handleSubmit}>Yes</Button>
               </DialogActions>
             </Dialog>
+
+            {/* <Snackbar
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+              open={openSnack}
+              onClose={snackClose}
+              message={message}/> */}
     </form>
     </div>
     

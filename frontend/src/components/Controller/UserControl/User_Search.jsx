@@ -32,7 +32,6 @@ export const UserSearch = () => {
 
     const [searchId, setSearchId] = useState('');
     const [userData, setUserData] = useState('');
-    const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState('');
     const [openSnack, setOpenSnack] = useState(false);
     const navigate = useNavigate();
@@ -44,24 +43,25 @@ export const UserSearch = () => {
     const search = async () => {
 
         if(searchId ==""){
-            setIsError(true);
             setOpenSnack(true);
             setMessage("Enter a user id to search");
         }else{
-            setIsError(false);
+            setOpenSnack(false);
             try {
                 const data = await searchUser(searchId);
                 if(data){
                     console.log("User data", data);
                     setUserData(data);
                 } else {
+                    setOpenSnack(true);
                     setMessage("User id is invalid or not found!");
                 }
                 
             } catch (error) {
                 console.error("Error getting data", error);
                 setOpenSnack(true);
-                setMessage("Error getting data!");
+                setUserData('');
+                setMessage("User id is invalid or not found!");
             }
         }
     };
@@ -82,9 +82,9 @@ export const UserSearch = () => {
                     }>
                         <TextField
                             fullWidth
-                            label={isError ? "Error" : "Enter User ID"}
+                            label={"Enter User ID"}
                             required
-                            error = {isError}
+                            error = {openSnack}
                             variant="outlined"
                             id="validation-outlined-input"
                             value = {searchId}
