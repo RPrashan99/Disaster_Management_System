@@ -11,7 +11,8 @@ export const DisasterRequestSchema = new Schema(
         otherNeeds: {type: String, required: false},
         requestTime: {type: String, required: true},
         requestDate: {type: String, required: true},
-        read: {type: Boolean, default: false}
+        read: {type: Boolean, default: false},
+        verify: {type: Boolean, default: false}
     },
    
     {
