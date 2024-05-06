@@ -37,19 +37,19 @@ export const Requests = () =>{
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [showRequests, setShowRequests] = useState([]);
     const [filteredRequests, setFilteredRequests] = useState({
-        allRequests:"",
-        floodRequests:"",
-        tsunamiRequests: "",
-        fireRequests: "",
-        landslideRequests:"",
-        extremeWindRequests: "",
-        verifiedRequests:"",
-        todayRequests:"",
-        monthlyRequests:"",
-        otherRequests:"",
-        allReadRequests:"",
-        todayReadRequests:"",
-        monthlyReadRequests:""
+        allRequests:[],
+        floodRequests:[],
+        tsunamiRequests: [],
+        fireRequests: [],
+        landslideRequests:[],
+        extremeWindRequests: [],
+        verifiedRequests:[],
+        todayRequests:[],
+        monthlyRequests:[],
+        otherRequests:[],
+        allReadRequests:[],
+        todayReadRequests:[],
+        monthlyReadRequests:[]
       });
         const [filteredCounts, setFilteredCounts] = useState({
           all:0,  
@@ -185,7 +185,7 @@ export const Requests = () =>{
         <div>
             <LanguageBar/>
             <HeaderBar/>
-                <div className="flex flex-wrap gap-0 items-center relative bg-[#383838] justify-center w-full h-full">
+                <div className="flex flex-wrap gap-0 items-center relative bg-gray-400 justify-center w-full h-full">
                     <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-[white]">Details on Requests</h1>
                     <div className="flex justify-center items-center w-full h-full flex-wrap">
                         <RequestsDetails 
@@ -259,29 +259,32 @@ export const Requests = () =>{
                                         }`}>
                     
                                     <ul className=" flex flex-col gap-1 relative justify-center w-full !mt-[8.00px] !text-[14px] cursor-pointer  ![font-family:'Inter',Helvetica]  items-start mb-5 ">
-                                            <li><a className="flex relative transform  transition-transform w-full hover:font-bold bg-transparent  hover:text-[white]" onClick={() => handleTag("all")} > All </a></li>
-                                            <li><a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent  hover:text-[white] hover:bg-transparent " onClick={() => handleTag("flood")}> Flood </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent  hover:text-[white] hover:bg-transparen transition " onClick={() => handleTag("tsunami")}> Tsunami </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-[white]  hover:bg-transparent transition" onClick={() => handleTag("extreme wind")}> Extreme Wind </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("fire")}> Fire </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("landslide")}> Landslide </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("other")}> other </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition "  onClick={() => handleTag("monthly")}> Monthly </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent hover:text-[white] transition " onClick={() => handleTag("verified")}> Verified </a></li>
-                                            <li><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent hover:text-[white] transition " onClick={() => handleTag("read")}> Read </a></li>
+                                            <li key="1"><a className="flex relative transform  transition-transform w-full hover:font-bold bg-transparent  hover:text-[white]" onClick={() => handleTag("all")} > All </a></li>
+                                            <li key="2"><a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent  hover:text-[white] hover:bg-transparent " onClick={() => handleTag("flood")}> Flood </a></li>
+                                            <li key="3"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent  hover:text-[white] hover:bg-transparen transition " onClick={() => handleTag("tsunami")}> Tsunami </a></li>
+                                            <li key="4"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-[white]  hover:bg-transparent transition" onClick={() => handleTag("extreme wind")}> Extreme Wind </a></li>
+                                            <li key="5"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("fire")}> Fire </a></li>
+                                            <li key="6"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("landslide")}> Landslide </a></li>
+                                            <li key="7"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition " onClick={() => handleTag("other")}> other </a></li>
+                                            <li key="8"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-[white] transition "  onClick={() => handleTag("monthly")}> Monthly </a></li>
+                                            <li key="9"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent hover:text-[white] transition " onClick={() => handleTag("verified")}> Verified </a></li>
+                                            <li key="10"><a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent hover:text-[white] transition " onClick={() => handleTag("read")}> Read </a></li>
                                         </ul>
                                     </div>                                    
                             </div>                              
                                 <div className="max-h-[500px] overflow-auto mx-10 ">
                                     <table className="flex w-[100%] lg:visible invisible">
-                                        <tr className="flex w-full sm:no relative text-[1.2rem] text-[white]  bg-ControllerPrim" >
-                                            <th className="flex relative ml-5 w-[22%] justify-center items-center ">Disaster</th>
-                                            <th className="flex w-[14%] justify-center items-center ">Verification</th>
-                                            <th className="flex  w-[17%] justify-center items-center ">Time</th>
-                                            <th className="flex  w-[17%] justify-center items-center ">Location</th>
-                                            <th className="flex  w-[18%] justify-center items-center ">Date</th>
-                                            <th className="flex  w-[17%] justify-center items-center ">Affected Count</th>
-                                        </tr>
+                                        <tbody className="flex w-full sm:no relative text-[1.2rem] text-[white]  bg-ControllerPrim" >
+                                            <tr key="index" className="flex w-full ">
+                                                <th className="flex relative ml-5 w-[22%] justify-center items-center ">Disaster</th>
+                                                <th className="flex w-[14%] justify-center items-center ">Verification</th>
+                                                <th className="flex  w-[17%] justify-center items-center ">Time</th>
+                                                <th className="flex  w-[17%] justify-center items-center ">Location</th>
+                                                <th className="flex  w-[18%] justify-center items-center ">Date</th>
+                                                <th className="flex  w-[17%] justify-center items-center ">Affected Count</th>
+                                            </tr>
+                                        </tbody>
+                                       
                                     </table>
                                     
                                     {Array.isArray(showRequests) &&
@@ -292,12 +295,12 @@ export const Requests = () =>{
                                         onClick={() => handleCardClick(request)}
                                         >
                                         <Card_Requests
-                                        d_type={request.disasterType}
-                                        verification={"verified"}
-                                        time={request.requestTime.split(' ')[0]}
-                                        date={request.requestDate}
-                                        location={request.disasterLocation}
-                                        affectedPeople={request.affectedCount}
+                                        D_type={request.disasterType}
+                                        Verification={"verified"}
+                                        Time={request.requestTime.split(' ')[0]}
+                                        Date={request.requestDate}
+                                        Location={request.disasterLocation}
+                                        AffectedPeople={request.affectedCount}
                                         />
                                     </div>
                                     ))}

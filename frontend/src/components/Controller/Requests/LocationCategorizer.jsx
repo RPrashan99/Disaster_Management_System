@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 function LocationCategorizer({location}) {
 //   const [locationsInSriLanka, setLocationsInSriLanka] = useState([place]);
-  const [categorizedLocations, setCategorizedLocations] = useState([]);
+  const [province, setProvince] = useState(['Unknown']);
 
-  useEffect(() => {
+
     async function getProvince(location) {
-      const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+      const apiKey = 'AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk';
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)},Sri%20Lanka&key=${apiKey}`;
 
       try {
@@ -17,26 +17,26 @@ function LocationCategorizer({location}) {
           const addressComponents = data.results[0].address_components;
           const provinceComponent = addressComponents.find(component => component.types.includes('administrative_area_level_1'));
           if (provinceComponent) {
-            return provinceComponent.long_name;
+            setProvince( provinceComponent.long_name);
+          } else {
+            setProvince('Unknown');
           }
         }
-
-        return 'Unknown';
       } catch (error) {
         console.error('Error fetching province:', error);
         return 'Unknown';
       }
     }
 
-    async function fetchProvince() {
-        const province = await getProvince(location);
-        setCategorizedLocations(province);
-      }
+    // async function fetchProvince() {
+    //     const province = await getProvince(location);
+    //     setCategorizedLocations(province);
+    //   }
 
-    fetchProvince();
-  }, [categorizedLocations]);
+  getProvince(location);
 
-  return null;
+
+  return province;
 }
 
 export default LocationCategorizer;

@@ -6,10 +6,10 @@ import SearchIcon from '@mui/icons-material/Search'
 
 export const SearchBar = () => {
     return(
-        <div className="flex items-start pl-[10px] m-1 px-[10px] lg:justify-center  sm:justify-center md:justify-center lg:items-center md:text-[12px] md:w-[50%] lg:text-[16px] lg:w-[50%] sm:w-[50%] sm:text-[10px]  relative self-stretch w-full  rounded-[30px] border border-solid border-[#00000073]">
-            <div className="inline-flex h-[25px] items-center pl-[3px] pr-[5px] py-0 relative flex-[0_0_auto] mt-[9.00px] mb-[9.00px]">
+        <div className="flex items-start pl-[10px] m-2 px-[10px] lg:justify-center  sm:justify-center bg-white md:justify-center lg:items-center md:text-[12px] lg:text-[16px] sm:text-[10px]  relative self-stretch w-full  rounded-[10px] border border-solid border-[#00000073] ">
+            <div className="inline-flex h-[25px] items-center pl-[3px] pr-[20px] py-0 relative flex-[0_0_auto] mt-[9.00px] mb-[9.00px]">
                 <div className={`items-start relative  w-[30px]`}>
-                    <IconButton type="button" className="p-10 inline-flex h-[25px] items-center pl-5px pr-[5px] py-0 relative flex-[0_0_auto] mt-[9.00px] mb-[9.00px]">
+                    <IconButton type="button" className=" inline-flex h-[25px] items-center pr-[5px] py-0 relative flex-[0_0_auto] mt-[9.00px] mb-[9.00px]">
                         <SearchIcon/>
                     </IconButton>        
                 </div>

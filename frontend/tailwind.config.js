@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       colors:{
-        'ControllerPrim': "#05386B",
-        'ControllerSec': "#18B05C",
+        'ControllerPrim': "#124E70",
+        'ControllerSec': "#2cac4c",
         'primary':"#124E70",
         'secondary':"#DCAA15",
         'grey':"#D9D9D9",

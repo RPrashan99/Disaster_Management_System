@@ -156,7 +156,7 @@ export const NewsPreview = () =>{
 
     return(
         <div>
-        <div className="flex flex-col border-[10px] border-[#b9b9b9] justify-between bg-ControllerPrim py-5 px-5 gap-5">
+        <div className="flex flex-col border-[10px] border-[#b9b9b9] justify-between bg-[#172657] py-5 px-5 gap-5">
             <h1 className="text-[white] font-sans text-[2rem] font-bold">News Preview</h1>
             <div className="flex flex-row gap-5">
                 {/* left Section */}
