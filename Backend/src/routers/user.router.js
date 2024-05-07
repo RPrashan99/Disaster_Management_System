@@ -14,11 +14,13 @@ router.post('/login',handler(async (req,res) => {
     try{  
         const user = await UserModel.findOne({email});
 
-        if (user && (await bcrypt.compare(password, user.password)) && user.accessLevel == 1){
+        if (user && (await bcrypt.compare(password, user.password)) && user.accessLevel == 3){
             res.send(generateTokenResponse(user));
+        }else{
+            res.status(BAD_REQUEST).send("User name or password is incorrect");
         }
     }catch(error){
-        res.status(BAD_REQUEST).send("User name or password is incorrect");
+        res.status(BAD_REQUEST).send("Login failed!");
     }
 }));
 

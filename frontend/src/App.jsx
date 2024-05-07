@@ -21,12 +21,12 @@ function App() {
     
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ControllerHomePage/>} />
-        <Route path="/Login" element={<LoginPage/>} />
+        <Route path="/" element={<LoginPage/>} />
+        {/* <Route path="/Login" element={<LoginPage/>} />
         <Route path="/Registration" element={<Registration/>} />
         <Route path="/Donations" element={<Donations/>} />
         <Route path="/Weather" element={<Weather/>} />
-        <Route path="/Contact" element={<Contact/>} />
+        <Route path="/Contact" element={<Contact/>} /> */}
         <Route path="/controller/status" element = {<DisasterStatusPage/>}/>
         <Route path="/controller/status/newReport" element = {<ReportForm/>}/>
         <Route path="/controller/status/editReport" element = {<EditReport/>}/>
