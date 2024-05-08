@@ -63,7 +63,7 @@ export const Menues = () => {
             description:
               "Find a safe place until disaster goes away. ",
             image: "/controller/Majlis Tent.png",
-            url: "/controller/news"
+            url: "/controller/shelters"
           },
 
     ];

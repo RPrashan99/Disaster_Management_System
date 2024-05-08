@@ -14,6 +14,7 @@ import { Requests } from './pages/controller/Requests'
 import { WindowComponent } from './Windows/RequestWindow'
 import { ReportForm } from './components/Controller/DisasterStatus/DisasterReportForm'
 import { EditReport } from './components/Controller/DisasterStatus/DisasterEditReport'
+import { ShelterLocationPage } from './pages/controller/ShelterLocations'
 
 function App() {
 
@@ -35,7 +36,8 @@ function App() {
         <Route path="/controller/news" element = {<NewsCreatorPage/>}/>
         <Route path="/controller/requests" element = {<Requests/>}/>
         <Route path="/registration" element = {<Registration/>}/>
-        <Route path="/window/:requestID" element={<WindowComponent/>} /> 
+        <Route path="/window/:requestID" element={<WindowComponent/>} />
+        <Route path="/controller/shelters" element = {<ShelterLocationPage/>} />
       </Routes>
     </BrowserRouter>
     
