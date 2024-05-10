@@ -34,7 +34,7 @@ export const ShelterAddForm =React.forwardRef(function (props, ref){
 
     return (
         <div ref={ref} className="flex w-full justify-center">
-            <div className="flex flex-col space-y-5 bg-grey justify-center items-center w-[800px] p-5 rounded-md">
+            <div className="flex flex-col space-y-5 bg-grey justify-center items-center w-[800px] h-[700px] p-5 rounded-md">
                 <div className="flex bg-white w-full justify-center font-bold text-[20px]">Shelter Add Form</div>
 
                 <form className="flex flex-row space-x-5 p-2" onSubmit={handleSubmit}>

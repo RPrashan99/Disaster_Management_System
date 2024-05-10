@@ -61,6 +61,17 @@ router.post('/getShelters', handler(async(req, res) => {
 
 }));
 
+router.post('/deleteShelter', handler( async(req,res) =>{
+    const {shelterId} = req.body;
+
+    try{
+        const result = await ShelterModel.deleteOne({shelterId:shelterId});
+        res.send(result);
+    }catch(error){
+        res.status(BAD_REQUEST).send("Shelter delete failed!");
+    }
+}));
+
 const shelterIDGenerate = async(location, shelterType) =>{
     var number = 1;
     const idString = location.substring(0,2) + shelterType.substring(0, 1);

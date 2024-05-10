@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
-import { getAllShelters } from "../../services/shelterService";
+import { deleteShelter, getAllShelters } from "../../services/shelterService";
 import { RowCardShelter } from "../../components/Controller/shelters/RowCardShelter.jsx";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,7 @@ import { ShelterAddFormTest } from "../../components/Controller/shelters/Shelter
 export const ShelterLocationPage = () => {
 
     const [formOpen, setFormopen] = useState(false);
+    const [change, setChange] = useState(false);
 
     const handleFormOpen = () => {
         setFormopen(true);
@@ -32,6 +33,20 @@ export const ShelterLocationPage = () => {
 
     const [shelters, setShelters] = useState(null);
 
+    const handleDelete = async (id) => {
+        try{
+            const result = await deleteShelter(id);
+            setChange(!change);
+            console.log("Result: ", result);
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const handleEdit = () => {
+
+    }
+
     useEffect(() => {
         const getShelters = async () => {
             const allShelters = await getAllShelters();
@@ -42,7 +57,7 @@ export const ShelterLocationPage = () => {
             }
         };
         getShelters();
-    }, [])
+    }, [change])
 
     useEffect(() => {
         if (shelters != null) {
@@ -76,11 +91,15 @@ export const ShelterLocationPage = () => {
                         ))
                     }
                 </div>
-                <div className="flex bg-white ps-2">
+                <div className="flex flex-col bg-white ps-2 divide-y-2">
                     {
                         shelters && shelters.length > 0 ?
                             shelters.map((shelter, index) => (
-                                <RowCardShelter key={index} shelterItem={shelter} />
+                                <RowCardShelter key={index} shelterItem={shelter}
+                                    shelterDelete={() => {
+                                        handleDelete(shelter.shelterId);
+                                    }} 
+                                    shelterEdit={()=>{}}/>
                             ))
                             : <div className="flex justify-center bg-white items-center w-full font-bold text-[20px] py-20">No shelters found</div>
                     }
@@ -89,7 +108,7 @@ export const ShelterLocationPage = () => {
             <Collapse in={formOpen}
                 mountOnEnter
                 unmountOnExit>
-                <ShelterAddForm handleClose={handleClose}/>
+                <ShelterAddFormTest handleClose={handleClose} />
             </Collapse>
         </div>
     )

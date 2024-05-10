@@ -3,16 +3,16 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
-export const RowCardShelter = ({ shelterItem }) => {
+export const RowCardShelter = ({ shelterItem, shelterDelete, shelterEdit }) => {
 
     const [shelter, setShelter] = useState([]);
 
     const handleEdit = () => {
-
+        
     };
 
     const handleDelete = () => {
-
+        shelterDelete();
     };
 
     useEffect(() => {
@@ -28,10 +28,10 @@ export const RowCardShelter = ({ shelterItem }) => {
     }, [])
 
     return (
-        <div key={shelter.shelterId} className="flex space-x-1 bg-gray w-full justify-start items-center py-1">
+        <div key={shelter.shelterId} className="flex space-x-1 bg-gray w-full justify-start items-center py-1 divide-x-2">
             {
                 shelter.map((item, index) => (
-                    <div key={index} className={`flex bg-white w-[${item.width}] justify-center text-[15px] border`}>{item.value}</div>
+                    <div key={index} className={`flex bg-white w-[${item.width}] justify-center text-[15px]`}>{item.value}</div>
                 ))
             }
             <div className="flex flex-row space-x-3 justify-center bg-white items-center w-[130px]">

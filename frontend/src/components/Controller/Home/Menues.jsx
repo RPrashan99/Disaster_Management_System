@@ -43,7 +43,7 @@ export const Menues = () => {
           },
           {
             id: 6,
-            title: "Whether",
+            title: "Weather",
             description:
               "Provides information on whether around you. You can be ready according to the whether.",
             image: "/controller/Weather.png",

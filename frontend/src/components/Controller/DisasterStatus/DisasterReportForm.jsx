@@ -100,7 +100,7 @@ export const ReportForm = () => {
     },[])
 
     useEffect(() => {
-        if(snackMessage.message != "" ){
+        if(snackMessage.message != ""){
             setOpen(true);
         }
     },[snackMessage])
