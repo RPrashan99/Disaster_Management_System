@@ -120,7 +120,7 @@ router.get('/getSeverity', handler(async(req, res) =>{
     }
 }));
 
-const generateReportId = async() => {
+export const generateReportId = async() => {
     var count = await DisasterReportModel.countDocuments();
 
     while(await DisasterReportModel.findOne({reportID: count.toString()})) {

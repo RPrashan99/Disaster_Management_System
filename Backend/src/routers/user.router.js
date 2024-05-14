@@ -109,7 +109,7 @@ router.post('/searchUser', handler(async(req, res) => {
             res.send(user);
             return;
         } else {
-            res.send('');
+            res.status(BAD_REQUEST).send("User id not found!");
             return;
         }
     } catch(error){
@@ -127,11 +127,11 @@ router.post('/searchAdmin', handler(async(req, res) => {
             res.send(user);
             return;
         } else {
-            res.send('');
+            res.status(BAD_REQUEST).send('Admin id not found!');
             return;
         }
     } catch(error){
-        res.status(BAD_REQUEST).send("User id not found");
+        res.status(BAD_REQUEST).send("Admin id not found");
     }
 
 }));

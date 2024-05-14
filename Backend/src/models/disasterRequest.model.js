@@ -4,7 +4,6 @@ export const DisasterRequestSchema = new Schema(
     {
         requestID : {type: String, required: true},
         disasterType: {type: String, required: true},
-        requesterName: {type:String, required:true},
         disasterLocation: {type: String, required: true},
         affectedCount: {type: Number, required: true},
         medicalNeed: {type: Boolean, default: false},
