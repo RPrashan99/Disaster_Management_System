@@ -23,14 +23,14 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
   }));
 
 const intialState = { newsItems: []};
-    const reducer = (state, action) => {
-        switch (action.type) {
-            case 'News_Loaded':
-                return {...state, newsItems: action.payload};
-            default:
-                return state;
-        }
-    };
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'News_Loaded':
+            return {...state, newsItems: action.payload};
+        default:
+            return state;
+    }
+};
 
 export const NewsPreview = () =>{
     const [selectedNews, setSelectedNews] = useState(null);
@@ -59,7 +59,7 @@ export const NewsPreview = () =>{
               newsBody: selectedNews.newsBody || '',
               show: selectedNews.show || ''
             });
-          }
+        }
     
         const loadNews = getNews();
         console.log("NewsDetails:", selectedNews);
@@ -80,8 +80,8 @@ export const NewsPreview = () =>{
             const trueItems = timeSortedNews.filter(item => item.show);
             const falseItems = timeSortedNews.filter(item => !item.show);
             const sortedNews = [...trueItems, ...falseItems];
-        dispatch({ type: 'News_Loaded', payload: sortedNews });  
-    });
+            dispatch({ type: 'News_Loaded', payload: sortedNews });  
+        });
 
     },   
     [selectedNews]);
@@ -286,6 +286,6 @@ export const NewsPreview = () =>{
                     )
                 }            
             </div>      
-        </div>        
+    </div>        
     )
 }
