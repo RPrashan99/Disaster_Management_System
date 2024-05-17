@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getContacts = async () => {
     const {data} = await axios.post('api/contacts/getAll');
-    console.log("Created contacts", data);
+    console.log("Created contacts in the database", data);
     return data;
 }
 

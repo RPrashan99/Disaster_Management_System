@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { FaXmark } from "react-icons/fa6";
 import { deleteContact } from "../services/contactsServices";
 
-const intialState = { contactItems: []};
+const initialState = { contactItems: []};
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'News_Loaded':
+        case 'Contacts_Loaded':
             return {...state, contactItems: action.payload};
         default:
             return state;
@@ -18,7 +18,7 @@ const reducer = (state, action) => {
 
 const ContactsInfoForm = ({selection}) => {
 
-  const [state,dispatch] = useReducer(reducer, intialState);
+  const [state,dispatch] = useReducer(reducer, initialState);
   const {contactItems} = state
   const [ formData, setFormData ] = useState({
     id:'',
@@ -143,18 +143,10 @@ const ContactsInfoForm = ({selection}) => {
         <input type="text"
           id="department"
           name="department"
-          value={formData.department}
+          value={selection[0].department}
           onChange={handleChange}
           placeholder="Name of the authority/department/Society"
           className="bg-gray-50 border w-5/12 border-gray-300 text-black text-lg rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-        ></input>
-        <input type="text"
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          placeholder="Enter the address"
-          className="bg-gray-50 border w-4/12 border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
         ></input>
       </div>
       <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
@@ -162,7 +154,7 @@ const ContactsInfoForm = ({selection}) => {
           <input  type="tel"
             id="hotline"
             name="hotline"
-            value={formData.hotline}
+            value={selection[0].hotline}
             onChange={handleChange}
             placeholder="Hotline"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
@@ -179,6 +171,9 @@ const ContactsInfoForm = ({selection}) => {
         <table className="mt-5 w-full">
           <thead className="bg-gray-50 border-b-2 border-gray-200">
             <tr>
+                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                      Address
+                    </th>
                     <th className="p-3 text-sm font-semibold tracking-wide text-left">
                       Name
                     </th>
@@ -200,8 +195,11 @@ const ContactsInfoForm = ({selection}) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 overflow-auto">
-          {(selection.contacts).map((contact, index) => (
+          {selection && selection.map((contact, index) => (
             <tr key={index} className="bg-white">
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                      {contact.address}
+                    </td>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                       {contact.contactName}
                     </td>
@@ -231,6 +229,16 @@ const ContactsInfoForm = ({selection}) => {
           ))}
 
                   <tr className="bg-gray-50">
+                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                        <input  
+                            type="text"
+                            id="address"
+                            name="address"
+                            onChange={handleChange}
+                            placeholder="Address"
+                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                        ></input>
+                    </td>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                         <input  type="text"
                             id="name"

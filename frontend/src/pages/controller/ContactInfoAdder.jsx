@@ -36,16 +36,16 @@ const ContactInfoAdder = () => {
   // Group contact items by department
   const groupedContacts = {};
   contactItems.forEach(contact => {
-    const { department, hotline, address } = contact;
+    const { department} = contact;
     if (!groupedContacts[department]) {
-      groupedContacts[department] = {contacts:[], hotline,address,department};
+      groupedContacts[department] = [];
     }
-    groupedContacts[department].contacts.push(contact);
+    groupedContacts[department].push(contact);
   });
 
   const handleCardClick = (department) =>{
-    setSelectedDepartment(department);
-    console.log("selected department", department);
+    setSelectedDepartment(groupedContacts[department]);
+    console.log("selected department", groupedContacts[department]);
   }
 
   const handleCreate = () =>{
@@ -54,6 +54,7 @@ const ContactInfoAdder = () => {
 
   const handleEdit = (selectedContact)=> {
     setSelectedEdit(selectedContact);
+    console.log("selected Edit", selectedContact);
   }
 
   return (
@@ -72,10 +73,10 @@ const ContactInfoAdder = () => {
                 <SearchBar/>
               </div>
           </div>
-          <div className="flex flex-col h-[450px] overflow-auto">
-            {Object.values(groupedContacts) && groupedContacts.map(([department, contacts]) => (
+          <div className="flex flex-col w-full h-[450px] overflow-auto" >
+            {Object.keys(groupedContacts).map(department => (
               <React.Fragment key={department}>
-                <div onClick={() => handleCardClick(contacts)} className=" bg-blue-200 shadow-md m-1 rounded-sm text-center text-gray-800 h-10 w-full focus:bg-slate-400">
+                <div onClick={() => handleCardClick(department)} className=" bg-blue-200 shadow-md m-1 cursor-pointer rounded-sm align-middle items-center pt-2 text-center text-gray-800 h-10 w-full focus:bg-slate-400">
                   {department}
                 </div>
               </React.Fragment>
@@ -90,10 +91,9 @@ const ContactInfoAdder = () => {
             ):(
               <div className="bg-blue-100 p-5 m-5">
                 <h1 className="text-base md:text-3xl font-bold text-center">
-                  {selectedDepartment.department}
+                  {selectedDepartment[0].department}
                 </h1>
                 <p className="text-sm text-center">
-                  {selectedDepartment.address}
                 </p>
                 <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
                   <h1 className="text-red-600 font-semibold text-base md:text-2xl">
@@ -101,7 +101,7 @@ const ContactInfoAdder = () => {
                   </h1>
                   <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
                     {" "}
-                    {selectedDepartment.hotline}{" "}
+                    {selectedDepartment[0].hotline}{" "}
                   </div>
                   <button type="submit" onClick={() =>{handleEdit(selectedDepartment)}} className="bg-ControllerSec w-[10%] rounded-lg items-center
                   justify-center focus:ring-4 focus:outline-none hover:bg-[gray] shadow-md shadow-[gray] py-2 
@@ -113,6 +113,9 @@ const ContactInfoAdder = () => {
                     <table className="mt-5 w-full">
                       <thead className="bg-gray-50 border-b-2 border-gray-200">
                         <tr>
+                          <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                            Address
+                          </th>
                           <th className="p-3 text-sm font-semibold tracking-wide text-left">
                             Name
                           </th>
@@ -131,9 +134,12 @@ const ContactInfoAdder = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100 overflow-auto">
-                      {Array.isArray(selectedDepartment.contacts) && selectedDepartment.contacts.map((contact,i) => (
+                      {Array.isArray(selectedDepartment) && selectedDepartment.map((contact,i) => (
                         <React.Fragment key={i}>
                           <tr className="bg-white">
+                              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                {contact.address}
+                              </td>
                               <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                                 {contact.contactName}
                               </td>
@@ -166,7 +172,7 @@ const ContactInfoAdder = () => {
                 <ContactsInfoForm/>
             ):(
                 <div className="flex items-center justify-center mt-5 shadow-2xl ">
-                  <button type="submit" onClick={() =>handleCreate()} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-2 px-5 w-full text-white font-semibold text-xl text-[1.2rem]">
+                  <button type="submit" onClick={() =>handleCreate()} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-2 px-5 text-white font-semibold text-xl text-[1.2rem]">
                       Create New Contact
                   </button>
               </div>  
@@ -177,5 +183,6 @@ const ContactInfoAdder = () => {
     </>
   );
 };
+
 
 export default ContactInfoAdder;
