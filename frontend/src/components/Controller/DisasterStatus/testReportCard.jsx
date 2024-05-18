@@ -9,14 +9,14 @@ const testDisaster = {
 
 export const TestReport_Card = (props) => {
 
-    const {report, onClick, isSelected} = props;
+    const {report, onClick, isSelected, key} = props;
 
     const handleClick = () =>{
         onClick(report);
     };
 
     return(
-        <div tabIndex={0} className={`flex flex-row ps-5 min-w-[200px] w-[250px] rounded-lg shadow-md hover:ring ${isSelected ? 'bg-white outline':'bg-slate-300'}`}
+        <div tabIndex={0} key={key} className={`flex flex-row ps-5 min-w-[200px] w-[250px] rounded-lg shadow-md hover:ring ${isSelected ? 'bg-white outline':'bg-slate-300'}`}
             onClick={handleClick}>
             <div className="flex flex-col w-full justify-center">
                 <div className="flex text-[20px] font-bold pb-3 justify-center line-clamp-1">{report.disasterType}</div>

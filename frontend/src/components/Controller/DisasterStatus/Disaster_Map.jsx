@@ -91,8 +91,8 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
             <div className="flex font-bold">SELECT DISASTER TO SHOW DETAILS</div>
             <div className="flex flex-row bg-menuBlue w-full h-[140px] px-3 py-3 rounded space-x-3 overflow-auto">
                 {
-                    ongoingReports && ongoingReports.map((report) =>
-                        <TestReport_Card report={report} onClick={
+                    ongoingReports && ongoingReports.map((report, index) =>
+                        <TestReport_Card key={index} report={report} onClick={
                             (Selected) => {
                                 handleReportClick(Selected)
                             }
