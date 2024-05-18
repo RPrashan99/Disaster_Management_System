@@ -72,18 +72,18 @@ export const Menues = () => {
       <div className="mt-10 grid group w-[80%] md:h-[100%] sm:h-[100%] lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 mx-auto my-10 px-2 grid-cols-1  md:w-11/18 gap-0" >
                 {service.map((service) => (
             <a key={service.id} href={service.url} className="px-4 py-8 text-center md:w-[300px] mx-auto md:h-80
-                   hover:-translate-y-5 rounded-md cursor-pointer group-hover:scale-[0.85] hover:scale-100 group-hover:blur-sm hover:!blur-none hover:border-b-8 hover:border-ControllerSec
-                   hover:bg-[#6d6a6a]  hover:text-[#ffffff] transition-all duration-300 flex items-center justify-center h-full 
-                   bg-[#ffffff] shadow-xl hover:rounded-[20px] shadow-[gray]">
+                   hover:-translate-y-5 rounded-md cursor-pointer group-hover:scale-[0.85] hover:scale-100 
+                   hover:bg-[#4d4c4c] text-[black] hover:text-[#e9e8e8] transition-all duration-300 flex items-center justify-center h-full 
+                   bg-[#ffffff] shadow-xl hover:rounded-[20px] shadow-[gray] hover:border-b-[1rem] hover:border-ControllerSec">
               <div className="">
-              <div className="flex items-end h-[10%] w-[20%] p-[2%] bg-ControllerSec shadow-lg rounded-[50%] mb-4 mx-auto ">
+              <div className="flex items-end h-[10%] w-[20%] p-[2%] bg-ControllerSec shadow-lg hover:bg-ControllerSec rounded-[50%] mb-4 mx-auto ">
                 <img src={service.image} alt="" className="flex items-end h-[70%] w-[90%] p-[2%] rounded-[10%] ml-1 " />
 
               </div>
-              <h4 className="text-2xl font-bold text-[#000000] mb-2 px-2 rounded hover:text-[#ffffff]">
+              <h4 className=" text-[1.5rem] font-bold  mb-2 px-2 rounded hover:text-[#ffffff]">
                 {service.title}
               </h4>
-              <p className="text-sm text-[#313131] font-serif font-bold hover:text-[#ffffff]">{service.description}</p>
+              <p className="text-sm  font-serif font-bold hover:text-[#ffffff] ">{service.description}</p>
             </div>
           </a>
         ))}

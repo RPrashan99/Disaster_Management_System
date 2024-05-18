@@ -10,7 +10,9 @@ export const TitleBar = () => {
                 <img className="flex items-center w-[23px] h-[23px] relative left-[10px] " src="/controller/logo_main.png" alt='logo_main'/>
             </div>
             <div className="flex items-center justify-end flex-wrap relative h-full rounded-[10px] lg:justify-end md:justify-center sm:justify-center ">
-                <SearchBar/>
+                <div className='flex w-[50%] items-center justify-end'>
+                    <SearchBar/>
+                </div>
             </div>
         </div>
     )

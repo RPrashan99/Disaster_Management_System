@@ -6,6 +6,14 @@ export const DisasterRequestSchema = new Schema(
         disasterType: {type: String, required: true},
         requesterName: {type:String, required:true},
         disasterLocation: {type: String, required: true},
+        disasterLocationLatLan :{
+            type: [
+                {
+                    latitude: Number,
+                    longitude: Number,
+                }
+            ],
+            default: []},
         affectedCount: {type: Number, required: true},
         medicalNeed: {type: Boolean, default: false},
         otherNeeds: {type: String, required: false},

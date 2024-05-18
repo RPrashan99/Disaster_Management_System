@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ColorItem } from "../DisasterStatus/color_item";
+//import { ColorItem } from "../DisasterStatus/color_item";
 import { PieChart } from "@mui/x-charts/PieChart";
 import PropTypes from "prop-types";
 
@@ -79,7 +79,7 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
    
 
     return(
-        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[80%] rounded-md bg-[green] justify-center mx-10 mb-10 space-x-2 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[80%] rounded-md bg-gray-600 justify-center mx-10 mb-10 space-x-2 h-full">
             <div className="flex flex-col bg-white rounded-lg border w-full h-full items-center my-1">
                 <span className="flex text-ControllerPrim text-[22px] items-center justify-center font-bold">Daily Forcast</span>
                 <div className="grid grid-cols-1 lg:grid-cols-2 mb-0 rounded w-full">
@@ -209,8 +209,8 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                                     series={[
                                             {
                                                 data: [
-                                                    { id: 0, value:monthlyNotRead.length},
-                                                    { id: 1, value:monthlyRead.length, label: `${monthlyRead.length}`},
+                                                    { id: 0, value:monthlyflood.length},
+                                                    { id: 1, value:monthlyFire.length, label: `${monthlyFire.length}`},
                                                   ],
                                             
                                                   outerRadius: 50,
@@ -295,15 +295,15 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
 }
 
 RequestsDetails.propTypes = {
-    all: PropTypes.number.isRequired,
+    all: PropTypes.array.isRequired,
     flood: PropTypes.array.isRequired, // Ensure 'flood' is an array
-    tsunami: PropTypes.number.isRequired,
-    fire: PropTypes.number.isRequired,
-    wind: PropTypes.number.isRequired,
-    other: PropTypes.number.isRequired,
-    today: PropTypes.number.isRequired,
-    monthly: PropTypes.number.isRequired,
-    todayRead: PropTypes.number.isRequired,
-    monthlyRead: PropTypes.number.isRequired,
-    allRead: PropTypes.number.isRequired
+    tsunami: PropTypes.array.isRequired,
+    fire: PropTypes.array.isRequired,
+    wind: PropTypes.array.isRequired,
+    other: PropTypes.array.isRequired,
+    today: PropTypes.array.isRequired,
+    monthly: PropTypes.array.isRequired,
+    todayRead: PropTypes.array.isRequired,
+    monthlyRead: PropTypes.array.isRequired,
+    allRead: PropTypes.array.isRequired
   };

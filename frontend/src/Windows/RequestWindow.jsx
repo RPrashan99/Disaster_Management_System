@@ -3,6 +3,7 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaMicrophone } from "react-icons/fa";
 import { Button } from "../components/Controller/common/Button";
 import { MdPermMedia } from "react-icons/md";
+import { BackButton } from "../components/Common/BackButton";
 
 export const WindowComponent = ({requestID,requesterName, disasterLocation, disasterType, affectedCount, medicalNeed, otherNeeds}) => {
   console.log('Request Details:', requestID);
@@ -15,7 +16,7 @@ export const WindowComponent = ({requestID,requesterName, disasterLocation, disa
   return (
     <div>
       <div className="p-5">
-          {Button("/controller/requests")}
+          {<BackButton href={"/controller/requests"} header={"Back"}/>}
       </div>
       <div className="px-5 ">
         <form className=" bg-[#cecdcd] pt-10 m-10 text-gray-900 font-semibold text-base">  

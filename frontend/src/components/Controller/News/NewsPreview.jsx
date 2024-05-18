@@ -23,14 +23,14 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
   }));
 
 const intialState = { newsItems: []};
-    const reducer = (state, action) => {
-        switch (action.type) {
-            case 'News_Loaded':
-                return {...state, newsItems: action.payload};
-            default:
-                return state;
-        }
-    };
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'News_Loaded':
+            return {...state, newsItems: action.payload};
+        default:
+            return state;
+    }
+};
 
 export const NewsPreview = () =>{
     const [selectedNews, setSelectedNews] = useState(null);
@@ -59,7 +59,7 @@ export const NewsPreview = () =>{
               newsBody: selectedNews.newsBody || '',
               show: selectedNews.show || ''
             });
-          }
+        }
     
         const loadNews = getNews();
         console.log("NewsDetails:", selectedNews);
@@ -80,8 +80,8 @@ export const NewsPreview = () =>{
             const trueItems = timeSortedNews.filter(item => item.show);
             const falseItems = timeSortedNews.filter(item => !item.show);
             const sortedNews = [...trueItems, ...falseItems];
-        dispatch({ type: 'News_Loaded', payload: sortedNews });  
-    });
+            dispatch({ type: 'News_Loaded', payload: sortedNews });  
+        });
 
     },   
     [selectedNews]);
@@ -156,7 +156,7 @@ export const NewsPreview = () =>{
 
     return(
         <div>
-        <div className="flex flex-col border-[10px] border-[#b9b9b9] justify-between bg-ControllerPrim py-5 px-5 gap-5">
+        <div className="flex flex-col border-[10px] border-[#b9b9b9] justify-between bg-[#172657] py-5 px-5 gap-5">
             <h1 className="text-[white] font-sans text-[2rem] font-bold">News Preview</h1>
             <div className="flex flex-row gap-5">
                 {/* left Section */}
@@ -286,6 +286,6 @@ export const NewsPreview = () =>{
                     )
                 }            
             </div>      
-        </div>        
+    </div>        
     )
 }
