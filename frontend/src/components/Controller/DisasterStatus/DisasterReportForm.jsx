@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Button, Snackbar } from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { LanguageBar } from "../LanguageBar";
 import { HeaderBar } from "../HeaderBar";
 import { insertReport } from "../../../services/reportService";
+import { getUnverifiedRequests, setVerifyRequests } from "../../../services/requestService";
 
 export const ReportForm = () => {
 
     const [details, setDetails] = useState('');
     const [open, setOpen] = useState(false);
+    const [sync, setSync] = useState(false);
+    const [numOfRequests, setNumOfRequests] = useState(0);
+    const [disable, setDisable] = useState(false);
+    const [snackMessage, setSnackMessage] = useState({message: "", severity: ""});
+    const [todayDate, setTodayDate] =useState("2024/01/01");
+
+    const dateDifference = 3;
 
     const handleClose= () =>{
         setOpen(false);
@@ -15,22 +25,85 @@ export const ReportForm = () => {
 
     const handleChange = (e) =>{
         const {name, value} = e.target;
-        setDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
+        if(name == 'affectedCount' && value < 0){
+            setDetails((prevDetails) => ({ ...prevDetails, [name]: 0 }));
+        }else{
+            setDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
+        }
+        
     }
 
-    const handleRequests = () =>{
-        
+    //need testing
+    const handleRequests = (date) =>{
+        const getRequests = async () =>{
+            const requests = await getUnverifiedRequests();
+            const today = new Date();
+
+            if(requests != null){
+                const filteredRequests = requests
+                    .filter(request => (request.disasterType == details.disasterType) && (request.disasterLocation == details.disasterLocation) && ((today - Date(request.requestDate) <= date)))
+                    .map(request => request.requestID);
+
+                console.log("filtered requests: ", filteredRequests);
+
+                return filteredRequests;
+            }else{
+                return requests;
+            }
+        }
+        if(details.disasterType != null && details.disasterLocation != null){
+            setDisable(true);
+            setSync(true);
+            const requests = getRequests(date);
+            setNumOfRequests(requests.length);
+            setDetails((prevDetails) => ({ ...prevDetails, ["disasterRequests"]: requests }));
+            setSync(false);
+            console.log("Sync success");
+        }else{
+            const message = {message:"Please provide disaster type and location!", severity: "error" };
+            setSnackMessage(message);
+        }
     }
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        try{
-            const result = await insertReport(details);
-            console.log("Submit form result: ", result);
-        } catch(error){
-            console.log(error);
+        if(details.disasterType != null && details.severity != null 
+            && details.disasterLocation != null && details.affectedCount != null && details.finished != null){
+            try{
+                const result = await insertReport(details);
+
+                if(details.disasterRequests.length == 0){
+                    const resultVerify = await setVerifyRequests(details.disasterRequests); 
+                    console.log("Request verify result: ", resultVerify);
+                }
+                const message = {message:"Report submit success!", severity: "success" };
+                setSnackMessage(message);
+                console.log("Submit form result: ", result);
+            } catch(error){
+                console.log(error);
+            }
+        }else{
+            const message = {message:"Please fill all the fields!", severity: "error" };
+            setSnackMessage(message);
         }
     };
+
+    useEffect(() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}/${month}/${day}`;
+
+        setTodayDate(formattedDate);
+    },[])
+
+    useEffect(() => {
+        if(snackMessage.message != ""){
+            setOpen(true);
+        }
+    },[snackMessage])
 
     return(
         <div className="flex flex-col">
@@ -57,6 +130,7 @@ export const ReportForm = () => {
                                         name="disasterType"
                                         value={details.disasterType}
                                         onChange={handleChange}
+                                        disabled = {disable}
                                         required
                                         >
                                         <option value="">Select Disaster Type</option>
@@ -82,7 +156,7 @@ export const ReportForm = () => {
                                         <option value="Low">Low</option>
                                     </select>
                                     <div className="flex font-bold">Disaster Locations</div>
-                                    <input type="text" name="disasterLocation" value={details.disasterLocation} onChange={handleChange} required />
+                                    <input type="text" name="disasterLocation" disabled={disable} value={details.disasterLocation} onChange={handleChange} required />
                                 </div>
                                 <div className="flex flex-col space-y-3">
                                     <div className="flex flex-col space-y-3 bg-white p-1">
@@ -93,7 +167,7 @@ export const ReportForm = () => {
                                             <div className="flex font-bold justify-center">Affected Count</div>
                                             <input type="number" name="affectedCount" value={details.affectedCount} onChange={handleChange} required />
                                             <div className="flex font-bold justify-center">Total Requests</div>
-                                            <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">15</div>
+                                            <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">{numOfRequests}</div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col space-y-3 bg-white p-1">
@@ -102,9 +176,9 @@ export const ReportForm = () => {
                                         </div>
                                         <div className="grid grid-col-2">
                                             <div className="flex font-bold">Created Date</div>
-                                            <input type="text" name="createdDate" onChange={handleChange} />
+                                            <input type="text" name="createdDate" disabled value={todayDate}/>
                                             <div className="flex font-bold">Last Updated</div>
-                                            <input type="text" name="updatedDate" onChange={handleChange} />
+                                            <input type="text" name="updatedDate" disabled value={todayDate} />
                                             <div className="flex font-bold">Finished</div>
                                             <select
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -122,10 +196,18 @@ export const ReportForm = () => {
                                 </div>
                             </div>
                             <div className="flex flex-row justify-center space-x-5">
-                                <Button variant="contained"
+                                {/*<Button variant="contained"
                                     onClick={handleRequests}>
                                     Sync Requests
-                                </Button>
+                                </Button>*/}
+                                <LoadingButton
+                                    size="small"
+                                    onClick={handleRequests}
+                                    endIcon={<SyncAltIcon />}
+                                    loading={sync}
+                                    loadingPosition="end"
+                                    variant="contained"
+                                > <span>Sync Requests</span></LoadingButton>
                                 <Button variant="contained"
                                     onClick={onSubmitForm}>
                                     Submit
@@ -137,8 +219,16 @@ export const ReportForm = () => {
                         anchorOrigin={{ vertical: 'bottom', horizontal:'center' }}
                         open={open}
                         onClose={handleClose}
-                        message="Report submitted!"
-                    />
+                        autoHideDuration={1800}
+                    >
+                        <Alert
+                            onClose={handleClose}
+                            severity={snackMessage.severity}
+                            variant="filled"
+                            sx={{ width: '100%' }}
+                        >{snackMessage.message}
+                        </Alert>
+                    </Snackbar>
                 </div>
             </div>
         </div>

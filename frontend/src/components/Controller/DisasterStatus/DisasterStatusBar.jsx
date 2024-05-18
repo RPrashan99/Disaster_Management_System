@@ -40,20 +40,22 @@ export const DisasterStatusBar = (props) => {
     },[currentReports])
 
     useEffect(() =>{
-        const groupedData = reports.reduce((acc,disaster) => {
-            const type = disaster.disasterType;
-
-            if (type !== 'None') {
-                acc[type] = (acc[type] || 0) + 1;
-              }
-
-            return acc;
-        },{})
-        const newDataArray = Object.keys(groupedData).map((type) => ({
-            label: type,
-            value: groupedData[type],
-        }));
-        setNewData(newDataArray);
+        if(reports.length != 0){
+            const groupedData = reports.reduce((acc,disaster) => {
+                const type = disaster.disasterType;
+    
+                if (type !== 'None') {
+                    acc[type] = (acc[type] || 0) + 1;
+                  }
+    
+                return acc;
+            },{})
+            const newDataArray = Object.keys(groupedData).map((type) => ({
+                label: type,
+                value: groupedData[type],
+            }));
+            setNewData(newDataArray);
+        }
     },[reports])
 
     useEffect(() =>{
@@ -112,11 +114,11 @@ export const DisasterStatusBar = (props) => {
                     {
                         newReportCount != 0 && 
                         <div className="flex items-center gap-5 px-2">
-                            <img className="flex ps-5" src="/controller/plus_icon.png"/>
+                            <img className="flex ps-1" src="/controller/plus_icon.png"/>
                             <span className="flex text-barContentLow text-[15px] text-left">{newReportCount} new Reports added within 7 days</span>
                         </div>
                     }
-                    <span className="flex text-grey pe-5 pt-4 border">Last updated 1min ago</span>
+                    <span className="flex text-grey pt-3">Last updated 1min ago</span>
                 </div>
             </div>
             <div className="flex flex-row bg-white rounded border w-[600px] h-[250px]">

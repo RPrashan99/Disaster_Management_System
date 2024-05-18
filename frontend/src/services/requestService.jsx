@@ -12,6 +12,16 @@ export const getRequestDetails = async (requestID) => {
     return data;
 };
 
+export const getUnverifiedRequests = async () => {
+    const {data} = await axios.post('api/requests/getAllVerify');
+    return data;
+}
+
+export const setVerifyRequests = async requestIDs => {
+    const {data} = await axios.post('api/requests/setVerify', {requestIDs});
+    return data;
+}
+
 // export const updateRequests = async (requestId, newData) => {
 //     const {data} = await axios.put('/api/requests/updateRequest/' + requestId, newData);
 //     console.log("UpdatedData", data);

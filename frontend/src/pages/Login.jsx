@@ -1,42 +1,54 @@
-import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import GoogleImg from "../assets/google.png";
-import axios from "axios";
-import { message } from "antd";
+import { login } from "../services/loginService";
+import { Alert, Snackbar } from "@mui/material";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- 
+  const [open, setOpen] = useState(false);
+  const [snackMessage, setSnackMessage] = useState({message:"", severity:""});
+
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
-      
-      message.success("Login success");
-       
-    } catch (error) {
-      setError(error);
-      message.error("Login failed" + error);
+    if(email != "" && password != ""){
+      try {
+        const data = {email:email, password: password};
+        const result = await login(data);
+        console.log(result);
+        const message = {message:"Login Successful!", severity:"success"};
+        setSnackMessage(message);
+        navigate('/controller/home');
+  
+      } catch (error){
+        const message = {message:"Login failed!", severity:"error"};
+        setSnackMessage(message);
+      }
+    }else{
+      const message = {message:"Please provide valid email and password!", severity:"error"};
+      setSnackMessage(message);
     }
   };
 
- 
-    
-  
+  useEffect(() => {
+    if(snackMessage.message != ""){
+      setOpen(true);
+    }
+  },[snackMessage]);
 
   return (
     <div className="container mx-auto p-10">
       <div className="max-w-sm mx-auto bg-white px-10 py-10 rounded-2xl shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="font-bold text-2xl">Login</h1>
+          <h2 className="font-bold">As an administrator</h2>
         </div>
 
         <form>
@@ -78,25 +90,25 @@ const Login = () => {
           <button
             onClick={handleLogin}
             type="button"
-            class="my-4 block w-full rounded bg-secondary px-6 pb-2 pt-2.5 text-lg font-medium  leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+            class="my-4 block w-full rounded bg-menuBlue px-6 pb-2 pt-2.5 text-lg font-medium leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
           >
             Sign In
           </button>
-          
-          <h4 className="text-center my-4 font-semibold">Or</h4>
-
-          <button class="px-4 py-2 my-5 border flex items-center justify-center gap-2 border-slate-200  w-full rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150">
-            <img class="w-6 h-6" src={GoogleImg} alt="google logo" />
-            <span>Login with Google</span>
-          </button>
-
-          <div className="flex justify-between">
-            <p className="justify-start text-sm">Do not have an Account? </p>
-            <p className="items-end text-sm hover:underline">
-              <Link to="/Registration">Create Account</Link>
-            </p>
-          </div>
         </form>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          open={open}
+          onClose={handleClose}
+          autoHideDuration={1800}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={snackMessage.severity}
+            variant="filled"
+            sx={{ width: '100%' }}
+          >{snackMessage.message}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

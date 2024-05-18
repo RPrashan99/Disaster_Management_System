@@ -43,7 +43,7 @@ export const Menues = () => {
           },
           {
             id: 6,
-            title: "Whether",
+            title: "Weather",
             description:
               "Provides information on whether around you. You can be ready according to the whether.",
             image: "/controller/Weather.png",
@@ -63,7 +63,7 @@ export const Menues = () => {
             description:
               "Find a safe place until disaster goes away. ",
             image: "/controller/Majlis Tent.png",
-            url: "/controller/news"
+            url: "/controller/shelters"
           },
 
     ];

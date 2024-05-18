@@ -49,6 +49,16 @@ router.post('/getAll', handler(async(req, res) => {
     }
 }));
 
+router.post('/getAllVerify', handler(async(req,res) => {
+    try{
+        const allRequests = await DisasterRequestModel.find({verify: false}); //need to change accordingly
+        res.send(allRequests);
+    } catch (error) {
+        console.error(error);
+        res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+    }
+}));
+
 router.get('/getRequest/:requestID', handler(async(req, res) => {
         const { requestID } = req.params;
         console.log("requestID: ", requestID)
@@ -79,7 +89,20 @@ router.put('/updateRequest/:requestID', handler(async (req, res) => {
     }
 }));
 
+//un tested
+router.post('/setVerify', handler(async (req, res) =>{
+    const {requestIDs} = req.body;
 
+    try{
+        const result = await DisasterRequestModel.updateMany(
+            { requestID: { $in: requestIDs } }, // Filter condition to match selected IDs
+            { $set: { verify: true } }
+        );
+        res.send(result);
+    }catch(error){
+        res.status(BAD_REQUEST).send("Request verify error")
+    }
+}));
 
 //need to change accordingly
 const generateRequestID = async(disasterType) => {
