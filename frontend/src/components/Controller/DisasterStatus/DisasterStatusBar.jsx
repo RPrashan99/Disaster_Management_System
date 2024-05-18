@@ -40,20 +40,22 @@ export const DisasterStatusBar = (props) => {
     },[currentReports])
 
     useEffect(() =>{
-        const groupedData = reports.reduce((acc,disaster) => {
-            const type = disaster.disasterType;
-
-            if (type !== 'None') {
-                acc[type] = (acc[type] || 0) + 1;
-              }
-
-            return acc;
-        },{})
-        const newDataArray = Object.keys(groupedData).map((type) => ({
-            label: type,
-            value: groupedData[type],
-        }));
-        setNewData(newDataArray);
+        if(reports.length != 0){
+            const groupedData = reports.reduce((acc,disaster) => {
+                const type = disaster.disasterType;
+    
+                if (type !== 'None') {
+                    acc[type] = (acc[type] || 0) + 1;
+                  }
+    
+                return acc;
+            },{})
+            const newDataArray = Object.keys(groupedData).map((type) => ({
+                label: type,
+                value: groupedData[type],
+            }));
+            setNewData(newDataArray);
+        }
     },[reports])
 
     useEffect(() =>{

@@ -9,3 +9,10 @@ export const currentDateExtract = () => {
 
     return formattedDate;
 }
+
+export const currentOnlyDateExtract = () => {
+    const currentDate = new Date();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    return day;
+}

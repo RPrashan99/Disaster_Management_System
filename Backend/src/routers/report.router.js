@@ -2,7 +2,7 @@ import { Router } from "express";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/httpStatus.js";
 import handler from 'express-async-handler';
 import { DisasterReportModel } from "../models/disasterReport.model.js";
-import { currentDateExtract } from "../common/dateExtract.js";
+import { currentDateExtract, currentOnlyDateExtract } from "../common/dateExtract.js";
 import { DisasterRequestModel } from "../models/disasterRequest.model.js";
 
 const router = Router();
@@ -119,6 +119,20 @@ router.get('/getSeverity', handler(async(req, res) =>{
         res.status(BAD_REQUEST).send("Severity get error");
     }
 }));
+
+// router.get('/addAffected', handler(async(req,res) => {
+
+//     const {count} = req.body;
+//     const day = currentOnlyDateExtract();
+
+//     try{
+//         const result = await DisasterRequestModel.updateOne(
+//             {date: day},{count: }
+//         )
+//     }catch(error){
+
+//     }
+// }))
 
 const generateReportId = async() => {
     var count = await DisasterReportModel.countDocuments();

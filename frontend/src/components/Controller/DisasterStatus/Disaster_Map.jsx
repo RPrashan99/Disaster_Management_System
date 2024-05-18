@@ -54,7 +54,7 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
     const formRef = useRef(null);
 
     const addAffectedClose = () => {
-        setAddAffected(false);
+        setAddAffected(!addAffected);
     }
 
     useEffect(() => {
@@ -153,10 +153,11 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
                                 height={200}
                             />
                             <div className="absolute top-0 right-0">
-                                <Button>
-                                    <AddCircleIcon fontSize="large" onClick={setAddAffected(true)}/>
+                                <Button onClick={addAffectedClose}>
+                                    <AddCircleIcon fontSize="large"/>
                                 </Button>
                             </div>
+
 
                             <Collapse in={addAffected}
                                 mountOnEnter
