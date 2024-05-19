@@ -18,7 +18,7 @@ export const MainMenuBar = ({ isMenuOpen, toggleMenu}) => {
                     <a className="text-[#cfcdcd] transition hover:text-[white]" href="/controller/requests"> Requests </a>
                 </li>
                 <li>
-                    <a className="text-[#cfcdcd] transition hover:text-[white]" href="#"> Disaster Map </a>
+                    <a className="text-[#cfcdcd] transition hover:text-[white]" href="/controller/map"> Disaster Map </a>
                 </li>
                 <li>
                     <a className="text-[#cfcdcd] transition hover:text-[white]" href="/controller/users"> User Control </a>

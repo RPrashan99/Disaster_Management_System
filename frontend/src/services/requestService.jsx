@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const getRequests = async () => {
     const {data} = await axios.post('api/requests/getAll');
-    console.log("Data", data);
     return data;
 };
 
