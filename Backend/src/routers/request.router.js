@@ -9,6 +9,7 @@ router.get('/request',handler(async (req,res) => {
 
     const {
         disasterType,
+        requesterName,
         disasterLocation,
         affectedCount,
         medicalNeed,
@@ -24,6 +25,7 @@ router.get('/request',handler(async (req,res) => {
         const newRequest = {
             requestID: newID,
             disasterType,
+            requesterName,
             disasterLocation,
             affectedCount,
             medicalNeed,
