@@ -12,7 +12,8 @@ router.post('/createShelter', handler(async(req, res) => {
         location,
         locationLatLang,
         shelterType,
-        phoneNumber
+        phoneNumber,
+        personInCharge
     } = req.body;
 
     const shelterId = await shelterIDGenerate(location, shelterType);
@@ -23,7 +24,8 @@ router.post('/createShelter', handler(async(req, res) => {
         location,
         locationLatLang,
         shelterType,
-        phoneNumber
+        phoneNumber,
+        personInCharge
     }
     
     try{
@@ -59,14 +61,28 @@ router.post('/getShelters', handler(async(req, res) => {
 
 }));
 
+router.post('/deleteShelter', handler( async(req,res) =>{
+    const {shelterId} = req.body;
+
+    try{
+        const result = await ShelterModel.deleteOne({shelterId:shelterId});
+        res.send(result);
+    }catch(error){
+        res.status(BAD_REQUEST).send("Shelter delete failed!");
+    }
+}));
+
 const shelterIDGenerate = async(location, shelterType) =>{
     var number = 1;
     const idString = location.substring(0,2) + shelterType.substring(0, 1);
     var id = idString + number.toString().padStart(3, '0');
 
-    while(await ShelterModel.find({shelterId: id}) != null){
+    let ids = await ShelterModel.find({shelterId: id});
+
+    while(ids.length > 0){
         number++;
         id = idString + number.toString().padStart(3, '0');
+        ids = await ShelterModel.find({shelterId: id});
     }
 
     return id;

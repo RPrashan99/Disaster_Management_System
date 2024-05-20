@@ -19,6 +19,7 @@ export const EditReport = () =>{
     const [reports, setReports] = useState('');
     const [selectedReport, setSelectedReport] = useState(null);
     const [selectedInputReport, setSelectedInputReport] = useState();
+    const [snackMessage, setSnackMessage] = useState({message: "", severity:""});
 
     const handleClose= () =>{
         setOpen(false);
@@ -120,6 +121,7 @@ export const EditReport = () =>{
                                             value={selectedInputReport.disasterType}
                                             onChange={handleChange}
                                             required
+                                            disabled
                                             >
                                             <option value="">Select Disaster Type</option>
                                             <option value="Flood">Flood</option>
@@ -146,7 +148,7 @@ export const EditReport = () =>{
                                         <div className="flex font-bold">Disaster Locations</div>
                                         <input type="text" name="disasterLocation" 
                                             value={selectedInputReport.disasterLocation} 
-                                            onChange={handleChange} required />
+                                            onChange={handleChange} required disabled />
                                     </div>
                                     <div className="flex flex-col space-y-3">
                                         <div className="flex flex-col space-y-3 bg-white p-1">
@@ -155,11 +157,11 @@ export const EditReport = () =>{
                                             </div>
                                             <div className="grid grid-cols-2 gap-2 items-center">
                                                 <div className="flex font-bold justify-center">Affected Count</div>
-                                                <input type="number" name="affectedCount" 
+                                                <input className="" type="number" name="affectedCount"
                                                     value={selectedInputReport.affectedCount} 
                                                     onChange={handleChange} required />
                                                 <div className="flex font-bold justify-center">Total Requests</div>
-                                                <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">15</div>
+                                                <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">{selectedInputReport.disasterRequests.length}</div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col space-y-3 bg-white p-1">

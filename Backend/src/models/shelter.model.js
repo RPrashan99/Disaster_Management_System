@@ -13,6 +13,7 @@ export const ShelterSchema = new Schema(
           ], default: []},
         shelterType: {type: String, required: true},
         phoneNumber: {type: String, required: true},
+        personInCharge: {type: String, required: true}
     },
     {
         timestamps: false,
