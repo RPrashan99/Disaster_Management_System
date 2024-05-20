@@ -92,8 +92,8 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                                     series={[
                                             {
                                                 data: [
-                                                    { id: 0, value:flood.length, label: `${flood.length}`},
-                                                    { id: 1, value:flood.length},
+                                                    { id: 0, value:todayRead.length, label: `${todayRead.length}`},
+                                                    { id: 1, value:today.length},
                                                   ],
                                             
                                                   outerRadius: 50,
@@ -209,8 +209,8 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                                     series={[
                                             {
                                                 data: [
-                                                    { id: 0, value:monthlyflood.length},
-                                                    { id: 1, value:monthlyFire.length, label: `${monthlyFire.length}`},
+                                                    { id: 0, value:monthly.length},
+                                                    { id: 1, value:monthlyRead.length, label: `${monthlyRead.length}`},
                                                   ],
                                             
                                                   outerRadius: 50,

@@ -96,11 +96,13 @@ const NewsCreatorForm = ({selection}) => {
           newsBody:'',
           show: false
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error){
         console.error('Error submitting form:', error);
         message.error('Failed to create news!')
       }
-  
     }
   };
   const editHandler = async(e) =>{
@@ -117,8 +119,6 @@ const NewsCreatorForm = ({selection}) => {
           // If a new image is uploaded, handle file upload and get the new imagePath
           imagePath = await handleFileUpload(formData.image);
         }
-
-
         const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {
             heading: formData.heading,
             author: formData.author,
@@ -126,15 +126,15 @@ const NewsCreatorForm = ({selection}) => {
             imagePath: imagePath, // Send imagePath as null if no new image uploaded
             show: formData.show
         });
-
         console.log('Form update succeeded: ', response.data);
-        message.success('News is updated!')
-
-
         setFormData({
           ...formData,
           image:'',
         });
+        message.success('News is updated!')
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error){
         console.error('Error updating form:', error);
         message.error('Failed to update news!')

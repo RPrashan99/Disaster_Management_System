@@ -106,6 +106,9 @@ export const NewsPreview = () =>{
                 setFormData(updatedFormData); // Update formData with the new value of show
                 console.log("Show formdata:", updatedFormData.show); // Log the updated value
                 setShow(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             } catch (error){
                 console.error('Error updating show:', error);
                 message.error('Failed to update show status!');
@@ -122,6 +125,9 @@ export const NewsPreview = () =>{
                 setFormData(updatedFormData); // Update formData with the new value of show
                 console.log("Show formdata:", updatedFormData.show); // Log the updated value
                 setShow(true);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             } catch (error){
                 console.error('Error updating show:', error);
                 message.error('Failed to update show status!');

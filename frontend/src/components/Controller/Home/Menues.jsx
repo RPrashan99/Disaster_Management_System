@@ -20,11 +20,11 @@ export const Menues = () => {
           },
           {
             id: 3,
-            title: "Safety Tips",
+            title: "Contact Info",
             description:
-              "Discover essential safety tips for any disaster. Be ready, stay vigilant. Your safety matters most.",
+              "Discover essential contact info for any disaster. Be ready, stay vigilant.",
             image: "/controller/Light On.png",
-            url: "/controller/news"
+            url: "/controller/ContactInfoAdder"
           },
           {
             id: 4,
