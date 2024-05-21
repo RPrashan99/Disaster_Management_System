@@ -51,21 +51,6 @@ export const Requests = () =>{
         todayReadRequests:[],
         monthlyReadRequests:[]
       });
-        const [filteredCounts, setFilteredCounts] = useState({
-          all:0,  
-          flood: 0,
-          tsunami: 0,
-          fire: 0,
-          landslide:0,
-          extremeWind: 0,
-          verified:0,
-          today:0,
-          monthly:0,
-          other:0,
-          allRead:0,
-          todayRead:0,
-          monthlyRead:0
-        });
         const disasters = ["flood", "tsunami","fire", "wind", "landslide"];
     useEffect(() => {
     
@@ -92,28 +77,11 @@ export const Requests = () =>{
             const extremeWind = requests.filter(request => request.disasterType.toLowerCase().includes("wind"));
             const landslide = requests.filter(request => request.disasterType.toLowerCase().includes("landslide"));
             const verified = requests.filter(request => request.verification === "verified");
-            const today = requests.filter(request => (request.requestDate).split(' ')[2] === (new Date()).toDateString().split(' ')[2]);
+            const today = requests.filter(request => (request.requestDate) === (new Date()).toDateString());
             const monthly = requests.filter(request =>  (request.requestDate).split(' ')[1] === (new Date()).toDateString().split(' ')[1]);
             const allRead = requests.filter(request => request.read === true );
             const todayRead = requests.filter(request => request.read === true && (request.requestDate).split(' ')[2] === (new Date()).toDateString().split(' ')[2]);
             const monthlyRead = requests.filter(request => request.read === true && (request.requestDate).split(' ')[1] === (new Date()).toDateString().split(' ')[1]);
-            //setFilteredRequests.verifiedRequests(verifiedRequests);
-            setFilteredCounts({
-                all:requests.length,
-                flood:flood.length,
-                tsunami:tsunami.length,
-                fire:fire.length,
-                extremeWind:extremeWind.length,
-                landslide:landslide.length,
-                verified:verified.length,
-                today:today.length,
-                monthly:monthly.length,
-                allRead:allRead.length,
-                todayRead:todayRead.length,
-                monthlyRead:monthlyRead.length,
-                other:other.length
-
-            })
 
             dispatch({ type: 'Request_Loaded', payload: sortedRequests });
             setShowRequests(requests);
@@ -314,5 +282,5 @@ export const Requests = () =>{
                 </div>
             <Footer/>
         </div>
-    )
+    );
 }

@@ -8,6 +8,7 @@ import Switch from '@mui/material/Switch';
 import { alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 import axios from "axios";
+import { Buffer } from 'buffer';
 
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -98,43 +99,43 @@ export const NewsPreview = () =>{
 
     const handleShowDisable = async(e) =>{
         e.preventDefault();
-            try{
-                const updatedFormData = { ...formData, show: false };
-                const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
-                console.log('Form update succeeded: ', response.data);
-                message.success('Show is now disable!');
-                setFormData(updatedFormData); // Update formData with the new value of show
-                console.log("Show formdata:", updatedFormData.show); // Log the updated value
-                setShow(false);
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
-            } catch (error){
-                console.error('Error updating show:', error);
-                message.error('Failed to update show status!');
-            }
+        try{
+            const updatedFormData = { ...formData, show: false };
+            const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
+            console.log('Form update succeeded: ', response.data);
+            message.success('Show is now disable!');
+            setFormData(updatedFormData); // Update formData with the new value of show
+            console.log("Show formdata:", updatedFormData.show); // Log the updated value
+            setShow(false);
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } catch (error){
+            console.error('Error updating show:', error);
+            message.error('Failed to update show status!');
+        }
 
     };
+
     const handleShowEnable = async(e) =>{
         e.preventDefault();
-            try{
-                const updatedFormData = { ...formData, show: true };
-                const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
-                console.log('Form update succeeded: ', response.data);
-                message.success('Show is now enable!');
-                setFormData(updatedFormData); // Update formData with the new value of show
-                console.log("Show formdata:", updatedFormData.show); // Log the updated value
-                setShow(true);
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
-            } catch (error){
-                console.error('Error updating show:', error);
-                message.error('Failed to update show status!');
-            }
- 
-       
+        try{
+            const updatedFormData = { ...formData, show: true };
+            const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
+            console.log('Form update succeeded: ', response.data);
+            message.success('Show is now enable!');
+            setFormData(updatedFormData); // Update formData with the new value of show
+            console.log("Show formdata:", updatedFormData.show); // Log the updated value
+            setShow(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } catch (error){
+            console.error('Error updating show:', error);
+            message.error('Failed to update show status!');
+        } 
     };
+
     const handleDelete = async (newsId) => {
         try {
           await deleteNewsItem(selectedNews.newsId);
@@ -184,13 +185,21 @@ export const NewsPreview = () =>{
                                     <img src={`http://localhost:5000/uploads/${selectedNews.image}`} alt="News" />
                                 )} */}
                                 {/* {selectedNews.image}  */}
-                                <img src="/controller/NewsItem4.jpg" alt="" className="object-cover w-full h-full shadow-2xl" />
+                                {/* <img src={selectedNews.image} alt="" className="object-cover w-full h-full shadow-2xl" /> */}
+                                {selectedNews.image && selectedNews.image.data && (
+                                    <img
+                                        src={`data:${selectedNews.image.contentType};base64,${Buffer.from(selectedNews.image.data).toString('base64')}`}
+                                        alt={selectedNews.heading}
+                                        className="w-full h-full object-cover"
+                                    />
+                                )}
                             </div>
 
                             <div className="mt-5">
-                                <span className="text-black text-sm leading-7 font-serif text-justify h-auto">
+                                {/* <span className="text-black text-sm leading-7 font-serif text-justify h-auto">
                                     {selectedNews.newsBody}
-                                </span>
+                                </span> */}
+                                <span dangerouslySetInnerHTML={{ __html: selectedNews.newsBody.replace(/\n/g, '<br />') }} className="text-black text-sm leading-7 font-serif text-justify h-auto"/>
                             </div>
 
                             {/* Edit and delete Buttons */}
@@ -251,10 +260,17 @@ export const NewsPreview = () =>{
                                                     alt=""
                                                     className="object-cover w-full h-full"
                                                 /> */}
-                                                <img className="w-full h-full" src="/controller/NewsItem3.jpg" alt=" "/>
+                                                {/* <img className="w-full h-full" src={news.image} alt=" "/> */}
                                                 {/* {news.image && (
                                                     <img src={`../../../../../Backend/Uploads/${news.image}`} alt="News" />
                                                 )} */}
+                                                {news.image && news.image.data && (
+                                                    <img
+                                                        src={`data:${news.image.contentType};base64,${Buffer.from(news.image.data).toString('base64')}`}
+                                                        alt={news.heading}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                         <div className="mr-2 py-2">

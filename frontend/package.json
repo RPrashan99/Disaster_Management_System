@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@material-tailwind/react": "^2.1.8",
     "@mui/icons-material": "^5.15.9",
     "@mui/lab": "^5.0.0-alpha.170",
@@ -20,6 +20,7 @@
     "@vis.gl/react-google-maps": "^0.7.1",
     "antd": "^5.12.5",
     "axios": "^1.6.3",
+    "buffer": "^6.0.3",
     "chart.js": "^4.4.2",
     "date-fns": "^3.4.0",
     "dotenv": "^16.4.5",
