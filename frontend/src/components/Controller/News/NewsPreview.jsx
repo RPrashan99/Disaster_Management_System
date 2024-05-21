@@ -97,44 +97,35 @@ export const NewsPreview = () =>{
         console.log("NewstobeEdited:", selectedNews);
     };
 
-    const handleShowDisable = async(e) =>{
-        e.preventDefault();
-        try{
-            const updatedFormData = { ...formData, show: false };
-            const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
-            console.log('Form update succeeded: ', response.data);
-            message.success('Show is now disable!');
-            setFormData(updatedFormData); // Update formData with the new value of show
-            console.log("Show formdata:", updatedFormData.show); // Log the updated value
-            setShow(false);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } catch (error){
-            console.error('Error updating show:', error);
-            message.error('Failed to update show status!');
-        }
+  const handleShowToggle = async (e) => {
+    e.preventDefault();
+    const newShowValue = !formData.show;
 
-    };
+    // Optimistically update the UI
+    setFormData({ ...formData, show: newShowValue });
 
-    const handleShowEnable = async(e) =>{
-        e.preventDefault();
-        try{
-            const updatedFormData = { ...formData, show: true };
-            const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
-            console.log('Form update succeeded: ', response.data);
-            message.success('Show is now enable!');
-            setFormData(updatedFormData); // Update formData with the new value of show
-            console.log("Show formdata:", updatedFormData.show); // Log the updated value
-            setShow(true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } catch (error){
-            console.error('Error updating show:', error);
-            message.error('Failed to update show status!');
-        } 
-    };
+    try {
+      const updatedFormData = new FormData();
+      updatedFormData.append('show', newShowValue);
+      updatedFormData.append('heading', formData.heading);
+      updatedFormData.append('author', formData.author);
+      updatedFormData.append('newsBody', formData.newsBody);
+      if (formData.image) {
+        updatedFormData.append('image', formData.image);
+      }
+      const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
+      message.success(`Show is ${newShowValue ? 'enabled' : 'disabled'} now!`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error('Error updating show:', error);
+      message.error('Failed to update show status!');
+
+    // Revert the UI update if the API call fails
+    setFormData({ ...formData, show: !newShowValue });
+    }
+  };
 
     const handleDelete = async (newsId) => {
         try {
@@ -181,11 +172,6 @@ export const NewsPreview = () =>{
                             </div>
 
                             <div className="mt-5 w-full h-40">
-                                {/* {selectedNews.image && (
-                                    <img src={`http://localhost:5000/uploads/${selectedNews.image}`} alt="News" />
-                                )} */}
-                                {/* {selectedNews.image}  */}
-                                {/* <img src={selectedNews.image} alt="" className="object-cover w-full h-full shadow-2xl" /> */}
                                 {selectedNews.image && selectedNews.image.data && (
                                     <img
                                         src={`data:${selectedNews.image.contentType};base64,${Buffer.from(selectedNews.image.data).toString('base64')}`}
@@ -195,10 +181,7 @@ export const NewsPreview = () =>{
                                 )}
                             </div>
 
-                            <div className="mt-5">
-                                {/* <span className="text-black text-sm leading-7 font-serif text-justify h-auto">
-                                    {selectedNews.newsBody}
-                                </span> */}
+                            <div className="mt-5 text-justify">
                                 <span dangerouslySetInnerHTML={{ __html: selectedNews.newsBody.replace(/\n/g, '<br />') }} className="text-black text-sm leading-7 font-serif text-justify h-auto"/>
                             </div>
 
@@ -216,7 +199,7 @@ export const NewsPreview = () =>{
                                     
                                 </button>
                                 <FormControlLabel 
-                                    control={<GreenSwitch  checked={formData.show? true : false} onChange={(IsShow? handleShowDisable:handleShowEnable)}/>}
+                                    control={<GreenSwitch  checked={formData.show? true : false} onChange={handleShowToggle}/>}
                                     label={(IsShow? "Disable Show" : "Enable Show")}
                                     name="Show switch"
                                     id="Show switch"
@@ -254,16 +237,6 @@ export const NewsPreview = () =>{
                                     <div className="focus:bg-opacity-50"  onClick={() => handleCardClick(news)}>
                                         <div className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2">
                                             <div className=" w-full   py-0 h-full">
-                                                {/* {news.image} */}
-                                                {/* <img
-                                                    src={`http://localhost:5000/upload/${news.image}`}
-                                                    alt=""
-                                                    className="object-cover w-full h-full"
-                                                /> */}
-                                                {/* <img className="w-full h-full" src={news.image} alt=" "/> */}
-                                                {/* {news.image && (
-                                                    <img src={`../../../../../Backend/Uploads/${news.image}`} alt="News" />
-                                                )} */}
                                                 {news.image && news.image.data && (
                                                     <img
                                                         src={`data:${news.image.contentType};base64,${Buffer.from(news.image.data).toString('base64')}`}
@@ -308,6 +281,6 @@ export const NewsPreview = () =>{
                     )
                 }            
             </div>      
-    </div>        
+        </div>        
     )
 }
