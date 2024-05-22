@@ -49,11 +49,12 @@ export const ReportForm = () => {
     const handleRequests = async (date) => {
         const getRequests = async () => {
             const requests = await getUnverifiedRequests();
+            console.log("requests: ", requests);
             const today = new Date();
 
             if (requests != null) {
                 const filteredRequests = requests
-                    .filter(request => (request.disasterType == details.disasterType) && (request.disasterLocation == details.disasterLocation) && ((today - Date(request.requestDate) <= date)))
+                    .filter(request => (request.disasterType == details.disasterType) && (request.disasterLocation == details.disasterLocation))
                     .map(request => request.requestID);
 
                 console.log("filtered requests: ", filteredRequests);
