@@ -3,6 +3,7 @@ import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { Menues } from "../../components/Controller/Home/Menues";
 import { Footer } from "../../components/Controller/Footer"
+import Weather from "../../components/Controller/Weather/Weather";
 import { GoogleMap } from "../../components/Controller/Home/GoogleMap";
 
 export const ControllerHomePage = () => {
@@ -26,7 +27,11 @@ export const ControllerHomePage = () => {
                 </div>  
             </div>
                 <Menues/>
+                <div className="w-full">
+                    <Weather/>
+                </div>  
                 <Footer/>
+  
 
         </div>
 
