@@ -73,7 +73,7 @@ router.post('/getAll', handler( async(req,res) => {
 router.delete('/deleteContact/:contactID',handler(async(req,res) => {
     const { contactID } = req.params;
     try{
-        const deleteContactItem = await ContactModel.findOneAndDelete({contactID});
+        const deleteContactItem = await ContactModel.deleteOne({id:contactID});
         res.send(deleteContactItem);
 
     } catch(error){

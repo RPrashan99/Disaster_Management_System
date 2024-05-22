@@ -6,47 +6,26 @@ import PropTypes from 'prop-types';
 import { FaXmark } from "react-icons/fa6";
 import { deleteContact } from "../services/contactsServices";
 
-const initialState = { contactItems: []};
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'Contacts_Loaded':
-            return {...state, contactItems: action.payload};
-        default:
-            return state;
-    }
-};
+export const ContactsInfoForm = (props) => {
 
-const ContactsInfoForm = ({selection}) => {
-
-  const [state,dispatch] = useReducer(reducer, initialState);
-  const {contactItems} = state
-  const [ formData, setFormData ] = useState({
-    id:'',
-    address: '',
-    department: '',
-    contactName:'',
-    title:'',
-    hotline: '',
-    directDial: '',
-    mobile: '',
-    email: ''
-  });
+  const {selection} = props;
+  const [ formData, setFormData ] = useState('');
 
   useEffect(() =>{
-    // if ((selection.contacts) && Array.isArray(selection.contacts)) {
-    //   setFormData((selection.contacts).map(contact => ({
-    //     id: contact.id || '',
-    //     address: contact.address || '',
-    //     department: contact.department || '',
-    //     contactName: contact.contactName || '',
-    //     title: contact.title || '',
-    //     hotline: contact.hotline || '',
-    //     directDial: contact.directDial || '',
-    //     mobile: contact.mobile || '',
-    //     email: contact.email || ''
-    //   })));
-    // }
-    console.log("selectionData:",selection)
+    if (selection && Array.isArray(selection)) {
+      setFormData((selection).map(contact => ({
+        id: contact.id || '',
+        address: contact.address || '',
+        department: contact.department || '',
+        contactName: contact.contactName || '',
+        title: contact.title || '',
+        hotline: contact.hotline || '',
+        directDial: contact.directDial || '',
+        mobile: contact.mobile || '',
+        email: contact.email || ''
+      })));
+    }
+    console.log("selection Data:",selection);
   },[selection]);
 
   const handleChange = (e) => {
@@ -55,7 +34,6 @@ const ContactsInfoForm = ({selection}) => {
         [e.target.id]: e.target.value,
       });
   };
-
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -75,14 +53,10 @@ const ContactsInfoForm = ({selection}) => {
           mobile: formData.mobile,
           email: formData.email
         });
-        console.log('Form submitted succedded: ', response.data);
-        message.success('Contact is created!')
-        setFormData({
-          ...formData,
-        });
+        message.success('Contact is created!');
       } catch (error){
         console.error('Error submitting form:', error);
-        message.error('Failed to create contact!')
+        message.error('Failed to create contact!');
       }
   
     }
@@ -90,12 +64,7 @@ const ContactsInfoForm = ({selection}) => {
 
   const handleDelete = async (contactID) => {
     try {
-      await deleteContact(contactID);
-      dispatch({
-        type: "News_Loaded",
-        payload: contactItems.filter((item) => item.contacts.contactID !== contactID),
-      });
-      console.log("News item deleted successfully");
+      const result = await deleteContact(contactID);
       message.success("Successfully deleted the news item!")
     } catch (error) {
       console.error("Error deleting news item:", error);
@@ -103,47 +72,13 @@ const ContactsInfoForm = ({selection}) => {
     }
 };
 
-  // const handleEdit = async(e) =>{
-  //   e.preventDefault();
-  //   if (!formData.contactName || !formData.directDial || !formData.title  || !formData.email) {
-  //     message.error('Missing required fields');
-  //     return;
-  //   }
-  //   else{
-  //     try{
-  //       const response = await axios.patch('http://localhost:5000/api/contacts/updateContact' + formData.id, {
-  //         address:formData.address,
-  //         department: formData,
-  //         contactName:formData.contactName,
-  //         title: formData.title,
-  //         hotline:formData.hotline,
-  //         directDial:formData.directDial,
-  //         mobile: formData.mobile,
-  //         email: formData.email
-  //       });
-
-  //       console.log('Form update succeeded: ', response.data);
-  //       message.success('Contact is updated!')
-
-
-  //       setFormData({
-  //         ...formData,
-  //       });
-  //     } catch (error){
-  //       console.error('Error updating form:', error);
-  //       message.error('Failed to update contacts!')
-  //     }
-  
-  //   }
-  // }
-
   return (
     <div>
       <div className="bg-blue-100 p-5 m-5 justify-center items-center relative">
         <input type="text"
           id="department"
           name="department"
-          value={selection[0].department}
+          value={formData ? formData[0].department : ""}
           onChange={handleChange}
           placeholder="Name of the authority/department/Society"
           className="bg-gray-50 border w-5/12 border-gray-300 text-black text-lg rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
@@ -154,7 +89,7 @@ const ContactsInfoForm = ({selection}) => {
           <input  type="tel"
             id="hotline"
             name="hotline"
-            value={selection[0].hotline}
+            value={formData ? formData[0].hotline : ""}
             onChange={handleChange}
             placeholder="Hotline"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
@@ -296,10 +231,10 @@ const ContactsInfoForm = ({selection}) => {
       </div>
     </div>
   );
-};
+}
 
 
-ContactsInfoForm.propTypes = {
-  selection: PropTypes.any.isRequired // Adjust the PropTypes type according to your needs
-};
-export default ContactsInfoForm;
+// ContactsInfoForm.propTypes = {
+//   selection: PropTypes.any.isRequired // Adjust the PropTypes type according to your needs
+// };
+// export default ContactsInfoForm;
