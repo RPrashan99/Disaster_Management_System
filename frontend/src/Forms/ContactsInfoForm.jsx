@@ -1,31 +1,44 @@
 import React, { useEffect, useState, useReducer } from "react";
-// import { DragDrop } from "../../components/Controller/News/DragDrop";
 import axios from "axios";
 import {message} from "antd";
 import PropTypes from 'prop-types';
 import { FaXmark } from "react-icons/fa6";
 import { deleteContact } from "../services/contactsServices";
 
-export const ContactsInfoForm = (props) => {
+const initialState = { contactItems: []};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'Contacts_Loaded':
+      return {...state, contactItems: action.payload};
+    case 'Add_Contact':
+      return {...state, contactItems: [...state.contactItems, action.payload]};  
+    default:
+      return state;
+  }
+};
 
-  const {selection} = props;
-  const [ formData, setFormData ] = useState('');
+const ContactsInfoForm = ({selection}) => {
+
+  const [state,dispatch] = useReducer(reducer, initialState);
+  const {contactItems} = state
+  const [ formData, setFormData ] = useState({
+    id:'',
+    address: '',
+    contactName:'',
+    title:'',
+    department:selection && selection[0] ? selection[0].department :'',
+    hotline: selection && selection[0]?  selection[0].hotline : '',
+    directDial: '',
+    mobile: '',
+    email: ''
+  });
 
   useEffect(() =>{
-    if (selection && Array.isArray(selection)) {
-      setFormData((selection).map(contact => ({
-        id: contact.id || '',
-        address: contact.address || '',
-        department: contact.department || '',
-        contactName: contact.contactName || '',
-        title: contact.title || '',
-        hotline: contact.hotline || '',
-        directDial: contact.directDial || '',
-        mobile: contact.mobile || '',
-        email: contact.email || ''
-      })));
-    }
-    console.log("selection Data:",selection);
+    dispatch({
+      type: "Contacts_Loaded",
+      payload: selection,
+    });
+
   },[selection]);
 
   const handleChange = (e) => {
@@ -35,9 +48,12 @@ export const ContactsInfoForm = (props) => {
       });
   };
 
+  const handleExit = () =>{
+    window.location.reload();
+  }
   const handleSubmit = async(e) => {
     e.preventDefault();
-    if (!formData.contactName || !formData.directDial || !formData.title  || !formData.email) {
+    if (!formData.address || !formData.directDial || !formData.title  || !formData.email) {
       message.error('Missing required fields');
       return;
     }
@@ -53,7 +69,29 @@ export const ContactsInfoForm = (props) => {
           mobile: formData.mobile,
           email: formData.email
         });
-        message.success('Contact is created!');
+
+        if(selection){
+          dispatch({
+            type: "Add_Contact",
+            payload: response.data,
+          });  
+        }else{
+          window.location.reload();
+        }
+      
+        message.success('Contact is created!')
+        setFormData({
+          id:'',
+          address: '',
+          contactName:'',
+          title:'',
+          department:selection && selection[0] ? selection[0].department :'',
+          hotline: selection && selection[0]?  selection[0].hotline : '',
+          directDial: '',
+          mobile: '',
+          email: ''
+        });
+
       } catch (error){
         console.error('Error submitting form:', error);
         message.error('Failed to create contact!');
@@ -64,40 +102,47 @@ export const ContactsInfoForm = (props) => {
 
   const handleDelete = async (contactID) => {
     try {
-      const result = await deleteContact(contactID);
-      message.success("Successfully deleted the news item!")
+      await deleteContact(contactID);
+      console.log("deleted", contactID);
+      dispatch({
+        type: "Contacts_Loaded",
+        payload: contactItems.filter((item) => item.id !== contactID),
+        
+      });
+    
+      message.success("Successfully deleted the contact item!")
+
     } catch (error) {
-      console.error("Error deleting news item:", error);
+      console.error("Error deleting contact item:", error);
       message.error("Deletion failed!")
     }
 };
-
   return (
     <div>
       <div className="bg-blue-100 p-5 m-5 justify-center items-center relative">
         <input type="text"
           id="department"
           name="department"
-          value={formData ? formData[0].department : ""}
+          value={formData.department}
           onChange={handleChange}
           placeholder="Name of the authority/department/Society"
-          className="bg-gray-50 border w-5/12 border-gray-300 text-black text-lg rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+          className="bg-gray-50 border text-sm md:text-xl w-full md:w-5/12 border-gray-300 text-black rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
         ></input>
-      </div>
+      </div> 
       <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
         <div className=" text-white font-bold text-base md:text-2xl p-2 rounded-md">
           <input  type="tel"
             id="hotline"
             name="hotline"
-            value={formData ? formData[0].hotline : ""}
+            value={formData.hotline}
             onChange={handleChange}
             placeholder="Hotline"
             className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
           ></input>
         </div>
         <div className="flex items-center justify-center mt-5 shadow-2xl ">
-          <button type="submit" onClick={(handleSubmit)} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-2 px-5 w-full text-white font-semibold text-xl text-[1.2rem]">
-            Create
+          <button type="submit" onClick={(handleExit)} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-1 px-3 w-full text-white font-semibold text-sm md:text-xl">
+            Exit
           </button>
         </div>
       </div>
@@ -106,125 +151,136 @@ export const ContactsInfoForm = (props) => {
         <table className="mt-5 w-full">
           <thead className="bg-gray-50 border-b-2 border-gray-200">
             <tr>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Address
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Name
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Title
-                    </th>
-                    <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                      Direct Dial
-                    </th>
-                    <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                      Mobile
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Email
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      
-                    </th>
+              <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                Address
+              </th>
+              <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                Name
+              </th>
+              <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                Title
+              </th>
+              <th className=" p-3 text-sm font-semibold tracking-wide text-left">
+                Direct Dial
+              </th>
+              <th className=" p-3 text-sm font-semibold tracking-wide text-left">
+                Mobile
+              </th>
+              <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                Email
+              </th>
+              <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 overflow-auto">
-          {selection && selection.map((contact, index) => (
+          {state.contactItems && state.contactItems.map((contact, index) => (
             <tr key={index} className="bg-white">
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      {contact.address}
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      {contact.contactName}
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      {contact.title}
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      {contact.directDial}
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      {contact.mobile}
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <a
-                        className="font-bold hover:underline"
-                        href="mailto:example@example.com"
-                      >
-                        {contact.email}
-                      </a>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <button type="submit" onClick={() =>handleDelete(contact.id)} className="bg-red-600 shadow-[gray] shadow-md rounded-lg items-center justify-center focus:ring-4 focus:outline-none hover:bg-[gray] p-2 text-white font-semibold text-[1.2rem]">
-                          <FaXmark/>
-                        </button>
-                    </td>
-                  </tr>
-          ))}
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                {contact.address}
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                {contact.contactName}
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                {contact.title}
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                {contact.directDial}
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                {contact.mobile}
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <a
+                  className="font-bold hover:underline"
+                  href="mailto:example@example.com"
+                >
+                  {contact.email}
+                </a>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                  <button type="submit" onClick={() =>handleDelete(contact.id)} className="bg-red-600 shadow-[gray] shadow-md rounded-lg items-center justify-center focus:ring-4 focus:outline-none hover:bg-[gray] p-2 text-white font-semibold text-sm md:text-xl">
+                    <FaXmark/>
+                  </button>
+              </td>
+            </tr>
+            ))}
 
-                  <tr className="bg-gray-50">
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <input  
-                            type="text"
-                            id="address"
-                            name="address"
-                            onChange={handleChange}
-                            placeholder="Address"
-                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-                        ></input>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <input  type="text"
-                            id="name"
-                            name="name"
-                            onChange={handleChange}
-                            placeholder="Name"
-                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-                        ></input>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <input  type="text"
-                            id="title"
-                            name="title"
-                            onChange={handleChange}
-                            placeholder="Title"
-                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-                        ></input>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <input  type="tel"
-                            id="directDial"
-                            name="directDial"
-                            onChange={handleChange}
-                            placeholder="Direct Dial"
-                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-                        ></input>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        <input  type="tel"
-                            id="mobile"
-                            name="mobile"
-                            onChange={handleChange}
-                            placeholder="Mobile"
-                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-                        ></input>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                        
-                        <input  type="email"
-                            id="email"
-                            name="email"
-                            onChange={handleChange}
-                            placeholder="Email"
-                            className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
-                        ></input>
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <button type="submit" onClick={(handleSubmit)} className="bg-ControllerSec rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-2 px-5 w-full text-white font-semibold shadow-md shadow-[gray] text-xl text-[1.2rem]">
-                          Add
-                      </button>
-                    </td>
+            <tr className="bg-gray-50">
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <input  
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  placeholder="Address"
+                  required
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                ></input>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <input  type="text"
+                  id="contactName"
+                  name="contactName"
+                  onChange={handleChange}
+                  value={formData.contactName}
+                  placeholder="Contact Name"
+                  required
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                ></input>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <input  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="Title"
+                  required
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                ></input>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <input  type="tel"
+                  id="directDial"
+                  name="directDial"
+                  value={formData.directDial}
+                  onChange={handleChange}
+                  placeholder="Direct Dial"
+                  required
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                ></input>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <input  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  placeholder="Mobile"
+                  required
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                ></input>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">  
+                <input  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  required
+                  className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[gray] focus:border-[gray] block p-2.5 my-2"
+                ></input>
+              </td>
+              <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                <button type="submit" onClick={(handleSubmit)} className="bg-ControllerSec rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-1 px-3 w-full text-white font-semibold shadow-md shadow-[gray] text-sm md:text-xl">
+                    Add
+                </button>
+              </td>
             </tr>               
           </tbody>
         </table>
@@ -233,8 +289,7 @@ export const ContactsInfoForm = (props) => {
   );
 }
 
-
-// ContactsInfoForm.propTypes = {
-//   selection: PropTypes.any.isRequired // Adjust the PropTypes type according to your needs
-// };
-// export default ContactsInfoForm;
+ContactsInfoForm.propTypes = {
+  selection: PropTypes.any.isRequired 
+};
+export default ContactsInfoForm;

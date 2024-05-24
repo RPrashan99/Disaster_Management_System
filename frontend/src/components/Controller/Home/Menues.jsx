@@ -16,13 +16,13 @@ export const Menues = () => {
             description:
               "Give your support  to the people in need during Emergencies.",
             image: "/controller/Volunteering.png",
-            url: "/controller/requests"
+            url: "/controller/volunteering"
           },
           {
             id: 3,
             title: "Emergency Contacts",
             description:
-              "Discover essential safety tips for any disaster. Be ready, stay vigilant. Your safety matters most.",
+              "Discover essential contact info for any disaster. Be ready, stay vigilant.",
             image: "/controller/Light On.png",
             url: "/controller/ContactInfoAdder"
           },
@@ -43,11 +43,11 @@ export const Menues = () => {
           },
           {
             id: 6,
-            title: "Weather",
+            title: "Requests",
             description:
-              "Provides information on whether around you. You can be ready according to the whether.",
+              "Provides information on situation you are facing.Then you can obtain a help.",
             image: "/controller/Weather.png",
-            url: "/controller/news"
+            url: "/controller/requests"
           },
           {
             id: 7,
@@ -74,9 +74,9 @@ export const Menues = () => {
             <a key={service.id} href={service.url} className="px-4 py-8 text-center md:w-[300px] mx-auto md:h-80
                    hover:-translate-y-5 rounded-md cursor-pointer group-hover:scale-[0.85] hover:scale-100 
                    hover:bg-[#4d4c4c] text-[black] hover:text-[#e9e8e8] transition-all duration-300 flex items-center justify-center h-full 
-                   bg-[#ffffff] shadow-xl hover:rounded-[20px] shadow-[gray] hover:border-b-[1rem] hover:border-ControllerSec">
+                   bg-[#ffffff] shadow-xl hover:rounded-[20px] shadow-[gray] hover:border-b-[1rem] hover:border-secondary">
               <div className="">
-              <div className="flex items-end h-[10%] w-[20%] p-[2%] bg-ControllerSec shadow-lg hover:bg-ControllerSec rounded-[50%] mb-4 mx-auto ">
+              <div className="flex items-end h-[10%] w-[20%] p-[2%] bg-secondary shadow-lg hover:shadow-secondary rounded-[50%] mb-4 mx-auto ">
                 <img src={service.image} alt="" className="flex items-end h-[70%] w-[90%] p-[2%] rounded-[10%] ml-1 " />
 
               </div>

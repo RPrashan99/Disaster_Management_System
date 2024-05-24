@@ -66,17 +66,17 @@ const ContactInfoAdder = () => {
       </div>
       <div className="flex flex-row bg-gray-700 m-3" >
         {/* left Section */}
-        <div className=" flex flex-col justify-center items-center w-[20%] bg-gray-200 h-[500px] ">
-          <h1 className=" text-ControllerPrim text-[1.5rem]">Departments</h1>
-          <div className=" flex bg-secondary m-1">
-            <div className=" flex ">
-              <SearchBar />
-            </div>
+        <div className=" flex flex-col justify-center items-center w-[20%] bg-gray-200 h-auto ">
+          <h1 className=" text-ControllerPrim font-semibold py-3 text-[1rem] md:text-[1.5rem]">Departments</h1>
+          <div className=" flex bg-secondary m-1 mb-3">
+              <div className=" flex ">
+                <SearchBar/>
+              </div>
           </div>
           <div className="flex flex-col w-full h-[450px] overflow-auto" >
             {Object.keys(groupedContacts).map(department => (
               <React.Fragment key={department}>
-                <div onClick={() => handleCardClick(department)} className=" bg-blue-200 shadow-md m-1 cursor-pointer rounded-sm align-middle items-center pt-2 text-center text-gray-800 h-10 w-full focus:bg-slate-400">
+                <div onClick={() => handleCardClick(department)} className="flex justify-center bg-slate-500 text-[0.8rem] md:text-[1rem] text-white shadow-md mb-1 cursor-pointer rounded-sm align-middle items-center pt-2 text-center h-10 w-full focus:bg-slate-400">
                   {department}
                 </div>
               </React.Fragment>
@@ -85,10 +85,11 @@ const ContactInfoAdder = () => {
         </div>
         {/* right section */}
         <div className="bg-gray-300 w-[80%]">
-          {selectedDepartment ? (
-            selectedEdit ? (
-              <ContactsInfoForm selection={selectedEdit} />
-            ) : (
+          {selectedDepartment?(
+            selectedEdit?(
+              <ContactsInfoForm selection={selectedEdit}/>
+              
+            ):(
               <div className="bg-blue-100 p-5 m-5">
                 <h1 className="text-base md:text-3xl font-bold text-center">
                   {selectedDepartment[0].department}
@@ -96,16 +97,16 @@ const ContactInfoAdder = () => {
                 <p className="text-sm text-center">
                 </p>
                 <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
-                  <h1 className="text-red-600 font-semibold text-base md:text-2xl">
+                  <h1 className="text-red-600 font-semibold text-md md:text-2xl">
                     Hotline:-
                   </h1>
-                  <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
+                  <div className="bg-red-600 hover:bg-red-700 text-white font-bold text-sm md:text-2xl py-2 px-5 rounded-md">
                     {" "}
                     {selectedDepartment[0].hotline}{" "}
                   </div>
-                  <button type="submit" onClick={() => { handleEdit(selectedDepartment) }} className="bg-ControllerSec w-[10%] rounded-lg items-center
-                  justify-center focus:ring-4 focus:outline-none hover:bg-[gray] shadow-md shadow-[gray] py-2 
-                  px-1 text-white font-semibold text-xl text-center text-[1.2rem]">
+                  <button type="submit" onClick={() =>{handleEdit(selectedDepartment)}} className="bg-ControllerSec rounded-lg items-center
+                  justify-center focus:ring-4 focus:outline-none hover:bg-[gray] shadow-md shadow-[gray] py-1 
+                  px-3 text-white font-semibold text-sm text-center md:text-xl">
                     Edit
                   </button>
                 </div>
@@ -162,20 +163,21 @@ const ContactInfoAdder = () => {
                             </td>
                           </tr>
                         </React.Fragment>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-            )) : (selectedCreate ? (
-              <ContactsInfoForm />
-            ) : (
-              <div className="flex items-center justify-center mt-5 shadow-2xl ">
-                <button type="submit" onClick={() => handleCreate()} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-2 px-5 text-white font-semibold text-xl text-[1.2rem]">
-                  Create New Contact
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+              </div>  
+            )):(selectedCreate?(
+              <ContactsInfoForm/>
+            ):(
+              <div className=" flex flex-col items-center mt-20 h-full w-full ">
+                <h1 className=" text-[0.8rem] md:text-[1rem] [font-family:'Inter',Helvetica]">Create a collection of contact information.</h1>
+                <img src="/controller/contactImage1.png" alt="" className=" w-56 h-56"/>
+                <button type="submit" onClick={() =>handleCreate()} className="bg-ControllerSec shadow-lg shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-2 px-5 text-white font-semibold text-md md:text-xl">
+                  Create New Contacts
                 </button>
-              </div>
+              </div>  
             )
           )}
         </div>
@@ -183,6 +185,5 @@ const ContactInfoAdder = () => {
     </>
   );
 };
-
 
 export default ContactInfoAdder;

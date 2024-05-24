@@ -12,6 +12,7 @@ import { ReportForm } from './components/Controller/DisasterStatus/DisasterRepor
 import { EditReport } from './components/Controller/DisasterStatus/DisasterEditReport'
 import ContactInfoAdder from './pages/controller/ContactInfoAdder'
 import { ShelterLocationPage } from './pages/controller/ShelterLocations'
+import { VolunteeringPage } from './pages/controller/VolunteeringPage';
 import { DisasterMap } from './pages/controller/DisasterMap';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path="/window/:requestID" element={<WindowComponent/>} /> 
         <Route path="/controller/ContactInfoAdder" element={<ContactInfoAdder/>}/>
         <Route path="/controller/shelters" element = {<ShelterLocationPage/>} />
+        <Route path="/controller/volunteering" element = {<VolunteeringPage/>} />
         <Route path="/controller/map" element = {<DisasterMap/>}/>
       </Routes>
     </BrowserRouter>

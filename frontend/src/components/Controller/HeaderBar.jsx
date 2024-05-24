@@ -25,19 +25,19 @@ export const HeaderBar = () => {
       
                         <ul className=" flex flex-col gap-1 relative justify-center w-full !mt-[8.00px] !text-[14px]  ![font-family:'Inter',Helvetica]  items-start mb-5 ">
                             <li>
-                                <a className="flex relative transform w-full hover:font-bold bg-transparent  hover:text-ControllerPrim" href="/"> Home </a>
+                                <a className="flex relative transform w-full hover:font-bold bg-transparent  hover:text-ControllerPrim" href="/controller/home"> Home </a>
                             </li>
                             <li>
-                                <a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent  hover:text-ControllerPrim hover:bg-transparent " href="#"> Disaster Status </a>
+                                <a className="flex relative transform transition-transform hover:font-bold  w-full bg-transparent  hover:text-ControllerPrim hover:bg-transparent " href="/controller/status"> Disaster Status </a>
                             </li>
                             <li>
-                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-ControllerPrim hover:bg-transparen transition " href="#"> Requests </a>
+                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-ControllerPrim hover:bg-transparen transition " href="/controller/requests"> Requests </a>
                             </li>
                             <li>
-                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-ControllerPrim over:text-black  hover:bg-transparent transition" href="#"> Disaster Map </a>
+                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparent hover:text-ControllerPrim over:text-black  hover:bg-transparent transition" href="/controller/map"> Disaster Map </a>
                             </li>
                             <li>
-                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-ControllerPrim   transition " href="#"> User Control </a>
+                                <a className="flex relative transform hover:font-bold  flex-[0_0_auto] bg-transparen hover:bg-transparent  hover:text-ControllerPrim   transition " href="/controller/users"> User Control </a>
                             </li>
                         </ul>
                     </div> 

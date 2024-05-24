@@ -10,7 +10,7 @@ const NewsCreatorForm = ({selection}) => {
     newsId:'',
     heading:'',
     author:'',
-    image:'',
+    image:null,
     newsBody:'',
     show: ''
   });
@@ -20,7 +20,7 @@ const NewsCreatorForm = ({selection}) => {
         newsId: selection.newsId || '',
         heading: selection.heading || '',
         author: selection.author || '',
-        image: selection.image || '',
+        image: selection.author || null,
         newsBody: selection.newsBody || '',
         show: selection.show || ''
       });
@@ -32,28 +32,14 @@ const NewsCreatorForm = ({selection}) => {
     if(e.target.type === "file"){
       setFormData({
         ...formData,
-        image:e.target.files[0],
-      });
+        image: e.target.files[0]
+    });
+      console.log("image file",formData.image);
     }else{
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
       });
-    }
-  };
-
-  const handleFileUpload = async (file) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await axios.post("/api/news/upload", formData);
-      const imagePath = response.data.imagePath; // Assuming the response contains the imagePath
-      setFormData({ ...formData, image: imagePath }); // Set imagePath in state
-      return imagePath; // Assuming the response contains the file path
-
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      throw error;
     }
   };
 
@@ -63,44 +49,37 @@ const NewsCreatorForm = ({selection}) => {
       message.error('Missing required fields');
       return;
     }
-    // else if (formData.image) {
-    //   try {
-    //     const filePath = await handleFileUpload(formData.image);
-    //     // Update the form data with the file path if needed
-    //     setFormData({ ...formData, image: filePath });
-    //   } catch (error) {
-    //     console.error("Error handling file upload:", error);
-    //     // Handle error, show message, etc.
-    //     return;
-    //   }
-    // } 
+    
     else{
+      const formDataObj = new FormData();
+      formDataObj.append('heading', formData.heading);
+      formDataObj.append('author', formData.author);
+      formDataObj.append('newsBody', formData.newsBody);
+      if (formData.image) {
+        formDataObj.append('image', formData.image);
+      }
       try{
-        let imagePath = !formData.image ? formData.image:await handleFileUpload(formData.image) ;
-        // if (formData.image) {
-        //     imagePath = await handleFileUpload(formData.image);
-        // }
-        // const newsData = { ...formData, imagePath };
-        const response = await axios.post('http://localhost:5000/api/news/createNews', {
-          heading: formData.heading,
-          author: formData.author,
-          newsBody: formData.newsBody,
-          imagePath: imagePath // Make sure imagePath is properly set before sending the request
+        const response = await axios.post('http://localhost:5000/api/news/createNews', formDataObj, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         });
         console.log('Form submitted succedded: ', response.data);
         message.success('News is created!')
         setFormData({
           heading:'',
           author:'',
-          image: '',
+          image: null,
           newsBody:'',
           show: false
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } catch (error){
         console.error('Error submitting form:', error);
         message.error('Failed to create news!')
       }
-  
     }
   };
   const editHandler = async(e) =>{
@@ -111,30 +90,25 @@ const NewsCreatorForm = ({selection}) => {
     }
     else{
       try{
-        let imagePath = formData.image || null; // Set imagePath to null if no new image uploaded
-
-        if (formData.image instanceof File) {
-          // If a new image is uploaded, handle file upload and get the new imagePath
-          imagePath = await handleFileUpload(formData.image);
+        const formDataObj = new FormData();
+        formDataObj.append('newsId', formData.newsId);
+        formDataObj.append('heading', formData.heading);
+        formDataObj.append('author', formData.author);
+        formDataObj.append('newsBody', formData.newsBody);
+        if (formData.image) {
+            formDataObj.append('image', formData.image);
         }
 
-
-        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {
-            heading: formData.heading,
-            author: formData.author,
-            newsBody: formData.newsBody,
-            imagePath: imagePath, // Send imagePath as null if no new image uploaded
-            show: formData.show
-        });
-
+        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, formDataObj);
         console.log('Form update succeeded: ', response.data);
-        message.success('News is updated!')
-
-
         setFormData({
           ...formData,
-          image:'',
+          image: null,
         });
+        message.success('News is updated!')
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } catch (error){
         console.error('Error updating form:', error);
         message.error('Failed to update news!')
@@ -176,8 +150,6 @@ const NewsCreatorForm = ({selection}) => {
                       id="image"
                       name="image"
                       onChange={(e) => handleChange(e)}
-                      required
-                      placeholder="Enter Name"
                       className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-[50%] p-2.5 my-2"
                     ></input>
                 </div>

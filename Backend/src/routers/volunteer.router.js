@@ -15,6 +15,7 @@ router.post('/create', handler(async(req, res) =>{
         phoneNumber,
         age,
         address,
+        province,
         skills,
         experience,
         motivation,
@@ -31,6 +32,7 @@ router.post('/create', handler(async(req, res) =>{
         phoneNumber,
         age,
         address,
+        province,
         skills,
         experience,
         motivation,
@@ -44,6 +46,31 @@ router.post('/create', handler(async(req, res) =>{
         res.status(BAD_REQUEST).send("Volunteer create error");
     }
 
+}));
+
+router.post('/getAll', handler(async(req, res) => {
+
+    try{
+        const allVolunteers = await VolunteerModel.find({}); //need to change accordingly
+        res.send(allVolunteers);
+    } catch (error) {
+        console.error(error);
+        res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+    }
+}));
+
+router.get('/getvolunteer/:volunteerID', handler(async(req, res) => {
+    const { id } = req.params;
+    console.log("volunteerID: ", id);
+
+try{
+    const volunteer = await VolunteerModel.findOne({id}); //need to change accordingly
+    console.log("volunteer:",volunteer);
+    res.send(volunteer);
+} catch (error) {
+    console.error(error);
+    res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+}
 }));
 
 router.post('/getAllBytype', handler(async(req, res) =>{
