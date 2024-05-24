@@ -20,7 +20,7 @@ export const Menues = () => {
           },
           {
             id: 3,
-            title: "Contact Info",
+            title: "Emergency Contacts",
             description:
               "Discover essential contact info for any disaster. Be ready, stay vigilant.",
             image: "/controller/Light On.png",

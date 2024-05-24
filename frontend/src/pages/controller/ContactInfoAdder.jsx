@@ -1,58 +1,58 @@
-import React, {useEffect, useState, useReducer} from "react";
-import {LanguageBar} from "../../components/Controller/LanguageBar";
+import React, { useEffect, useState, useReducer } from "react";
+import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { SearchBar } from "../../components/Controller/SearchBar";
 import { getContacts } from "../../services/contactsServices";
-import ContactsInfoForm from "../../Forms/ContactsInfoForm";
+import { ContactsInfoForm } from "../../Forms/ContactsInfoForm.jsx";
 
-const initialState = { contactItems: []};
+const initialState = { contactItems: [] };
 const reducer = (state, action) => {
-  switch (action.type){
+  switch (action.type) {
     case 'Contacts_Loaded':
-      return {...state, contactItems:action.payload};
+      return { ...state, contactItems: action.payload };
     default:
-      return state;  
+      return state;
   }
 };
 
 const ContactInfoAdder = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const {contactItems} = state;
+  const { contactItems } = state;
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [selectedCreate, setSelectedCreate] = useState(false);
   const [selectedEdit, setSelectedEdit] = useState(null);
 
-  useEffect(() =>{
+  useEffect(() => {
 
-  const loadContacts = getContacts();
-  console.log("contact details:", selectedDepartment);
-  loadContacts.then(contactItems =>{
-    dispatch({type:'Contacts_Loaded', payload: contactItems})
-  })
+    const loadContacts = getContacts();
+    console.log("contact details:", selectedDepartment);
+    loadContacts.then(contactItems => {
+      dispatch({ type: 'Contacts_Loaded', payload: contactItems })
+    })
   },
-  [selectedDepartment]);
+    [selectedDepartment]);
 
   // Group contact items by department
   const groupedContacts = {};
   contactItems.forEach(contact => {
-    const { department} = contact;
+    const { department } = contact;
     if (!groupedContacts[department]) {
       groupedContacts[department] = [];
     }
     groupedContacts[department].push(contact);
   });
 
-  const handleCardClick = (department) =>{
+  const handleCardClick = (department) => {
     setSelectedDepartment(groupedContacts[department]);
     console.log("selected department", groupedContacts[department]);
   }
 
-  const handleCreate = () =>{
+  const handleCreate = () => {
     setSelectedCreate(true);
   }
 
-  const handleEdit = (selectedContact)=> {
+  const handleEdit = (selectedContact) => {
     setSelectedEdit(selectedContact);
     console.log("selected Edit", selectedContact);
   }
@@ -60,9 +60,9 @@ const ContactInfoAdder = () => {
   return (
     <>
       <LanguageBar />
-      <HeaderBar/>
+      <HeaderBar />
       <div className="flex justify-center items-center ">
-          <h1 className=" text-[2.4rem] text-ControllerPrim font-extrabold">Contact Info</h1>
+        <h1 className=" text-[2.4rem] text-ControllerPrim font-extrabold">Contact Info</h1>
       </div>
       <div className="flex flex-row bg-gray-700 m-3" >
         {/* left Section */}
@@ -111,31 +111,31 @@ const ContactInfoAdder = () => {
                   </button>
                 </div>
                 <div className="overflow-auto rounded-lg shadow">
-                    <table className="mt-5 w-full">
-                      <thead className="bg-gray-50 border-b-2 border-gray-200">
-                        <tr>
-                          <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                            Address
-                          </th>
-                          <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                            Name
-                          </th>
-                          <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                            Title
-                          </th>
-                          <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                            Direct Dial
-                          </th>
-                          <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                            Mobile
-                          </th>
-                          <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                            Email
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100 overflow-auto">
-                      {Array.isArray(selectedDepartment) && selectedDepartment.map((contact,i) => (
+                  <table className="mt-5 w-full">
+                    <thead className="bg-gray-50 border-b-2 border-gray-200">
+                      <tr>
+                        <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                          Address
+                        </th>
+                        <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                          Name
+                        </th>
+                        <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                          Title
+                        </th>
+                        <th className=" p-3 text-sm font-semibold tracking-wide text-left">
+                          Direct Dial
+                        </th>
+                        <th className=" p-3 text-sm font-semibold tracking-wide text-left">
+                          Mobile
+                        </th>
+                        <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                          Email
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 overflow-auto">
+                      {Array.isArray(selectedDepartment) && selectedDepartment.map((contact, i) => (
                         <React.Fragment key={i}>
                           <tr className="bg-white">
                             <td className="p-3 text-sm text-gray-700 whitespace-nowrap">

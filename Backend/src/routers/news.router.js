@@ -18,6 +18,7 @@ router.post('/createNews', upload.single('image'), handler(async (req, res) => {
     const createdDate = currentDateTime.toDateString();
     const createdTime = currentDateTime.toTimeString();
     const show = false;
+
         // Validate required fields
         if (!heading || !author || !newsBody ) {
             return res.status(BAD_REQUEST).send("Missing required fields");
@@ -31,17 +32,19 @@ router.post('/createNews', upload.single('image'), handler(async (req, res) => {
         contentType = req.file.mimetype;
     }
 
-    try{
+    try {
         const newNews = await NewsModel.create({
             newsId: newID,
             heading,
             author,
+
             image : { data: imageData, contentType: contentType },
+
             newsBody,
             createdDate,
             createdTime,
             show,
-          });
+        });
         res.send(newNews);
         console.log("image", newNews.image);
     } catch(error){
@@ -77,42 +80,42 @@ router.patch('/updateNews/:newsId', upload.single('image'), handler(async (req, 
         );
 
         res.send(updatedNews);
-    } catch(error){
+    } catch (error) {
         console.error("Error updating news:", error);
         res.status(BAD_REQUEST).send("News update failed");
     }
 
 }));
 
-router.post('/getNews', handler( async(req,res) => {
-    try{
+router.post('/getNews', handler(async (req, res) => {
+    try {
         const result = await NewsModel.find({});
         res.send(result);
-    } catch(error){
+    } catch (error) {
         res.status(BAD_REQUEST).send("News fetch error");
     }
 }));
 
-router.delete('/deleteNews/:newsId',handler(async(req,res) => {
+router.delete('/deleteNews/:newsId', handler(async (req, res) => {
     const { newsId } = req.params;
-    try{
-        const deleteNewsItem = await NewsModel.findOneAndDelete({newsId});
+    try {
+        const deleteNewsItem = await NewsModel.findOneAndDelete({ newsId });
         res.send(deleteNewsItem);
 
-    } catch(error){
+    } catch (error) {
         res.status(BAD_REQUEST).send("News fetch error");
     }
 }));
 
 
 
-const generateNewsId = async() => {
+const generateNewsId = async () => {
     var count = await NewsModel.countDocuments();
 
-    while(await NewsModel.findOne({newsId: count.toString()})) {
+    while (await NewsModel.findOne({ newsId: count.toString() })) {
         count++;
     }
-  
+
     return count.toString();
 };
 

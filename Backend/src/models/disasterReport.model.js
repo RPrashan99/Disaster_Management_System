@@ -7,15 +7,15 @@ export const DisasterReportSchema = new Schema(
         severity: {type: String, required: true},
         disasterLocation: {type: [String], required: true},
         affectedCount: {type: Number, required: true},
-        // affectedCountByDate: {
-        //     type: [
-        //         {
-        //             date: String,
-        //             count: Number
-        //         }
-        //     ],
-        //     default: []
-        // },
+        affectedCountByDate: {
+            type: [
+                {
+                    date: String,
+                    count: Number
+                }
+            ],
+            default: []
+        },
         affectedLocations: {
             type: [
                 {

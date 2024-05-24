@@ -3,7 +3,7 @@ import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { deleteShelter, getAllShelters } from "../../services/shelterService";
 import { RowCardShelter } from "../../components/Controller/shelters/RowCardShelter.jsx";
-import Button from '@mui/material/Button';
+import { Alert, Button, Snackbar } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import Collapse from '@mui/material/Collapse';
 import { ShelterAddForm } from "../../components/Controller/shelters/ShelterAddForm.jsx";
@@ -11,14 +11,28 @@ import { ShelterAddFormTest } from "../../components/Controller/shelters/Shelter
 
 export const ShelterLocationPage = () => {
 
+    const [open, setOpen] = useState(false);//for alerts
     const [formOpen, setFormopen] = useState(false);
     const [change, setChange] = useState(false);
+
+    
+    const [ snackMessage, setSnackMessage ] = useState({message:"", severity:""});
+
+    const getShelters = async () => {
+        const allShelters = await getAllShelters();
+        if (allShelters.length != 0) {
+            setShelters(allShelters);
+        } else {
+            console.log("Shelters not found!");
+        }
+    };
 
     const handleFormOpen = () => {
         setFormopen(true);
     }
 
-    const handleClose = () => {
+    const handleClose = async () => {
+        await getShelters();
         setFormopen(false);
     }
 
@@ -37,25 +51,28 @@ export const ShelterLocationPage = () => {
         try{
             const result = await deleteShelter(id);
             setChange(!change);
+            await getShelters();
+
+            const msg = { message: "Shelter Deleted!", severity: "success" };
+            setSnackMessage(msg);
+
             console.log("Result: ", result);
         }catch(error){
+            const msg = { message: "Shelter delete failed!", severity: "error" };
+            setSnackMessage(msg);
             console.log(error);
         }
     }
 
     const handleEdit = () => {
-
+        
     }
 
+    const alertClose = () => {
+        setOpen(false);
+    };
+
     useEffect(() => {
-        const getShelters = async () => {
-            const allShelters = await getAllShelters();
-            if (allShelters.length != 0) {
-                setShelters(allShelters);
-            } else {
-                console.log("Shelters not found!");
-            }
-        };
         getShelters();
     }, [change])
 
@@ -64,6 +81,12 @@ export const ShelterLocationPage = () => {
             console.log("Shelters found!:", shelters);
         }
     }, [shelters])
+
+    useEffect(() => {
+        if (snackMessage.message != "" && snackMessage.severity != "") {
+            setOpen(true);
+        }
+    }, [snackMessage])
 
     return (
         <div>
@@ -110,6 +133,20 @@ export const ShelterLocationPage = () => {
                 unmountOnExit>
                 <ShelterAddFormTest handleClose={handleClose} />
             </Collapse>
+            <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={open}
+                    onClose={alertClose}
+                    autoHideDuration={1800}
+                >
+                    <Alert
+                        onClose={alertClose}
+                        severity={snackMessage.severity}
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                    >{snackMessage.message}
+                    </Alert>
+                </Snackbar>
         </div>
     )
 }

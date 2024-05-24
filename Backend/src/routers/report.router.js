@@ -11,8 +11,9 @@ router.post('/addReport', handler(async (req,res) => {
 
     const {disasterType,
         severity,
-        disasterLocation, 
+        disasterLocation,
         affectedCount,
+        affectedLocations,
         finished
     } = req.body;
 
@@ -26,6 +27,7 @@ router.post('/addReport', handler(async (req,res) => {
         severity,
         disasterLocation,
         affectedCount,
+        affectedLocations,
         createdDate: currentDate,
         updatedDate: currentDate,
         finished: isFinished

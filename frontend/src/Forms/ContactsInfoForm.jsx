@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { FaXmark } from "react-icons/fa6";
 import { deleteContact } from "../services/contactsServices";
 
-
 const initialState = { contactItems: []};
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,6 +38,7 @@ const ContactsInfoForm = ({selection}) => {
       type: "Contacts_Loaded",
       payload: selection,
     });
+
   },[selection]);
 
   const handleChange = (e) => {
@@ -51,7 +51,6 @@ const ContactsInfoForm = ({selection}) => {
   const handleExit = () =>{
     window.location.reload();
   }
-
   const handleSubmit = async(e) => {
     e.preventDefault();
     if (!formData.address || !formData.directDial || !formData.title  || !formData.email) {
@@ -70,6 +69,7 @@ const ContactsInfoForm = ({selection}) => {
           mobile: formData.mobile,
           email: formData.email
         });
+
         if(selection){
           dispatch({
             type: "Add_Contact",
@@ -94,7 +94,7 @@ const ContactsInfoForm = ({selection}) => {
 
       } catch (error){
         console.error('Error submitting form:', error);
-        message.error('Failed to create contact!')
+        message.error('Failed to create contact!');
       }
   
     }
@@ -111,6 +111,7 @@ const ContactsInfoForm = ({selection}) => {
       });
     
       message.success("Successfully deleted the contact item!")
+
     } catch (error) {
       console.error("Error deleting contact item:", error);
       message.error("Deletion failed!")
@@ -286,7 +287,7 @@ const ContactsInfoForm = ({selection}) => {
       </div>
     </div>
   );
-};
+}
 
 ContactsInfoForm.propTypes = {
   selection: PropTypes.any.isRequired 

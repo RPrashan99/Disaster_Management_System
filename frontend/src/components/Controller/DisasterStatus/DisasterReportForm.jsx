@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Alert, Button, Snackbar } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
@@ -6,6 +7,7 @@ import { LanguageBar } from "../LanguageBar";
 import { HeaderBar } from "../HeaderBar";
 import { insertReport } from "../../../services/reportService";
 import { getUnverifiedRequests, setVerifyRequests } from "../../../services/requestService";
+import { getGeoCode } from "../../../services/mapService";
 
 export const ReportForm = () => {
 
@@ -14,76 +16,101 @@ export const ReportForm = () => {
     const [sync, setSync] = useState(false);
     const [numOfRequests, setNumOfRequests] = useState(0);
     const [disable, setDisable] = useState(false);
-    const [snackMessage, setSnackMessage] = useState({message: "", severity: ""});
-    const [todayDate, setTodayDate] =useState("2024/01/01");
+    const [snackMessage, setSnackMessage] = useState({ message: "", severity: "" });
+    const [todayDate, setTodayDate] = useState("2024/01/01");
+
+    const navigate = useNavigate();
 
     const dateDifference = 3;
 
-    const handleClose= () =>{
+    const handleClose = () => {
         setOpen(false);
     }
 
-    const handleChange = (e) =>{
-        const {name, value} = e.target;
-        if(name == 'affectedCount' && value < 0){
+    const extractLatLang = async(location) =>{
+        const result = await getGeoCode(location);
+        const lat = result.results[0].geometry.location.lat;
+        const lang = result.results[0].geometry.location.lng;
+        const marker = {latitude:lat, longitude:lang};
+        return marker;
+      }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name == 'affectedCount' && value < 0) {
             setDetails((prevDetails) => ({ ...prevDetails, [name]: 0 }));
-        }else{
+        } else {
             setDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
         }
-        
+
     }
 
     //need testing
-    const handleRequests = (date) =>{
-        const getRequests = async () =>{
+    const handleRequests = async (date) => {
+        const getRequests = async () => {
             const requests = await getUnverifiedRequests();
+            console.log("requests: ", requests);
             const today = new Date();
 
-            if(requests != null){
+            if (requests != null) {
                 const filteredRequests = requests
-                    .filter(request => (request.disasterType == details.disasterType) && (request.disasterLocation == details.disasterLocation) && ((today - Date(request.requestDate) <= date)))
+                    .filter(request => (request.disasterType == details.disasterType) && (request.disasterLocation == details.disasterLocation))
                     .map(request => request.requestID);
 
                 console.log("filtered requests: ", filteredRequests);
 
                 return filteredRequests;
-            }else{
+            } else {
                 return requests;
             }
         }
-        if(details.disasterType != null && details.disasterLocation != null){
+        if (details.disasterType != null && details.disasterLocation != null) {
             setDisable(true);
             setSync(true);
-            const requests = getRequests(date);
+            const requests = await getRequests(date);
             setNumOfRequests(requests.length);
             setDetails((prevDetails) => ({ ...prevDetails, ["disasterRequests"]: requests }));
+
+            const reportLatLang = await extractLatLang(details.disasterLocation);
+            console.log(reportLatLang);
+            if (reportLatLang != null) {
+                setDetails((prevDetails) => ({ ...prevDetails, ["affectedLocations"]: reportLatLang }));
+                console.log("Report details: ", details);
+            }
+
             setSync(false);
+
+            if (requests.length == 0) {
+                const message = { message: "No current requests!", severity: "error" };
+                setSnackMessage(message);
+            }
             console.log("Sync success");
-        }else{
-            const message = {message:"Please provide disaster type and location!", severity: "error" };
+        } else {
+            const message = { message: "Please provide disaster type and location!", severity: "error" };
             setSnackMessage(message);
         }
     }
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        if(details.disasterType != null && details.severity != null 
-            && details.disasterLocation != null && details.affectedCount != null && details.finished != null){
-            try{
+        if (details.disasterType != null && details.severity != null
+            && details.disasterLocation != null && details.affectedCount != null && details.finished != null) {
+            try {
                 const result = await insertReport(details);
 
-                if(details.disasterRequests.length == 0){
-                    const resultVerify = await setVerifyRequests(details.disasterRequests); 
+                if (details.disasterRequests.length != 0) {
+                    const resultVerify = await setVerifyRequests(details.disasterRequests);
                     console.log("Request verify result: ", resultVerify);
                 }
-                const message = {message:"Report submit success!", severity: "success" };
+                const message = { message: "Report submit success!", severity: "success" };
                 setSnackMessage(message);
                 console.log("Submit form result: ", result);
-            } catch(error){
+                navigate('/controller/status');
+            } catch (error) {
                 console.log(error);
             }
-        }else{
-            const message = {message:"Please fill all the fields!", severity: "error" };
+        } else {
+            const message = { message: "Please fill all the fields!", severity: "error" };
             setSnackMessage(message);
         }
     };
@@ -97,19 +124,19 @@ export const ReportForm = () => {
         const formattedDate = `${year}/${month}/${day}`;
 
         setTodayDate(formattedDate);
-    },[])
+    }, [])
 
     useEffect(() => {
-        if(snackMessage.message != ""){
+        if (snackMessage.message != "") {
             setOpen(true);
         }
-    },[snackMessage])
+    }, [snackMessage])
 
-    return(
+    return (
         <div className="flex flex-col">
-            <LanguageBar/>
+            <LanguageBar />
             {
-                <HeaderBar/>
+                <HeaderBar />
             }
             <div className="flex w-full justify-center bg-grey mb-2">
                 <span className="flex py-1 justify-center text-[25px] font-bold font-Inter">Disaster Status</span>
@@ -130,9 +157,9 @@ export const ReportForm = () => {
                                         name="disasterType"
                                         value={details.disasterType}
                                         onChange={handleChange}
-                                        disabled = {disable}
+                                        disabled={disable}
                                         required
-                                        >
+                                    >
                                         <option value="">Select Disaster Type</option>
                                         <option value="Flood">Flood</option>
                                         <option value="Tsunami">Tsunami</option>
@@ -149,7 +176,7 @@ export const ReportForm = () => {
                                         value={details.severity}
                                         onChange={handleChange}
                                         required
-                                        >
+                                    >
                                         <option value="">Select Severity</option>
                                         <option value="High">High</option>
                                         <option value="Medium">Medium</option>
@@ -176,7 +203,7 @@ export const ReportForm = () => {
                                         </div>
                                         <div className="grid grid-col-2">
                                             <div className="flex font-bold">Created Date</div>
-                                            <input type="text" name="createdDate" disabled value={todayDate}/>
+                                            <input type="text" name="createdDate" disabled value={todayDate} />
                                             <div className="flex font-bold">Last Updated</div>
                                             <input type="text" name="updatedDate" disabled value={todayDate} />
                                             <div className="flex font-bold">Finished</div>
@@ -186,7 +213,7 @@ export const ReportForm = () => {
                                                 value={details.finished}
                                                 onChange={handleChange}
                                                 required
-                                                >
+                                            >
                                                 <option value="">Select Status</option>
                                                 <option value="true">Yes</option>
                                                 <option value="false">No</option>
@@ -216,7 +243,7 @@ export const ReportForm = () => {
                         </div>
                     </form>
                     <Snackbar
-                        anchorOrigin={{ vertical: 'bottom', horizontal:'center' }}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                         open={open}
                         onClose={handleClose}
                         autoHideDuration={1800}
