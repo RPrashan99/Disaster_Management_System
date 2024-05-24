@@ -37,8 +37,8 @@ import { getProvince } from '../../../services/mapsServices';
     //const dataset =[];
     const [dataset, setDataset] = useState([]);
     const months = [ "March","April", "May"];
-    //const provinces =["Kottawa", "Rathnapura","Galle"];
-    const provinces =["Western Province", "Southern Province", "Sabaragamuwa Province"];
+    const provinces =["Colombo", "Rathnapura","Galle","Kottawa"];
+    // const provinces =["Western Province", "Southern Province", "Sabaragamuwa Province"];
     const newDataset = [];
     
     useEffect(() => {
@@ -48,9 +48,9 @@ import { getProvince } from '../../../services/mapsServices';
           const provinceDataset = [];
           for(let k=0;k<provinces.length;k++){
               
-            //const provReq = monthlyReq.filter(request => (request.disasterLocation) === provinces[k]);
+            const provReq = monthlyReq.filter(request => (request.disasterLocation) === provinces[k]);
 
-             const provReq = monthlyReq.filter(async(request) => {await getProvince(request.disasterLocation) === provinces[k]});
+            //  const provReq = monthlyReq.filter(async(request) => {await getProvince(request.disasterLocation) === provinces[k]});
             // const provReq = await Promise.all(monthlyReq.map(async (request) => {
             //   if (await getProvince(request.disasterLocation) === provinces[k]) {
             //       return request;
