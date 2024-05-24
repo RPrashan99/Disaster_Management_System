@@ -3,7 +3,7 @@ import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { SearchBar } from "../../components/Controller/SearchBar";
 import { getContacts } from "../../services/contactsServices";
-import { ContactsInfoForm } from "../../Forms/ContactsInfoForm.jsx";
+import ContactsInfoForm from "../../Forms/ContactsInfoForm";
 
 const initialState = { contactItems: [] };
 const reducer = (state, action) => {
