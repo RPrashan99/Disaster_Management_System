@@ -16,7 +16,7 @@ export const Menues = () => {
             description:
               "Give your support  to the people in need during Emergencies.",
             image: "/controller/Volunteering.png",
-            url: "/controller/requests"
+            url: "/controller/volunteering"
           },
           {
             id: 3,
@@ -47,7 +47,7 @@ export const Menues = () => {
             description:
               "Provides information on situation you are facing.Then you can obtain a help.",
             image: "/controller/Weather.png",
-            url: "/controller/news"
+            url: "/controller/requests"
           },
           {
             id: 7,

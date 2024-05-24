@@ -16,20 +16,20 @@ const intialState = {
     requests: [],
 };
 
-    const reducer = (state, action) => {
-        let updatedRequests; 
-        switch (action.type) {
-            case 'Request_Loaded':
-                return { ...state, requests: action.payload };
-            case 'Select_Request':
-                updatedRequests = state.requests.map(request =>
-                    request.requestID === action.payload.requestID ? action.payload : request
-                );
-                return { ...state, requests: updatedRequests };
-            default:
-                return state;
-        }
-    };
+const reducer = (state, action) => {
+    let updatedRequests; 
+    switch (action.type) {
+        case 'Request_Loaded':
+            return { ...state, requests: action.payload };
+        case 'Select_Request':
+            updatedRequests = state.requests.map(request =>
+                request.requestID === action.payload.requestID ? action.payload : request
+            );
+            return { ...state, requests: updatedRequests };
+        default:
+            return state;
+    }
+};
 export const Requests = () =>{
 
     const [state,dispatch] = useReducer(reducer, intialState);

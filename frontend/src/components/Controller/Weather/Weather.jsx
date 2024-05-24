@@ -1,56 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { message } from 'antd';
+
 
 const Weather =() => {
+  const [weatherData, setWeatherData] = useState(null);
+  const [lat, setLat] = useState('');
+  const [lon, setLon] = useState('');
+  const [forecast, setForecast] = useState(null);
+  const [showMore, setShowMore] = useState(false);
+  const apiKey = import.meta.env.VITE_API_KEY;
+  // const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY; 
 
-    const [weatherData, setWeatherData] = useState(null);
-    const [lat, setLat] = useState('');
-    const [lon, setLon] = useState('');
-    const [forecast, setForecast] = useState(null);
-    const [showMore, setShowMore] = useState(false);
-    const apiKey = import.meta.env.VITE_API_KEY;
-    // const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY; 
-    useEffect(() => {
-        fetchWeatherData('6.927079', '79.861244');
-        fetchForecastData('6.927079','79.861244');
-    }, []);
-
-    const fetchWeatherData = async (latitude, longitude) => {
-        try {
-        const response = await axios.get(
-            `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
-        );
-        setWeatherData(response.data);
-        console.log("data", response.data.current)
-        } catch (error) {
-        console.error('Error fetching weather data', error);
-        }
-    };
-
-    const fetchForecastData = async (latitude, longitude) => {
-        try {
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&units=metric&appid=${apiKey}`   
-        );
-        setForecast(response.data.daily);
-        console.log("data", response.data.daily)
-        } catch (error) {
-        console.error('Error fetching forecast data', error);
-        }
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        try{
-          if (lat && lon) {
-            fetchWeatherData(lat, lon);
-            fetchForecastData(lat, lon);
+  useEffect(() => {
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            setLat(latitude);
+            setLon(longitude);
+            fetchWeatherData(latitude, longitude);
+            fetchForecastData(latitude, longitude);
+          },
+          (error) => {
+            console.error('Error getting user location:', error);
           }
-        }catch(error){
-
-        }
-        
+        );
+      } else {
+        console.log('Geolocation is not supported by this browser.');
+        message.error('Geolocation is not supported by this browser.');
+      }
     };
+    getLocation();
+
+  }, []);
+
+  const fetchWeatherData = async (latitude, longitude) => {
+    try {
+    const response = await axios.get(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
+    );
+    setWeatherData(response.data);
+    console.log("data", response.data.current)
+    } catch (error) {
+    console.error('Error fetching weather data', error);
+    }
+  };
+
+  const fetchForecastData = async (latitude, longitude) => {
+    try {
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&units=metric&appid=${apiKey}`   
+    );
+    setForecast(response.data.daily);
+    console.log("data", response.data.daily)
+    } catch (error) {
+    console.error('Error fetching forecast data', error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    try{
+      if (lat && lon) {
+        fetchWeatherData(lat, lon);
+        fetchForecastData(lat, lon);
+      }
+    }catch(error){
+
+    }
+        
+  };
 
 
     return(
@@ -107,17 +129,15 @@ const Weather =() => {
                     <div className=" flex  w-full  flex-wrap items-center bottom-0 justify-center bg-secondary rounded-b-[1rem]  mt-5 py-2 z-10">
                       <input
                         type="text"
-                        placeholder="Latitude"
-                        value={lat}
+                        placeholder="Latitude"   
                         onChange={(e) => setLat(e.target.value)}
                         className="p-2 bg-transparent w-28 h-6 md:w-40 md:h-8 placeholder-gray-200 text-white border-[0.1rem] text-[0.8rem] shadow-md focus:bg-[#4d4c4c] border-transparent hover:border-white focus:border-white rounded-[0.5rem] mr-2"
                       />
                       <input
                         type="text"
-                        placeholder="Longitude"
-                        value={lon}
+                        placeholder="Longitude"                      
                         onChange={(e) => setLon(e.target.value)}
-                        className="p-2 bg-transparent w-28 h-6 md:w-40 md:h-8 border-[0.1rem] placeholder-gray-200 shadow-md text-[black] text-[0.8rem] border-transparent hover:border-white focus:bg-[#4d4c4c] focus:border-white rounded-[0.5rem] mr-2"
+                        className="p-2 bg-transparent w-28 h-6 md:w-40 md:h-8 border-[0.1rem] placeholder-gray-200 shadow-md text-white text-[0.8rem] border-transparent hover:border-white focus:bg-[#4d4c4c] focus:border-white rounded-[0.5rem] mr-2"
                       />
                       <button onClick={handleSearch} className=" w-12 text-[0.7rem]  md:text-[1rem] shadow-md h-6 md:w-20 md:h-8 bg-secondary hover:shadow-white focus:bg-[#4d4c4c] text-white rounded">
                         Search

@@ -9,6 +9,7 @@ export const VolunteerSchema = new Schema(
         phoneNumber: {type: String, required: true},
         age: {type: Number, required: true},
         address: {type: String, required: true},
+        province: {type:String, required: true},
         skills: {type: [String], default: []},
         experience: {type: String, default: "None"},
         motivation: {type: String, default: "None"},
