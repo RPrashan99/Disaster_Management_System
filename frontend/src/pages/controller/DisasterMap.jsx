@@ -11,6 +11,7 @@ import { ShowDetails } from "../../components/Controller/map/ShowDetails";
 import { getCurrentReports } from "../../services/reportService";
 import { getAllShelters } from "../../services/shelterService";
 import { getRequests } from "../../services/requestService";
+import { RoadClosureMenu } from "../../components/Controller/map/RoadClosureMenu";
 
 export const DisasterMap = () => {
     const position = { lat: 7.1, lng: 80.636696 };
@@ -22,9 +23,9 @@ export const DisasterMap = () => {
     };
 
     const [isTotal, setIsTotal] = useState(true);
-    const [showchange,  setShowChange] = useState(false);
+    const [showchange, setShowChange] = useState(false);
     const [checked, setChecked] = useState(
-        {coverage: true, requests: false, shelters:false, roadClose: false, evacs: false}
+        { coverage: true, requests: false, shelters: false, roadClose: false, evacs: false }
     );
 
     const [alignment, setAlignment] = React.useState('total');
@@ -38,7 +39,7 @@ export const DisasterMap = () => {
     const [shelters, setShelters] = useState('');
     const [requests, setRequests] = useState('');
 
-    const handleCheckshow = (show) =>{
+    const handleCheckshow = (show) => {
         setChecked(show);
         setShowChange(!showchange);
     }
@@ -57,7 +58,7 @@ export const DisasterMap = () => {
         }
     };
 
-    const handleReportSelect = async ( report ) => {
+    const handleReportSelect = async (report) => {
 
         if (report) {
             console.log("Report selected: ", report);
@@ -120,7 +121,7 @@ export const DisasterMap = () => {
 
     useEffect(() => {
         console.log("Show: ", checked);
-    },[showchange])
+    }, [showchange])
 
     return (
         <div>
@@ -194,10 +195,15 @@ export const DisasterMap = () => {
                         <div className="text-[18px] font-bold bg-grey w-full text-center rounded">
                             DETAILS TO SHOW
                         </div>
-                        <ShowDetails check={checked} handleShow={(show) =>  {
+                        <ShowDetails check={checked} handleShow={(show) => {
                             handleCheckshow(show);
-                        }}/>
+                        }} />
                     </div>
+
+                    {
+                        checked.roadClose &&
+                        <RoadClosureMenu/>
+                    }
                 </div>
             </div>
         </div>
