@@ -1,35 +1,15 @@
 import React, { useState, useEffect} from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { axisClasses } from '@mui/x-charts';
 import PropTypes from "prop-types";
 import { BackButton } from '../../Common/BackButton';
 import { NextButton } from '../../Common/NextButton';
 //import LocationCategorizer from './LocationCategorizer';
+import { BarChart as ReBarChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Bar } from 'recharts';
 import { getProvince } from '../../../services/mapsServices';
+import { FaBlackTie } from 'react-icons/fa';
+import { Fa2 } from 'react-icons/fa6';
 
 // Assume your BarChart component is imported here
-
- const chartSetting = {
-    yAxis: [
-      {
-        label: 'rainfall (mm)',
-        color:'#ffebee'
-      },
-    ],
-    height: 300,
-    
-    sx: {
-      [`.${axisClasses.left} .${axisClasses.label}`]: {
-        transform: 'translate(-10px, 0)',
-        text: '2rem',
-        font:'sans',
-      },
-      '.recharts-label': {
-        fill: '#FFFFFF', // White color for other text elements in the chart
-      },
-    },
-    
-  };
 
 
   export const BarSlideShow = ({req}) => {
@@ -40,6 +20,7 @@ import { getProvince } from '../../../services/mapsServices';
     const provinces =["Colombo", "Rathnapura","Galle","Kottawa"];
     // const provinces =["Western Province", "Southern Province", "Sabaragamuwa Province"];
     const newDataset = [];
+    
     
     useEffect(() => {
       const fetchData = async () => {
@@ -76,7 +57,27 @@ import { getProvince } from '../../../services/mapsServices';
       }, 
     [req]);
 
-
+    const ResponsiveBarChart = ({ data }) => (
+      <ResponsiveContainer  height={400}>
+        <ReBarChart data={data}>
+          <XAxis dataKey="province" stroke="black" onMouseOver={{backgroundColor:'black'}} />
+          <YAxis stroke="black" />
+          <Tooltip  
+            wrapperStyle={{backgroundColor:'black'}}
+            contentStyle={{ backgroundColor: 'gray', color: 'white' , fontSize:"1.5rem"}}
+            itemStyle={{ color: 'white', fontSize:"1rem" }}
+            cursorStyle={{backgroundColor:'blue'}}
+          />
+          <Legend fill='black'/>
+          <Bar dataKey="tsunami" fill='Cyan' />
+          <Bar dataKey="flood" fill='RoyalBlue'/>
+          <Bar dataKey="landslide" fill='MediumSpringGreen'/>
+          <Bar dataKey="wind" fill='Azure' />
+          <Bar dataKey="fire" fill='MediumOrchid'/>
+          
+        </ReBarChart>
+      </ResponsiveContainer>
+    );
  
     useEffect(() => {
       const interval = setInterval(() => {
@@ -96,38 +97,24 @@ import { getProvince } from '../../../services/mapsServices';
     
     
     return (
-        <div>
+        <div className='flex w-full'>
             {/* Render your BarChart component using datasets[currentMonth] */}
-            <div className='grid   justify-center items-center m-10'>
-                <div className='flex flex-row relative overflow-hidden items-center justify-between m-10 w-100%'>
+            <div className='grid grid-cols-1 w-[100%] justify-center items-center m-10'>
+                <div className='flex flex-row relative items-center justify-between m-10'>
                     <BackButton header={"Prev"} onClick={handlePrev} size="sm" />
                     <NextButton header={"Next"} onClick={handleNext} size="sm"/>
                     
                 </div>
-                <div className='w-[100%] m-10 text-[white] shadow-lg justify-center'>
+                <div className='flex flex-col text-[black] bg-white shadow-lg justify-center'>
                     <h1 className='flex justify-center top-0 font-bold font-serif text-[2.3rem]'>Disaster Forcast of &nbsp;<span className=' text-secondary'> {months[currentMonth]}</span></h1>
-                    <BarChart text={'white'}
-                        dataset={dataset[currentMonth]}
-                        xAxis={[{ scaleType: 'band', dataKey: 'province' }]}
-                                  
-                        series={[
-                                { dataKey: 'tsunami', label: 'Tsunami'},
-                                { dataKey: 'flood', label: 'Flood' },
-                                { dataKey: 'landslide', label: 'Landslide'},
-                                { dataKey: 'wind', label: 'Wind' },
-                                { dataKey: 'fire', label: 'Fire' },
-                                
-                              ]}  
-                               
-                        {...chartSetting}
-                                    
-                        />
+                    <ResponsiveBarChart data={dataset[currentMonth]} />
                 </div>
              </div>
                    
         </div>
     );
-}
+};
+
 BarSlideShow.propTypes = {
-    req: PropTypes.array.isRequired, 
+  req: PropTypes.array.isRequired, 
 };

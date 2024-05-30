@@ -19,6 +19,7 @@ router.post('/create', handler(async(req, res) =>{
         skills,
         experience,
         motivation,
+        status
     } = req.body;
 
     const today = currentDateExtract();
@@ -36,7 +37,8 @@ router.post('/create', handler(async(req, res) =>{
         skills,
         experience,
         motivation,
-        createdDate: today
+        createdDate: today,
+        status
     }
 
     try{
@@ -84,16 +86,7 @@ router.post('/getAllBytype', handler(async(req, res) =>{
     }
 }));
 
-router.post('/statusChange', handler(async(req, res) =>{
-    const {id, status} = req.body;
 
-    try{
-        const result = await VolunteerModel.updateOne({id},{status: status});
-        res.send(result);
-    }catch(error){
-        res.status(BAD_REQUEST).send("Volunteer status update error");
-    }
-}));
 
 
 const idGenerator = async() =>{

@@ -132,13 +132,13 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
             </div>
           </div>
           <div className="lg:col-start-2 lg:row-start-1 order-1 lg:order-none justify-center mx-5 mb-3 rounded-md shadow-lg ">
-            <div className="flex justify-center h-[65%] w-full bg-ControllerPrim ">
+            <div className="flex justify-center h-[65%] w-full bg-gray-200 ">
               {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
-              <div className=" w-28 h-28 bg-[#cf3535] m-5 border-[8px] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">{today.length}</div>
+              <div className=" w-28 h-28 border-[#cf3535] m-5 border-[8px] bg-[white] shadow-lg font-bold text-center text-[black] rounded-full text-[4rem]">{today.length}</div>
             </div>
-            <div className="flex flex-col h-[35%] w-full mt-1 items-center m-0 justify-center rounded-b-lg bg-[#2b2424]">
-              <span className="flex text-white text-[14px] items-center  justify-center font-bold">Total Requests</span>
-              <span className="flex text-white text-[22px] items-center  justify-center font-bold">Today</span>
+            <div className="flex flex-col h-[35%] text-[black] w-full mt-1 items-center m-0 justify-center rounded-b-lg bg-mapGreen">
+              <span className="flex text-[14px] items-center  justify-center font-bold">Total Requests</span>
+              <span className="flex text-[22px] items-center  justify-center font-bold">Today</span>
             </div>
           </div>
         </div>
@@ -149,8 +149,6 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
           </div>
           <div className="flex items-center justify-center w-[100%] h-[100%] px-1">
             <PieChart
-                                  
-              colors={[ 'purple','red', 'green', 'blue','yellow']}
               series={[
                 {
                   data: [
@@ -183,15 +181,15 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
         <span className="flex text-ControllerPrim text-[22px] items-center justify-center font-bold">Monthly Forcast</span>
         <div className="grid grid-cols-1 lg:grid-cols-2 mb-0 rounded w-full">
           <div className="lg:col-start-1 lg:row-start-1 order-1 lg:order-none justify-center mx-5 mb-3 rounded-md shadow-lg ">
-            <div className="flex justify-center h-[65%] w-full bg-secondary ">
+            <div className="flex justify-center h-[65%] w-full bg-gray-500 ">
               {/* <img className="flex p-2 " src="/controller/NumofUsers.png" alt="Analysis"/> */}
-              <div className=" w-28 h-28 bg-[#cf3535] m-5 border-[8px] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">
+              <div className=" w-28 h-28 border-[white] m-5 border-[8px] bg-[#cf3535] shadow-lg font-bold text-center text-[white] rounded-full text-[4rem]">
                 {monthly.length}
               </div>
             </div>
-            <div className="flex flex-col h-[35%] w-full mt-1 items-center m-0 justify-center rounded-b-lg bg-[#2c2727]">
-              <span className="flex text-white text-[14px] items-center  justify-center font-bold">Total Requests</span>
-              <span className="flex text-white text-[22px] items-center  justify-center font-bold">{(new Date()).toLocaleString('default', { month: 'long' })}</span>
+            <div className="flex flex-col h-[35%] w-full mt-1 text-[black] items-center m-0 justify-center rounded-b-lg bg-mapGreen">
+              <span className="flex text-[14px] items-center  justify-center font-bold">Total Requests</span>
+              <span className="flex text-[22px] items-center  justify-center font-bold">{(new Date()).toLocaleString('default', { month: 'long' })}</span>
             </div>
           </div>
           <div className="lg:col-start-2 lg:row-start-1 order-2 lg:order-none items-center justify-center gap-1 px-4 ">
@@ -248,7 +246,6 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
           </div>
           <div className="flex items-center justify-center w-[100%] h-[100%] px-1">
             <PieChart
-              colors={[ 'purple','red', 'green', 'blue','yellow']}
               series={[
                 {
                   data: [

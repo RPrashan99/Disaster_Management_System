@@ -33,6 +33,7 @@ export const VolunteeringPage = () => {
     const [selectedVolunteer, setSelectedVolunteer] = useState(null);
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [filteredVolunteers, setFilteredVolunteers] = useState({
+        sabaragamuwa:[],
         western:[],
         eastern:[],
         northern: [],
@@ -41,33 +42,35 @@ export const VolunteeringPage = () => {
         northCentral: [],
         central:[],
         uva:[],
-        sabaragamuwa:[],
+        
     });
     useEffect(() => {
         const loadVolunteers = getVolunteers();
         console.log("Volunteers",volunteers);
         loadVolunteers.then(volunteers => {
-            const western = volunteers.filter(volunteer => volunteer.province = "Weatern");
-            const southern = volunteers.filter(volunteer => volunteer.province = "Southern");
-            const eastern = volunteers.filter(volunteer => volunteer.province = "Eastern");
-            const northWestern = volunteers.filter(volunteer => volunteer.province = "North Western");
-            const northCentral = volunteers.filter(volunteer => volunteer.province = "North Central");
-            const northern = volunteers.filter(volunteer => volunteer.province = "Northern");
-            const central = volunteers.filter(volunteer => volunteer.province = "Central");
-            const uva = volunteers.filter(volunteer => volunteer.province = "Uva");
-            const sabaragamuwa = volunteers.filter(volunteer => volunteer.province = "Sabaragamuwa");
+            const western = volunteers.filter(volunteer => volunteer.province == "Western");
+            const southern = volunteers.filter(volunteer => volunteer.province == "Southern");
+            const eastern = volunteers.filter(volunteer => volunteer.province == "Eastern");
+            const northWestern = volunteers.filter(volunteer => volunteer.province == "North Western");
+            const northCentral = volunteers.filter(volunteer => volunteer.province == "North Central");
+            const northern = volunteers.filter(volunteer => volunteer.province == "Northern");
+            const central = volunteers.filter(volunteer => volunteer.province == "Central");
+            const sabaragamuwa = volunteers.filter(volunteer => volunteer.province == "Sabaragamuwa");
+            const uva = volunteers.filter(volunteer => volunteer.province == "Uva");
+            
 
             dispatch({ type: 'Volunteers_Loaded', payload: loadVolunteers });
             setFilteredVolunteers({
                 western:western,
                 eastern:eastern,
+                sabaragamuwa:sabaragamuwa,
                 northern: northern,
                 southern: southern,
                 northWestern: northWestern,
                 northCentral: northCentral,
                 central:central,
-                uva:uva,
-                sabaragamuwa:sabaragamuwa,
+                uva:uva
+               
 
             });
         });
@@ -81,6 +84,7 @@ export const VolunteeringPage = () => {
 
     const handleCardClick = async(volunteer) => {
         setSelectedVolunteer(volunteer);
+        console.log("selectedVolunteer", volunteer);
         //const getVolunteer = await getVolunteerDetails(volunteer.id);
     };
 
@@ -101,6 +105,7 @@ export const VolunteeringPage = () => {
                         skills={selectedVolunteer.skills}
                         motivation={selectedVolunteer.motivation}
                         experience={selectedVolunteer.experience} 
+                        status = {selectedVolunteer.status}
                     />
 
                 ):(

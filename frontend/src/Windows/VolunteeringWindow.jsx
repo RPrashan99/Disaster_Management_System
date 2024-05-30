@@ -4,21 +4,29 @@ import { FaMicrophone } from "react-icons/fa";
 import { Button } from "../components/Controller/common/Button";
 import { MdPermMedia } from "react-icons/md";
 import { BackButton } from "../components/Common/BackButton";
+import { updateVolunteerVerification } from "../services/volunteeringService";
 
-export const VolunteeringWindow = ({volunteerID, fullName,age, nicNumber, address, email, phoneNumber,skills, experience,motivation}) => {
-    
-    const [IsVerified, setIsVerified] = useState(false);    
+export const VolunteeringWindow = ({volunteerID, fullName,age, nicNumber, address, email, phoneNumber,skills, experience,motivation,status}) => {
+    console.log("volunterrDetails:", volunteerID);
+    const [IsVerified, setIsVerified] = useState( null);    
 
     useEffect(() => {
         console.log("volunterrDetails:", volunteerID);
     },[volunteerID]);
 
-    const handleVerification=()=>{
-        {IsVerified? (
-            setIsVerified(false)
-        ):(
-            setIsVerified(true)
-        )}
+    const handleVerification=async(e)=>{
+        e.preventDefault(); 
+        const newStatus = !IsVerified;
+        setIsVerified(newStatus);
+        try {
+            await updateVolunteerVerification(volunteerID, newStatus ? "verified" : "not verified");
+            console.log(`Volunteer ${volunteerID} status updated to ${newStatus ? "verified" : "not verified"}`);
+            
+          } catch (error) {
+            console.error("Failed to update volunteer status:", error);
+            // Optionally, revert the state change if the update fails
+            setIsVerified(!newStatus);
+          }
     };
 
     return (
@@ -32,8 +40,7 @@ export const VolunteeringWindow = ({volunteerID, fullName,age, nicNumber, addres
                         <span className="text-3xl md:text-5xl mr-3 mt-10">
                         Volunteer Details
                         </span>
-                        {IsVerified? ( <span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">verified</span>)
-                        :("")}
+                        <span className="w-full px-3 py-2 h-full font-bold rounded-[50px] bg-ControllerSec text-[#ffffff] text-2xl md:3xl">{status}</span>
                         <br />
                         {volunteerID}
                     </h1>
@@ -87,7 +94,7 @@ export const VolunteeringWindow = ({volunteerID, fullName,age, nicNumber, addres
                                 >{address}</text>
                             </div>
                             <div className="flex relative flex-row items-center justify-start px-1">
-                                <button className="py-2 px-5 bg-ControllerSec shadow-md" onClick={handleVerification()}>{IsVerified? "DisVerify":"Verify"}</button>
+                                <button className="py-2 px-5 bg-ControllerSec shadow-md" onClick={handleVerification}>{IsVerified? "DisVerify":"Verify"}</button>
                             </div>
                         </div>
                     </div>

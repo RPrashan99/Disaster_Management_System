@@ -153,8 +153,8 @@ export const Requests = () =>{
         <div>
             <LanguageBar/>
             <HeaderBar/>
-                <div className="flex flex-wrap gap-0 items-center relative bg-gray-400 justify-center w-full h-full">
-                    <h1 className="flex justify-center text-[2rem] font-serif h-[50px] text-[white]">Details on Requests</h1>
+                <div className="flex flex-wrap gap-0 items-center relative bg-gray-300 justify-center w-full h-full">
+                    <h1 className="flex justify-center text-[25px] mt-3 font-bold h-[50px] text-[black] font-Inter">Details on Requests</h1>
                     <div className="flex justify-center items-center w-full h-full flex-wrap">
                         <RequestsDetails 
                             flood={filteredRequests.floodRequests}
@@ -277,7 +277,7 @@ export const Requests = () =>{
                         )}
                     </div>
                 </div>
-                <div className="flex relative bg-[#616161] w-100% h-[20%] mt-10">
+                <div className="flex relative bg-gray-300 w-full h-[20%] mt-10">
                     <BarSlideShow req={requests}/>
                 </div>
             <Footer/>
