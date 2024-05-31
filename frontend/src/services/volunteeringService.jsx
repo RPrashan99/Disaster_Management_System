@@ -13,7 +13,7 @@ export const getVolunteerDetails = async (volunteerID) => {
 };
 
 export const updateVolunteerVerification = async (volunteerID, status) => {
-    const {data} = await axios.post('api/volunteers/statusChange/' + volunteerID, status);
+    const {data} = await axios.post('api/volunteers/statusChange/' + volunteerID, {status});
     console.log("Data", data);
     return data;
 };

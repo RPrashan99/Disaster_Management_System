@@ -141,7 +141,7 @@ const ContactsInfoForm = ({selection}) => {
           ></input>
         </div>
         <div className="flex items-center justify-center mt-5 shadow-2xl ">
-          <button type="submit" onClick={(handleExit)} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-1 px-3 w-full text-white font-semibold text-sm md:text-xl">
+          <button type="submit" onClick={(handleExit)} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-ControllerHov focus:bg-slate-600 py-1 px-3 w-full text-white font-semibold text-sm md:text-xl">
             Exit
           </button>
         </div>
@@ -201,7 +201,7 @@ const ContactsInfoForm = ({selection}) => {
                 </a>
               </td>
               <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                  <button type="submit" onClick={() =>handleDelete(contact.id)} className="bg-red-600 shadow-[gray] shadow-md rounded-lg items-center justify-center focus:ring-4 focus:outline-none hover:bg-[gray] p-2 text-white font-semibold text-sm md:text-xl">
+                  <button type="submit" onClick={() =>handleDelete(contact.id)} className="bg-red-600 shadow-[gray] shadow-md rounded-lg items-center justify-center focus:ring-4 focus:outline-none hover:bg-[red] focus:bg-slate-600 p-2 text-white font-semibold text-sm md:text-xl">
                     <FaXmark/>
                   </button>
               </td>
@@ -277,7 +277,7 @@ const ContactsInfoForm = ({selection}) => {
                 ></input>
               </td>
               <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                <button type="submit" onClick={(handleSubmit)} className="bg-ControllerSec rounded-lg focus:ring-4 focus:outline-none hover:bg-[gray] py-1 px-3 w-full text-white font-semibold shadow-md shadow-[gray] text-sm md:text-xl">
+                <button type="submit" onClick={(handleSubmit)} className="bg-ControllerSec rounded-lg focus:ring-4 focus:outline-none hover:bg-ControllerHov focus:bg-slate-600 py-1 px-3 w-full text-white font-semibold shadow-md shadow-[gray] text-sm md:text-xl">
                     Add
                 </button>
               </td>

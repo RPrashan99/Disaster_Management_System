@@ -60,8 +60,8 @@ import { Fa2 } from 'react-icons/fa6';
     const ResponsiveBarChart = ({ data }) => (
       <ResponsiveContainer  height={400}>
         <ReBarChart data={data}>
-          <XAxis dataKey="province" stroke="black" onMouseOver={{backgroundColor:'black'}} />
-          <YAxis stroke="black" />
+          <XAxis dataKey="province" stroke="white" onMouseOver={{backgroundColor:'black'}} />
+          <YAxis stroke="white" />
           <Tooltip  
             wrapperStyle={{backgroundColor:'black'}}
             contentStyle={{ backgroundColor: 'gray', color: 'white' , fontSize:"1.5rem"}}
@@ -105,8 +105,8 @@ import { Fa2 } from 'react-icons/fa6';
                     <NextButton header={"Next"} onClick={handleNext} size="sm"/>
                     
                 </div>
-                <div className='flex flex-col text-[black] bg-white shadow-lg justify-center'>
-                    <h1 className='flex justify-center top-0 font-bold font-serif text-[2.3rem]'>Disaster Forcast of &nbsp;<span className=' text-secondary'> {months[currentMonth]}</span></h1>
+                <div className='flex flex-col text-[white]  bg-userBlue border-[1rem] border-gray-400 shadow-lg justify-center'>
+                    <h1 className='flex justify-center top-0 font-bold font-serif my-5 text-[2.3rem]'>Disaster Forcast of &nbsp;<span className=' text-ControllerSec'> {months[currentMonth]}</span></h1>
                     <ResponsiveBarChart data={dataset[currentMonth]} />
                 </div>
              </div>
