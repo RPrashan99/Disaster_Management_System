@@ -15,21 +15,25 @@ export const WindowComponent = ({
   verification,
   locationLatLan,
 }) => {
-  const position = { lat: 7.291418, lng: 80.636696 };
+  const lat = parseFloat(locationLatLan[0]);
+  const lng = parseFloat(locationLatLan[1]);
+  const position = { lat: lat, lng: lng };
   useEffect(
     () => {
+      console.log("position",position);
       console.log("requestDetails:", requestID);
+      console.log("requestLocationLatLon:", locationLatLan);
     },
     [requestID]
   );
 
   return (
     <div>
-      <div className="px-5 ml-10">
+      <div className="px-5 ">
         {<BackButton href={"/controller/requests"} header={"Back"} />}
       </div>
-      <div className="px-5 ">
-        <form className=" bg-[#cecdcd] pt-10 m-10 shadow-md text-gray-900 font-semibold text-base">
+      <div className="px-5">
+        <form className=" bg-[#cecdcd] pt-10 m-5 shadow-md border-[15px] border-slate-400 text-gray-900 font-semibold text-base">
           <h1 className=" text-center font-bold mx-5 bg-white p-1 shadow-md">
             <span className="text-2xl md:text-4xl mr-3 mt-10">
               Notified Disaster
@@ -44,8 +48,8 @@ export const WindowComponent = ({
             </span>
           </h2>
 
-          <div className="grid grid-cols-2 d:grid-cols-2 pb-5 items-center justify-center ml-5 ">
-            <div className=" flex flex-col relative m-5 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 h-full pb-10 pt-10 items-center justify-center ml-5 ">
+            <div className=" flex flex-col relativem-5 mb-1 gap-3">
               <div className="flex relative flex-row items-center justify-start px-1">
                 <label className="block mx-1 my-2 w-[50%]">Name</label>
                 <text
@@ -117,34 +121,7 @@ export const WindowComponent = ({
                   {otherNeeds}
                 </text>
               </div>
-            </div>
-            <div className="flex flex-col h-full justify-center items-center">
-              <div className="flex w-full h-[60%] py-1 px-5">
-                {/* <LocationMap 
-                  latitude={7.291418} 
-                  longitude={80.636696 }
-
-                /> */}
-                <div className="flex justify-between items-center relative self-stretch w-full flex-[0_0_auto]">
-                  <div className="flex item-center justify-center  flex-wrap relative self-stretch w-[100%] h-[100%] flex-[0_0_auto] ">
-                    <APIProvider
-                      apiKey={"AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk"}
-                    >
-                      <div className=" shadow-sm flex border-[5px] rounded-md  border-y-[#525151] border-x-[#a5a9bd] mx-10 relative self-stretch w-[100%] h-[100%]">
-                        <Map Zoom={7} Center={position}>
-                          {
-                            <Marker
-                              position={{ lat: 7.291418, lng: 80.636696 }}
-                            />
-                          }
-                        </Map>
-                      </div>
-                    </APIProvider>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex w-full h-[40%] py-1 px-14">
+              <div className="flex w-[60%] self-center h-full py-1 px-2">
                 <label
                   htmlFor="dropzone-file"
                   className="flex items-center justify-center flex-col w-full border border-b-4 border-gray-400 rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
@@ -160,6 +137,32 @@ export const WindowComponent = ({
                     </p>
                   </div>
                 </label>
+              </div>
+            </div>
+            <div className="flex flex-col h-full justify-center items-center">
+              <div className="flex w-full h-full py-1 px-5">
+                {/* <LocationMap 
+                  latitude={7.291418} 
+                  longitude={80.636696 }
+
+                /> */}
+                <div className="flex justify-between items-center relative self-stretch w-full flex-[0_0_auto]">
+                  <div className="flex item-center justify-center  flex-wrap relative self-stretch w-[100%] h-[100%] flex-[0_0_auto] ">
+                    <APIProvider
+                      apiKey={"AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk"}
+                    >
+                      <div className=" shadow-sm flex border-[10px] rounded-md  border-y-userBlue border-x-[#a5a9bd] mx-10 relative self-stretch w-[100%] h-[100%]">
+                        <Map Zoom={7} Center={position}>
+                          {
+                            <Marker
+                              position={{  lat: lat, lng: lng  }}
+                            />
+                          }
+                        </Map>
+                      </div>
+                    </APIProvider>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
