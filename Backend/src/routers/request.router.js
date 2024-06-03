@@ -14,6 +14,7 @@ router.get('/request',handler(async (req,res) => {
         affectedCount,
         medicalNeed,
         otherNeeds,
+        disasterLocationLatLan,
         read} = req.body;
 
         const currentDateTime = new Date();
@@ -27,6 +28,7 @@ router.get('/request',handler(async (req,res) => {
             disasterType,
             requesterName,
             disasterLocation,
+            disasterLocationLatLan,
             affectedCount,
             medicalNeed,
             otherNeeds,

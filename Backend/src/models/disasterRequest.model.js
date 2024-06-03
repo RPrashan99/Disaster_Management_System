@@ -9,8 +9,7 @@ export const DisasterRequestSchema = new Schema(
         disasterLocationLatLan :{
             type: [
                 {
-                    latitude: Number,
-                    longitude: Number,
+                    type:String
                 }
             ],
             default: []},

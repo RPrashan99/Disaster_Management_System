@@ -154,7 +154,7 @@ export const NewsPreview = () =>{
 
     return(
         <div>
-        <div className="flex flex-col border-[10px] border-[#b9b9b9] justify-between bg-[#172657] py-5 px-5 gap-5">
+        <div className="flex flex-col border-[10px] border-[#b9b9b9] justify-between bg-userBlue py-5 px-5 gap-5">
             <h1 className="text-[white] font-sans text-[2rem] font-bold">News Preview</h1>
             <div className="flex flex-row gap-5">
                 {/* left Section */}
@@ -190,7 +190,7 @@ export const NewsPreview = () =>{
                                 <button
                 
                                     type="button"
-                                    className="text-white  bg-ControllerSec hover:bg-[#413f3f] shadow-2xl shadow-[#000000] border-[#888888] border-[2px] focus:ring-4 
+                                    className="text-white  bg-ControllerSec hover:bg-ControllerHov focus:bg-slate-600 shadow-2xl shadow-[#000000] border-[#888888] border-[2px] focus:ring-4 
                                     focus:outline-none focus:ring-blue-300 font-medium rounded text-sm md:px-5 px-2.5 py-2.5 text-center inline-flex items-center"
                                 
                                     onClick={(() => handleEdit(selectedNews))}
@@ -204,11 +204,12 @@ export const NewsPreview = () =>{
                                     name="Show switch"
                                     id="Show switch"
                                     className="bg-transparent p-2 rounded"
+
                                 />
 
                                 <button
                                     type="button"
-                                    className="text-white bg-ControllerSec shadow-2xl border-[#666565] border-[2px] shadow-black hover:bg-[#413f3f] focus:ring-4 
+                                    className="text-white bg-ControllerSec shadow-2xl border-[#666565] border-[2px] shadow-black hover:bg-ControllerHov focus:bg-slate-600 focus:ring-4 
                                     focus:outline-none focus:ring-blue-300 font-medium rounded text-sm md:px-5 px-2.5 py-2.5 text-center inline-flex items-center "
                                     onClick={() => handleDelete(selectedNews.newsId)}  
                                     >
@@ -264,7 +265,7 @@ export const NewsPreview = () =>{
                         <div className="my-3">
                             <button
                                 type="button"
-                                className="text-white w-full bg-ControllerSec shadow-2xl border-[2px] shadow-black hover:bg-[#4e4e4e] focus:ring-4 focus:ring-blue-300 font-bold rounded text-base px-5 py-2 me-2 mb-2  focus:outline-none "
+                                className="text-white w-full bg-ControllerSec hover:bg-ControllerHov focus:bg-slate-600 shadow-2xl border-[2px] shadow-black focus:ring-4 focus:ring-blue-300 font-bold rounded text-base px-5 py-2 me-2 mb-2  focus:outline-none "
                                 onClick={(showMoreItems? showLess:showMore)}>
                                 {(showMoreItems? "Show Less":"Show More")}
                             </button>

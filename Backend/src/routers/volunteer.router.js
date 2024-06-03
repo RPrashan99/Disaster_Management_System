@@ -19,6 +19,7 @@ router.post('/create', handler(async(req, res) =>{
         skills,
         experience,
         motivation,
+        status
     } = req.body;
 
     const today = currentDateExtract();
@@ -36,7 +37,8 @@ router.post('/create', handler(async(req, res) =>{
         skills,
         experience,
         motivation,
-        createdDate: today
+        createdDate: today,
+        status
     }
 
     try{
@@ -84,15 +86,19 @@ router.post('/getAllBytype', handler(async(req, res) =>{
     }
 }));
 
-router.post('/statusChange', handler(async(req, res) =>{
-    const {id, status} = req.body;
+router.post('/statusChange/:volunteerID', handler(async(req, res) => {
+    const { volunteerID } = req.params;
+    const { status } = req.body;
+    console.log("volunteerID: ", volunteerID);
 
-    try{
-        const result = await VolunteerModel.updateOne({id},{status: status});
-        res.send(result);
-    }catch(error){
-        res.status(BAD_REQUEST).send("Volunteer status update error");
-    }
+try{
+    const updateVolunteer = await VolunteerModel.findOneAndUpdate({id:volunteerID},{status:status}); //need to change accordingly
+    console.log("volunteer:",updateVolunteer);
+    res.send(updateVolunteer);
+} catch (error) {
+    console.error(error);
+    res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
+}
 }));
 
 

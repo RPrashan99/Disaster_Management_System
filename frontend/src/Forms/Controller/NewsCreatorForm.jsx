@@ -186,7 +186,7 @@ const NewsCreatorForm = ({selection}) => {
                 />
 
                 <div className="flex items-center justify-center mt-5 shadow-2xl ">
-                  <button type="submit" onClick={(selection? editHandler:handleSubmit)} className="bg-ControllerSec focus:ring-4 focus:outline-none hover:bg-[gray] border-[2px] border-[white] py-2 px-10 w-full text-white font-semiboldtext-xl rounded text-[1.2rem]">
+                  <button type="submit" onClick={(selection? editHandler:handleSubmit)} className="bg-ControllerSec hover:bg-ControllerHov focus:bg-slate-600 focus:ring-4 focus:outline-none border-[2px] border-[white] py-2 px-10 w-full text-white font-semiboldtext-xl rounded text-[1.2rem]">
                       Done
                   </button>
                 </div>
