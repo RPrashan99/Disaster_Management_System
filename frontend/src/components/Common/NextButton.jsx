@@ -5,12 +5,13 @@ export const NextButton = ({header, onClick}) => {
   return (
     <div>
         <a onClick={onClick}>
-          <button className="bg-ControllerPrim px-4 py-2 rounded-lg text-white font-semibold ">
+          <button className="bg-userBlue shadow-md pr-1 pl-3 py-2 hover:bg-blue-800 focus:bg-slate-600 rounded-lg text-white font-semibold ">
             <div className="flex gap-2 items-center ">
-              <GrFormNext className="w-6 h-6" />
               <h1>{header}</h1>
+              <GrFormNext className="w-6 h-6" />
             </div>
           </button>
+
         </a>
       
     </div>

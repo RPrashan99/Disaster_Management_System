@@ -10,7 +10,8 @@ export default {
     extend: {
       colors:{
         'ControllerPrim': "#124E70",
-        'ControllerSec': "#2cac4c",
+        'ControllerHov': "#2cac4c",
+        'ControllerSec': "#5CDB95",
         'primary':"#124E70",
         'secondary':"#DCAA15",
         'grey':"#D9D9D9",
