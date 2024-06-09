@@ -6,14 +6,15 @@ import { DisasterStatusPage } from './pages/controller/DisasterStatusPage';
 import { UserControlPage } from  './pages/controller/UserControlPage';
 import { ControllerHomePage } from './pages/controller/ControllerHomePage';
 import { NewsCreatorPage } from './pages/controller/NewsCreatorPage';
-import { Requests } from './pages/controller/Requests'
-import { WindowComponent } from './Windows/RequestWindow'
-import { ReportForm } from './components/Controller/DisasterStatus/DisasterReportForm'
-import { EditReport } from './components/Controller/DisasterStatus/DisasterEditReport'
-import ContactInfoAdder from './pages/controller/ContactInfoAdder'
-import { ShelterLocationPage } from './pages/controller/ShelterLocations'
+import { Requests } from './pages/controller/Requests';
+import { WindowComponent } from './Windows/RequestWindow';
+import { ReportForm } from './components/Controller/DisasterStatus/DisasterReportForm';
+import { EditReport } from './components/Controller/DisasterStatus/DisasterEditReport';
+import ContactInfoAdder from './pages/controller/ContactInfoAdder';
+import { ShelterLocationPage } from './pages/controller/ShelterLocations';
 import { VolunteeringPage } from './pages/controller/VolunteeringPage';
 import { DisasterMap } from './pages/controller/DisasterMap';
+import SearchResults from './components/Controller/SearchResult';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/controller/shelters" element = {<ShelterLocationPage/>} />
         <Route path="/controller/volunteering" element = {<VolunteeringPage/>} />
         <Route path="/controller/map" element = {<DisasterMap/>}/>
+        <Route path='/search' element = {<SearchResults/>}/>
       </Routes>
     </BrowserRouter>
     

@@ -130,7 +130,8 @@ const ContactsInfoForm = ({selection}) => {
         ></input>
       </div> 
       <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
-        <div className=" text-white font-bold text-base md:text-2xl p-2 rounded-md">
+        <div className="flex text-white font-bold text-base md:text-2xl p-2 rounded-md">
+          <label className="text-[red] p-3">Hotline</label>
           <input  type="tel"
             id="hotline"
             name="hotline"

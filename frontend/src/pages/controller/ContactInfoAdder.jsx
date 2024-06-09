@@ -76,7 +76,7 @@ const ContactInfoAdder = () => {
           <div className="flex flex-col w-full h-[450px] overflow-auto" >
             {Object.keys(groupedContacts).map(department => (
               <React.Fragment key={department}>
-                <div onClick={() => handleCardClick(department)} className="flex justify-center bg-gray-300 hover:bg-ControllerSec focus:bg-slate-600 text-[0.8rem] md:text-[1rem] text-black shadow-md mb-[3px] cursor-pointer rounded-sm align-middle items-center text-center h-10 w-full">
+                <div onClick={() => handleCardClick(department)} className="flex justify-center bg-gray-300 hover:bg-gray-100 focus:bg-slate-600 text-[0.8rem] md:text-[1rem] text-black shadow-md mb-[3px] cursor-pointer rounded-sm align-middle items-center text-center h-10 w-full">
                   {department}
                 </div>
               </React.Fragment>
@@ -90,7 +90,7 @@ const ContactInfoAdder = () => {
               <ContactsInfoForm selection={selectedEdit}/>
               
             ):(
-              <div className="bg-blue-100 p-5 m-5">
+              <div className="bg-blue-100 border-[15px] border-gray-400 p-5 m-5">
                 <h1 className="text-base md:text-3xl font-bold text-center">
                   {selectedDepartment[0].department}
                 </h1>
