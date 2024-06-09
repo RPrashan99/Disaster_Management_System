@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
@@ -27,6 +27,10 @@ export const DisasterMap = () => {
     const [checked, setChecked] = useState(
         { coverage: true, requests: false, shelters: false, roadClose: false, evacs: false }
     );
+
+    const [markerRoadClose, setMarkerRoadClose] = useState(false); //show road close marker option to select location
+    const [overlayScreen, setOverlayScreen] = useState(false); //show road close marker option function
+    const [roadCloseLL, setRoadCloseLL] = useState(position); //store road close marker lat lang
 
     const [alignment, setAlignment] = React.useState('total');
     const [newReports, setNewReports] = useState('');
@@ -69,6 +73,10 @@ export const DisasterMap = () => {
         }
     }
 
+    const handleRoadCloseAdd = () => {
+
+    };
+
     const fetchReports = async () => {
         try {
             const currentReports = await getCurrentReports();
@@ -104,6 +112,14 @@ export const DisasterMap = () => {
         }
     }
 
+    //get road close marker position
+    const onMarkerDragEnd = useCallback((event) => {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        setRoadCloseLL({ lat: lat, lng: lng });
+        console.log("Road close location: ", roadCloseLL);
+    });
+
     useEffect(() => {
         fetchReports();
         fetchShelters();
@@ -123,6 +139,10 @@ export const DisasterMap = () => {
         console.log("Show: ", checked);
     }, [showchange])
 
+    useEffect(() => {
+        console.log("Road close marker show: ", markerRoadClose);
+    }, [markerRoadClose])
+
     return (
         <div>
             <LanguageBar />
@@ -133,9 +153,9 @@ export const DisasterMap = () => {
                 <span className="flex py-1 justify-center text-[25px] font-bold font-Inter">Disaster Map</span>
             </div>
             <div className="flex flex-row space-x-5 p-3">
-                <div className="border border-black">
+                <div className="border border-black relative">
                     <APIProvider apiKey={'AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk'}>
-                        <div style={{ height: "80vh", width: "120vh" }}>
+                        <div style={{ height: "90vh", width: "120vh" }}>
                             <Map defaultZoom={8} defaultCenter={position}>
                                 {
                                     (reports && checked.coverage) && reports.map((report, index) => (
@@ -163,9 +183,28 @@ export const DisasterMap = () => {
                                         />
                                     ))
                                 } */}
+
+                                {
+                                    markerRoadClose &&
+
+                                    <Marker
+                                        position={roadCloseLL}
+                                        draggable={true}
+                                        onDragEnd={onMarkerDragEnd} />
+                                }
                             </Map>
                         </div>
                     </APIProvider>
+
+
+                    {
+                        overlayScreen &&
+                        <div className="flex absolute top-0 left-0 bg-grey bg-opacity-80 w-full h-full justify-center items-center text-[28px] font-bold hover:bg-opacity-90"
+                            onClick={()=>{setOverlayScreen(false)}}>
+                            Drag marker to designated road close location
+                        </div>
+                    }
+
                 </div>
                 <div className="flex flex-col w-full border border-black p-2 items-center">
                     <div className="text-[20px] font-bold bg-grey w-full text-center rounded">
@@ -202,7 +241,12 @@ export const DisasterMap = () => {
 
                     {
                         checked.roadClose &&
-                        <RoadClosureMenu/>
+                        <RoadClosureMenu
+                            selectLocation={(roadClose) => {
+                                setMarkerRoadClose(roadClose);
+                                setOverlayScreen(true);
+                            }}
+                            latLang={roadCloseLL} />
                     }
                 </div>
             </div>
