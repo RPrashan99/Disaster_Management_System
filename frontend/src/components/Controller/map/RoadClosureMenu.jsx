@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Alert, Snackbar } from "@mui/material";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import React, { useEffect, useState } from "react";
 import { addRoadClose } from "../../../services/roadCloseService";
@@ -12,14 +12,23 @@ export const RoadClosureMenu = (props) => {
 
     const [disableAdd, setDisableAdd] = useState(true);
 
+    //snackbar
+    const [open, setOpen] = useState(false);
+    const [snackMessage, setSnackMessage] = useState({ message: "", severity: "" });
+
     const maxLength = 12;
+
+    //snackbar
+    const handleClose = () => {
+        setOpen(false);
+    }
 
     const handleChange = (value) => {
         setDetails(value);
     }
 
     const handleSubmit = async () => {
-        if (location != null && details != null) {
+        if (location != null && details != '') {
             const detail = {
                 closeLatLang: location,
                 details: details
@@ -28,11 +37,19 @@ export const RoadClosureMenu = (props) => {
             try {
                 const response = await addRoadClose(detail);
                 console.log("Road close add success!");
+                const message = { message: "Road closure add successful!", severity: "success" };
+                setSnackMessage(message)
+                setDetails('');
+                setLocation({ latitude: '', longitude: '' });
+                selectLocation(false);
             } catch (error) {
                 console.log("Road close add failed!");
             }
         } else {
-
+            if(details == ''){
+                const message = { message: "Provide road closure details", severity: "error" };
+                setSnackMessage(message)
+            }
         }
     }
 
@@ -48,6 +65,12 @@ export const RoadClosureMenu = (props) => {
             setDisableAdd(false);
         }
     }, [latLang])
+
+    useEffect(() => {
+        if (snackMessage.message != "") {
+            setOpen(true);
+        }
+    },[snackMessage])
 
     return (
         <div className="flex flex-col border border-grey mt-3 w-[400px] p-3 space-y-1">
@@ -69,10 +92,24 @@ export const RoadClosureMenu = (props) => {
                 <Button disabled={disableAdd} variant="contained" className="w-[50px]" onClick={handleSubmit}>
                     Add
                 </Button>
-                <Button variant="contained" className="w-[200px]" onClick={handleSelectLocation} startIcon={<LocationOnIcon/>}>
+                <Button variant="contained" className="w-[200px]" onClick={handleSelectLocation} startIcon={<LocationOnIcon />}>
                     Choose Location
                 </Button>
             </div>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={open}
+                onClose={handleClose}
+                autoHideDuration={1800}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity={snackMessage.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >{snackMessage.message}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

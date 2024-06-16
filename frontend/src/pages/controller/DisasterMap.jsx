@@ -12,6 +12,7 @@ import { getCurrentReports } from "../../services/reportService";
 import { getAllShelters } from "../../services/shelterService";
 import { getRequests } from "../../services/requestService";
 import { RoadClosureMenu } from "../../components/Controller/map/RoadClosureMenu";
+import { getRoadCloses } from "../../services/roadCloseService";
 
 export const DisasterMap = () => {
     const position = { lat: 7.1, lng: 80.636696 };
@@ -19,6 +20,11 @@ export const DisasterMap = () => {
 
     const icon = {
         url: '/icons/shelter.svg',
+        scaledSize: new window.google.maps.Size(40, 40),
+    };
+
+    const roadCloseIcon = {
+        url: '/icons/Road.svg',
         scaledSize: new window.google.maps.Size(40, 40),
     };
 
@@ -39,6 +45,7 @@ export const DisasterMap = () => {
     const [allReports, setAllReports] = useState('');
     const [allShelters, setAllShelters] = useState('');
     const [allRequests, setAllRequests] = useState('');
+    const [allRoadCloses, setAllRoadCloses] = useState('');
 
     const [shelters, setShelters] = useState('');
     const [requests, setRequests] = useState('');
@@ -112,6 +119,16 @@ export const DisasterMap = () => {
         }
     }
 
+    const fetchRoadCloses = async () => {
+        const fetchedRoadCloses = await getRoadCloses();
+        if (fetchedRoadCloses.length != 0) {
+            //setRequests(fetchedRoadCloses);
+            setAllRoadCloses(fetchedRoadCloses);
+        } else {
+            console.log('Road closes fetched failed! ');
+        }
+    }
+
     //get road close marker position
     const onMarkerDragEnd = useCallback((event) => {
         const lat = event.latLng.lat();
@@ -124,6 +141,7 @@ export const DisasterMap = () => {
         fetchReports();
         fetchShelters();
         fetchRequests();
+        fetchRoadCloses();
     }, [])
 
     useEffect(() => {
@@ -185,7 +203,17 @@ export const DisasterMap = () => {
                                 } */}
 
                                 {
-                                    markerRoadClose &&
+                                    (allRoadCloses && checked.roadClose) && allRoadCloses.map((roadClose, index) => (
+                                        <Marker
+                                            icon={roadCloseIcon}
+                                            key={index}
+                                            position={{ lat: roadClose.closeLatLang[0].latitude, lng: roadClose.closeLatLang[0].longitude }}
+                                        />
+                                    ))
+                                }
+
+                                {
+                                    (markerRoadClose && checked.roadClose) &&
 
                                     <Marker
                                         position={roadCloseLL}
@@ -198,9 +226,9 @@ export const DisasterMap = () => {
 
 
                     {
-                        overlayScreen &&
+                        (overlayScreen && checked.roadClose) &&
                         <div className="flex absolute top-0 left-0 bg-grey bg-opacity-80 w-full h-full justify-center items-center text-[28px] font-bold hover:bg-opacity-90"
-                            onClick={()=>{setOverlayScreen(false)}}>
+                            onClick={() => { setOverlayScreen(false) }}>
                             Drag marker to designated road close location
                         </div>
                     }
@@ -244,7 +272,8 @@ export const DisasterMap = () => {
                         <RoadClosureMenu
                             selectLocation={(roadClose) => {
                                 setMarkerRoadClose(roadClose);
-                                setOverlayScreen(true);
+                                setOverlayScreen(roadClose);
+                                setRoadCloseLL(position);
                             }}
                             latLang={roadCloseLL} />
                     }
