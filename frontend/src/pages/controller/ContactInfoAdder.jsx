@@ -4,6 +4,8 @@ import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { SearchBar } from "../../components/Controller/SearchBar";
 import { getContacts } from "../../services/contactsServices";
 import ContactsInfoForm from "../../Forms/ContactsInfoForm";
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 const initialState = { contactItems: [] };
 const reducer = (state, action) => {
@@ -107,7 +109,7 @@ const ContactInfoAdder = () => {
                   <button type="submit" onClick={() =>{handleEdit(selectedDepartment)}} className="bg-ControllerSec rounded-lg items-center
                   justify-center focus:ring-4 focus:outline-none hover:bg-ControllerHov focus:bg-slate-600 shadow-md shadow-[gray] py-1 
                   px-3 text-white font-semibold text-sm text-center md:text-xl">
-                    Edit
+                    <EditIcon fontSize="inherit"/>
                   </button>
                 </div>
                 <div className="overflow-auto rounded-lg shadow">
