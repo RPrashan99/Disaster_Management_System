@@ -13,7 +13,7 @@ import { BarSlideShow } from "../../components/Controller/Requests/BarSlideShow"
 import { FaXmark, FaBars } from "react-icons/fa6";
 
 const intialState = {
-  requests: [],
+  requests: []
 };
 
 const reducer = (state, action) => {
@@ -51,7 +51,7 @@ export const Requests = () => {
     otherRequests: [],
     allReadRequests: [],
     todayReadRequests: [],
-    monthlyReadRequests: [],
+    monthlyReadRequests: []
   });
   const disasters = ["flood", "tsunami", "fire", "wind", "landslide"];
   useEffect(() => {
@@ -132,7 +132,7 @@ export const Requests = () => {
         otherRequests: other,
         allReadRequests: allRead,
         todayReadRequests: todayRead,
-        monthlyReadRequests: monthlyRead,
+        monthlyReadRequests: monthlyRead
       });
     });
   }, []);
@@ -156,7 +156,7 @@ export const Requests = () => {
   const handleCardClick = async request => {
     try {
       let updatedRequest = request;
-      if(request.read !== true){
+      if (request.read !== true) {
         console.log("Read Request:", request);
         // updatedRequest = { ...request, read: true };
         const response = await axios.put(
@@ -174,33 +174,33 @@ export const Requests = () => {
   };
 
   const handleTag = tag => {
-    if (tag == "all") {
-      setShowRequests(filteredRequests.allRequests);
-    } else if (tag === "flood") {
-      setShowRequests(filteredRequests.floodRequests);
-    } else if (tag === "tsunami") {
-      setShowRequests(filteredRequests.tsunamiRequests);
-    } else if (tag === "fire") {
-      setShowRequests(filteredRequests.fireRequests);
-    } else if (tag === "extreme wind") {
-      setShowRequests(filteredRequests.extremeWindRequests);
-    } else if (tag === "landslide") {
-      setShowRequests(filteredRequests.landslideRequests);
-    } else if (tag === "verified") {
-      setShowRequests(filteredRequests.verifiedRequests);
-    } else if (tag === "today") {
-      setShowRequests(filteredRequests.todayRequests);
-    } else if (tag === "monthly") {
-      setShowRequests(filteredRequests.monthlyRequests);
-    } else if (tag === "read") {
-      setShowRequests(filteredRequests.allReadRequests);
-    } else if (tag === "other") {
-      setShowRequests(filteredRequests.otherRequests);
+    const tagMap = {
+      all: filteredRequests.allRequests,
+      flood: filteredRequests.floodRequests,
+      tsunami: filteredRequests.tsunamiRequests,
+      fire: filteredRequests.fireRequests,
+      "extreme wind": filteredRequests.extremeWindRequests,
+      landslide: filteredRequests.landslideRequests,
+      verified: filteredRequests.verifiedRequests,
+      today: filteredRequests.todayRequests,
+      monthly: filteredRequests.monthlyRequests,
+      read: filteredRequests.allReadRequests,
+      other: filteredRequests.otherRequests
+    };
+
+    const requests = tagMap[tag];
+
+    if (requests) {
+      if (requests.length === 0) {
+        message.info("Requests are empty");
+      }
+      setShowRequests(requests);
     } else {
-      message.info("Not Such requests");
-      return [];
+      message.info("No such requests");
+      setShowRequests([]);
     }
   };
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -449,22 +449,26 @@ export const Requests = () => {
                   </table>
 
                   {Array.isArray(showRequests) &&
-                    showRequests.map(request =>
-                      <div
-                        key={request.requestID}
-                        className="flex justify-center items-center bg-[white] w-full flex-wrap cursor-pointer"
-                        onClick={() => handleCardClick(request)}
-                      >
-                        <Card_Requests
-                          D_type={request.disasterType}
-                          Verification={request.verify}
-                          Time={request.requestTime.split(" ")[0]}
-                          Date={request.requestDate}
-                          Location={request.disasterLocation}
-                          AffectedPeople={request.affectedCount}
-                        />
-                      </div>
-                    )}
+                    (showRequests.length !== 0
+                      ? showRequests.map(request =>
+                          <div
+                            key={request.requestID}
+                            className="flex justify-center items-center bg-[white] w-full flex-wrap cursor-pointer"
+                            onClick={() => handleCardClick(request)}
+                          >
+                            <Card_Requests
+                              D_type={request.disasterType}
+                              Verification={request.verify}
+                              Time={request.requestTime.split(" ")[0]}
+                              Date={request.requestDate}
+                              Location={request.disasterLocation}
+                              AffectedPeople={request.affectedCount}
+                            />
+                          </div>
+                        )
+                      : <div className="flex justify-center items-center w-full">
+                          No requests available!
+                        </div>)}
                 </div>
               </div>}
         </div>
