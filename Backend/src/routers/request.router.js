@@ -86,7 +86,7 @@ router.put('/updateRequest/:requestID', handler(async (req, res) => {
             { read: true },
             { new: true } // Return the updated document
         );
-        return res.status(INTERNAL_SERVER_ERROR).send(request);
+        res.status(200).send(request);
     } catch (error) {
         console.error(error);
         return res.status(INTERNAL_SERVER_ERROR).send("Internal server error");

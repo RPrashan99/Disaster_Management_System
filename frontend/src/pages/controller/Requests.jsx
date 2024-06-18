@@ -103,7 +103,7 @@ export const Requests = () => {
           request.requestDate.split(" ")[1] ===
           new Date().toDateString().split(" ")[1]
       );
-      const allRead = requests.filter(request => request.read === true);
+      const allRead = requests.filter(request => request.read === false);
       const todayRead = requests.filter(
         request =>
           request.read === true &&
@@ -137,14 +137,34 @@ export const Requests = () => {
     });
   }, []);
 
+  // const handleCardClick = async request => {
+  //   try {
+  //     const updatedRequest = { ...request, read: true };
+  //     setSelectedRequest(updatedRequest);
+  //     await axios.put(
+  //       `http://localhost:5000/api/requests/updateRequest/${request.requestID}`,
+  //       updatedRequest
+  //     );
+  //     const updatedRequests = await getRequests();
+  //     setShowRequests(updatedRequests);
+  //     console.log("Updated Request:", updatedRequest.read);
+  //   } catch (error) {
+  //     console.error("Error updating request:", error);
+  //   }
+  // };
+
   const handleCardClick = async request => {
     try {
-      const updatedRequest = { ...request, read: true };
+      let updatedRequest = request;
+      if(request.read !== true){
+        console.log("Read Request:", request);
+        // updatedRequest = { ...request, read: true };
+        const response = await axios.put(
+          `http://localhost:5000/api/requests/updateRequest/${request.requestID}`
+        );
+        updatedRequest = response.data;
+      }
       setSelectedRequest(updatedRequest);
-      await axios.put(
-        `http://localhost:5000/api/requests/updateRequest/${request.requestID}`,
-        updatedRequest
-      );
       const updatedRequests = await getRequests();
       setShowRequests(updatedRequests);
       console.log("Updated Request:", updatedRequest.read);

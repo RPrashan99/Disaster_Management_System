@@ -13,7 +13,7 @@ export const DisasterRequestSchema = new Schema(
                 }
             ],
             default: []},
-        affectedCount: {type: Number, required: true},
+        affectedCount: {type: String, required: true},
         medicalNeed: {type: Boolean, default: false},
         otherNeeds: {type: String, required: false},
         requestTime: {type: String, required: true},
