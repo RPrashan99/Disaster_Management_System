@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
-
+import { getGeoCode } from '../../../services/mapService'
 
 const Weather =() => {
   const [weatherData, setWeatherData] = useState(null);
   const [lat, setLat] = useState('');
   const [lon, setLon] = useState('');
+  const [location, setLocation] = useState('');
+  const [searchLocation, setSearchLocation] = useState('');
   const [forecast, setForecast] = useState(null);
-  const [showMore, setShowMore] = useState(false);
+  const [isSearched, setIsSearched] = useState(false);
   const apiKey = import.meta.env.VITE_API_KEY;
   // const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY; 
 
@@ -21,8 +23,6 @@ const Weather =() => {
             const longitude = position.coords.longitude;
             setLat(latitude);
             setLon(longitude);
-            fetchWeatherData(latitude, longitude);
-            fetchForecastData(latitude, longitude);
           },
           (error) => {
             console.error('Error getting user location:', error);
@@ -36,6 +36,13 @@ const Weather =() => {
     getLocation();
 
   }, []);
+
+    useEffect(() => {
+    if (lat && lon) {
+      fetchWeatherData(lat, lon);
+      fetchForecastData(lat, lon);
+    }
+  }, [lat, lon]);
 
   const fetchWeatherData = async (latitude, longitude) => {
     try {
@@ -61,28 +68,44 @@ const Weather =() => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    try{
-      if (lat && lon) {
-        fetchWeatherData(lat, lon);
-        fetchForecastData(lat, lon);
-      }
-    }catch(error){
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   try{
+  //     if (lat && lon) {
+  //       fetchWeatherData(lat, lon);
+  //       fetchForecastData(lat, lon);
+  //     }
+  //   }catch(error){
 
-    }
+  //   }
         
-  };
+  // };
+  const handleSearch = async(e) => {
+        e.preventDefault();
+        try {
+          setIsSearched(true);
+          const result = await getGeoCode(searchLocation);
+          console.log('Geocode result:', result);
+          if (result && result.results && result.results.length > 0) {
+            const latitude = result.results[0].geometry.location.lat;
+            const longitude = result.results[0].geometry.location.lng;
+            setLocation(searchLocation);
+            setLat(latitude);
+            setLon(longitude);
+            setSearchLocation('');
+          } else {
+            console.error('No results found for the given location');
+            message.error('No results found for the given location');
+          }
+        } catch (error) {
+          console.error('Error fetching geocode data', error);
+          message.error('Error fetching geocode data. Enter a correct location');
+        }
+      };
 
 
     return(
         <div className='w-full h-full text-white text-[0.8rem] bg-blur-md bg-cover bg-center bg-[url("../../controller/w-10.jpg")] '>
-           {/* <div className='fixed flex w-full top-0 z-10 p-2 justify-center items-center bg-slate-300'>
-              <h1 className="text-2xl md:text-3xl text-purple-700 w-full font-serif justify-center text-center font-bold py-2 px-2 md:ml-36 ml-0 ">Weather Information</h1>
-              <button onClick={() => handleLogout()} className=" text-[0.7rem] md:text-[1rem] py-2 px-5 shadow-2xl shadow-slate-600 hover:bg-purple-700 focus:bg-purple-950 bg-purple-800 text-white rounded content-end justify-end items-end">
-                Logout
-              </button>
-            </div> */}
           {weatherData && (
             <div className='flex justify-center mt-5 mb-0 '>
               <div className='grid grid-cols-1 relative items-center p-5 pb-0 rounded-[1rem] justify-center md:grid-cols-2 gap-2  h-full bg-transparent '>
@@ -90,7 +113,9 @@ const Weather =() => {
                     <img src={`http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}.png`} alt='' className=' rounded-[50%]  bg-ControllerSec justify-center w-32 h-32'/>
                     <div className='flex flex-cols justify-center p-5 gap-2 pb-0 items-center '>
                         <img src='../../controller/icons-weatherLocation.png' alt='' className=' w-10 h-10'/>
-                        <h2 className="md:text-[2.5rem] text-lg font-bold text-white justify-center">{(weatherData.timezone).split('/')[1]}</h2>
+                        {isSearched?(
+                          <h2 className="md:text-[2.5rem] text-lg font-bold text-white justify-center">{(location)}</h2>
+                          ):(<h2 className="md:text-[2.5rem] text-lg font-bold text-white justify-center">{(weatherData.timezone).split('/')[1]}</h2>)}
                     </div>
                     <p className=' justify-center text-md md:text-2xl'> {weatherData.current.weather[0].description}</p>
                   </div>
@@ -129,17 +154,12 @@ const Weather =() => {
                     <div className=" flex  w-full  flex-wrap items-center bottom-0 justify-center rounded-b-[1rem]  mt-5 py-2 z-10">
                       <input
                         type="text"
-                        placeholder="Latitude"   
-                        onChange={(e) => setLat(e.target.value)}
-                        className="p-2 bg-transparent w-28 h-6 md:w-40 md:h-8 placeholder-gray-200 text-white border-[0.1rem] text-[0.8rem] shadow-md focus:bg-[#4d4c4c] border-transparent hover:border-white focus:border-white rounded-[0.5rem] mr-2"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Longitude"                      
-                        onChange={(e) => setLon(e.target.value)}
+                        placeholder="Location"    
+                        value={searchLocation}                  
+                        onChange={(e) => setSearchLocation(e.target.value)}
                         className="p-2 bg-transparent w-28 h-6 md:w-40 md:h-8 border-[0.1rem] placeholder-gray-200 shadow-md text-white text-[0.8rem] border-transparent hover:border-white focus:bg-[#4d4c4c] focus:border-white rounded-[0.5rem] mr-2"
                       />
-                      <button onClick={handleSearch} className=" w-12 text-[0.7rem]  md:text-[1rem] shadow-md h-6 md:w-20 md:h-8 bg-ControllerSec hover:shadow-white focus:bg-[#4d4c4c] text-white rounded">
+                      <button onClick={(e) => handleSearch(e)} className=" w-12 text-[0.7rem]  md:text-[1rem] shadow-md h-6 md:w-20 md:h-8 bg-ControllerSec hover:shadow-white focus:bg-[#4d4c4c] text-white rounded">
                         Search
                       </button>
                     </div>
@@ -155,7 +175,7 @@ const Weather =() => {
             {forecast.slice(1 ,8).map((day, index) => (
               <div key={index} className=' pt-2 p-2 bg-transparent backdrop-blur-3xl rounded-[1rem] m-1'>
                 <p className='md:text-[1rem] text-[0.6rem] p-1 text-white'>{new Date(day.dt * 1000).toDateString().substring(0,10)}</p>
-                <div className='grid grid-cols-1 flex gap-1 p-1 w-full justify-center p-3 shadow-sm rounded-md bg-transparent items-center hover:bg-[#4d4c4c] transition duration-200 ease-linear hover:shadow-white'>
+                <div className='grid grid-cols-1 gap-1  w-full justify-center p-3 shadow-sm rounded-md bg-transparent items-center hover:bg-[#4d4c4c] transition duration-200 ease-linear hover:shadow-white'>
                     <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt='' className=' rounded-[50%]  bg-ControllerSec w-25 h-25'/>
                     <p className='md:text-[0.8rem] text-[0.5rem] font-bold text-white'>{day.weather[0].description}</p>
                     <p className='md:text-[1.5rem] text-[0.8rem] text-wrap font-bold text-white'>{day.temp.day}°C</p>

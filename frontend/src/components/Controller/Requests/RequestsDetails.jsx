@@ -67,8 +67,8 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
     })
   : [];
   const todayRead = Array.isArray(today)
-  ? today.filter(eachFlood => {
-      return eachFlood.read === true;
+  ? today.filter(eachRequest => {
+      return eachRequest.read === true;
     })
   : [];
   const todayNotRead = Array.isArray(today)

@@ -4,6 +4,8 @@ import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { SearchBar } from "../../components/Controller/SearchBar";
 import { getContacts } from "../../services/contactsServices";
 import ContactsInfoForm from "../../Forms/ContactsInfoForm";
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 const initialState = { contactItems: [] };
 const reducer = (state, action) => {
@@ -76,7 +78,7 @@ const ContactInfoAdder = () => {
           <div className="flex flex-col w-full h-[450px] overflow-auto" >
             {Object.keys(groupedContacts).map(department => (
               <React.Fragment key={department}>
-                <div onClick={() => handleCardClick(department)} className="flex justify-center bg-gray-300 hover:bg-ControllerSec focus:bg-slate-600 text-[0.8rem] md:text-[1rem] text-black shadow-md mb-[3px] cursor-pointer rounded-sm align-middle items-center text-center h-10 w-full">
+                <div onClick={() => handleCardClick(department)} className="flex justify-center bg-gray-300 hover:bg-gray-100 focus:bg-slate-600 text-[0.8rem] md:text-[1rem] text-black shadow-md mb-[3px] cursor-pointer rounded-sm align-middle items-center text-center h-10 w-full">
                   {department}
                 </div>
               </React.Fragment>
@@ -90,7 +92,7 @@ const ContactInfoAdder = () => {
               <ContactsInfoForm selection={selectedEdit}/>
               
             ):(
-              <div className="bg-blue-100 p-5 m-5">
+              <div className="bg-blue-100 border-[15px] border-gray-400 p-5 m-5">
                 <h1 className="text-base md:text-3xl font-bold text-center">
                   {selectedDepartment[0].department}
                 </h1>
@@ -107,7 +109,7 @@ const ContactInfoAdder = () => {
                   <button type="submit" onClick={() =>{handleEdit(selectedDepartment)}} className="bg-ControllerSec rounded-lg items-center
                   justify-center focus:ring-4 focus:outline-none hover:bg-ControllerHov focus:bg-slate-600 shadow-md shadow-[gray] py-1 
                   px-3 text-white font-semibold text-sm text-center md:text-xl">
-                    Edit
+                    <EditIcon fontSize="inherit"/>
                   </button>
                 </div>
                 <div className="overflow-auto rounded-lg shadow">

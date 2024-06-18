@@ -50,7 +50,7 @@ export const VolunteeringWindow = ({
         {<BackButton href={"/controller/volunteering"} header={"Back"} />}
       </div>
       <div className="px-5 ">
-        <form className=" bg-[#cecdcd] pt-10 m-10 text-gray-900 shadow-md font-semibold text-base">
+        <form className="bg-blue-100 border-[15px] border-gray-400 pt-10 m-10 text-gray-900 shadow-md font-semibold text-base">
           <h1 className=" text-center shadow-md bg-white font-bold mx-5 mb-5">
             <span className="text-2xl md:text-4xl mr-3 mt-10">
               Volunteer Details

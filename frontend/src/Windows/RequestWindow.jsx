@@ -33,7 +33,7 @@ export const WindowComponent = ({
         {<BackButton href={"/controller/requests"} header={"Back"} />}
       </div>
       <div className="px-5">
-        <form className=" bg-[#cecdcd] pt-10 m-5 shadow-md border-[15px] border-slate-400 text-gray-900 font-semibold text-base">
+        <form className=" bg-blue-100 pt-10 m-5 shadow-md border-[15px] border-gray-400 text-gray-900 font-semibold text-base">
           <h1 className=" text-center font-bold mx-5 bg-white p-1 shadow-md">
             <span className="text-2xl md:text-4xl mr-3 mt-10">
               Notified Disaster
