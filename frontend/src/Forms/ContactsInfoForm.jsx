@@ -4,6 +4,8 @@ import {message} from "antd";
 import PropTypes from 'prop-types';
 import { FaXmark } from "react-icons/fa6";
 import { deleteContact } from "../services/contactsServices";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const initialState = { contactItems: []};
 const reducer = (state, action) => {
@@ -130,7 +132,8 @@ const ContactsInfoForm = ({selection}) => {
         ></input>
       </div> 
       <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
-        <div className=" text-white font-bold text-base md:text-2xl p-2 rounded-md">
+        <div className="flex text-white font-bold text-base md:text-2xl p-2 rounded-md">
+          <label className="text-[red] p-3">Hotline</label>
           <input  type="tel"
             id="hotline"
             name="hotline"
@@ -142,7 +145,7 @@ const ContactsInfoForm = ({selection}) => {
         </div>
         <div className="flex items-center justify-center mt-5 shadow-2xl ">
           <button type="submit" onClick={(handleExit)} className="bg-ControllerSec shadow-md shadow-[gray] rounded-lg focus:ring-4 focus:outline-none hover:bg-ControllerHov focus:bg-slate-600 py-1 px-3 w-full text-white font-semibold text-sm md:text-xl">
-            Exit
+            <ExitToAppIcon fontSize="inherit"/>
           </button>
         </div>
       </div>
@@ -278,7 +281,7 @@ const ContactsInfoForm = ({selection}) => {
               </td>
               <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
                 <button type="submit" onClick={(handleSubmit)} className="bg-ControllerSec rounded-lg focus:ring-4 focus:outline-none hover:bg-ControllerHov focus:bg-slate-600 py-1 px-3 w-full text-white font-semibold shadow-md shadow-[gray] text-sm md:text-xl">
-                    Add
+                    <PersonAddIcon fontSize="inherit"/>
                 </button>
               </td>
             </tr>               

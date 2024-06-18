@@ -127,7 +127,7 @@ const NewsCreatorForm = ({selection}) => {
       <form className="p-1 md:p-5 justify-start items-start">
           <div className="grid gap-10 mb-6 md:grid-cols-2 p-5 ">
             <div className="flex flex-col text-start text-black border-r-[5px] border-[#494949]">
-                <div className="p-5">
+                <div className="p-5 self-center">
                     <img src="/controller/NewsPic.png" alt=""/>
                 </div>
                 <div className="px-5 border-spacing-x-24 border-[5px] border-ControllerSec m-5" >
@@ -155,7 +155,7 @@ const NewsCreatorForm = ({selection}) => {
                 </div>
             </div>
 
-            <div className="bg-[#dfdede] p-3  text-black text-base border-[5px] border-[gray]">
+            <div className="bg-blue-100 p-3  text-black text-base border-[5px] border-gray-400">
               <div className="font-semibold text-primary text-center py-5">
                 <h1 className=" md:text-2xl">Create News</h1>
               </div>

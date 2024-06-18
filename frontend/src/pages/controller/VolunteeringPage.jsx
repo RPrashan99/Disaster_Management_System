@@ -158,7 +158,7 @@ export const VolunteeringPage = () => {
                             <tr
                               key={volunteer.id}
                               onClick={() => handleCardClick(volunteer)}
-                              className="bg-white border-4 shadow-md rounded-xl text-black border-slate-300 gap-10 hover:bg-ControllerSec hover:text-black"
+                              className="bg-white border-4 shadow-md rounded-xl text-black border-slate-300 gap-10 hover:bg-gray-100 hover:text-black"
                             >
                               <td>
                                 {volunteer.fullName}
