@@ -105,15 +105,7 @@ export const NewsPreview = () =>{
     setFormData({ ...formData, show: newShowValue });
 
     try {
-      const updatedFormData = new FormData();
-      updatedFormData.append('show', newShowValue);
-      updatedFormData.append('heading', formData.heading);
-      updatedFormData.append('author', formData.author);
-      updatedFormData.append('newsBody', formData.newsBody);
-      if (formData.image) {
-        updatedFormData.append('image', formData.image);
-      }
-      const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, updatedFormData);
+      const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {...formData, show:newShowValue});
       message.success(`Show is ${newShowValue ? 'enabled' : 'disabled'} now!`);
       setTimeout(() => {
         window.location.reload();
@@ -172,9 +164,9 @@ export const NewsPreview = () =>{
                             </div>
 
                             <div className="mt-5 w-full h-40">
-                                {selectedNews.image && selectedNews.image.data && (
+                                {selectedNews.image && (
                                     <img
-                                        src={`data:${selectedNews.image.contentType};base64,${Buffer.from(selectedNews.image.data).toString('base64')}`}
+                                        src={selectedNews.image}
                                         alt={selectedNews.heading}
                                         className="w-full h-full object-cover"
                                     />
@@ -238,9 +230,9 @@ export const NewsPreview = () =>{
                                     <div className="focus:bg-opacity-50"  onClick={() => handleCardClick(news)}>
                                         <div className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2">
                                             <div className=" w-full   py-0 h-full">
-                                                {news.image && news.image.data && (
+                                                {news.image &&  (
                                                     <img
-                                                        src={`data:${news.image.contentType};base64,${Buffer.from(news.image.data).toString('base64')}`}
+                                                        src={news.image}
                                                         alt={news.heading}
                                                         className="w-full h-full object-cover"
                                                     />
