@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HeaderBar } from "../HeaderBar";
 import { LanguageBar } from "../LanguageBar";
 import TextField from '@mui/material/TextField';
@@ -7,52 +8,55 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { editReport, getCurrentReports, insertReport } from "../../../services/reportService";
 
 const disasterReports = [
-    {reportID: "id_1", reportName: 'report_1'}, 
-    {reportID: "id_2", reportName: 'report_2'},
-    {reportID: "id_3", reportName: 'report_3'}
+    { reportID: "id_1", reportName: 'report_1' },
+    { reportID: "id_2", reportName: 'report_2' },
+    { reportID: "id_3", reportName: 'report_3' }
 ];
 
-export const EditReport = () =>{
+export const EditReport = () => {
 
     const [open, setOpen] = useState(false);
     const [newReports, setNewReports] = useState('');
     const [reports, setReports] = useState('');
     const [selectedReport, setSelectedReport] = useState(null);
     const [selectedInputReport, setSelectedInputReport] = useState();
-    const [snackMessage, setSnackMessage] = useState({message: "", severity:""});
+    const [snackMessage, setSnackMessage] = useState({ message: "", severity: "" });
 
-    const handleClose= () =>{
+    const navigate = useNavigate();
+
+    const handleClose = () => {
         setOpen(false);
     }
 
-    const handleChange = (e) =>{
-        const {name, value} = e.target;
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setSelectedInputReport((prevDetails) => ({ ...prevDetails, [name]: value }));
     }
 
-    const handleRequests = () =>{
-        
+    const handleRequests = () => {
+
     }
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const result = await editReport(selectedInputReport);
             console.log("Submit form result: ", result);
             setOpen(true);
-        } catch(error){
+            navigate('/controller/status');
+        } catch (error) {
             console.log(error);
         }
     };
 
-    const changeSelected = (report) =>{
+    const changeSelected = (report) => {
         setSelectedReport(report);
         setSelectedInputReport(reports.find(dReport => dReport.reportID == report.reportID));
     }
 
-    useEffect(()=>{
-        const fetchReports = async () =>{
-            try{
+    useEffect(() => {
+        const fetchReports = async () => {
+            try {
                 const currentReports = await getCurrentReports();
                 const newDataArray = currentReports.map((dr) => ({
                     reportID: dr.reportID,
@@ -60,29 +64,29 @@ export const EditReport = () =>{
                 }));
                 setReports(currentReports);
                 setNewReports(newDataArray);
-                
-            } catch(error){
+
+            } catch (error) {
                 console.log("Reports fecth error", error);
             }
         }
         fetchReports();
-    },[]);
+    }, []);
 
-    useEffect(() =>{
-        if(reports) {
+    useEffect(() => {
+        if (reports) {
             console.log("Reports for edit: ", reports);
         }
-    },[reports])
+    }, [reports])
 
-    useEffect(() =>{
-        if(selectedInputReport) console.log("Report to edit: ", selectedInputReport);
-    },[selectedInputReport])
+    useEffect(() => {
+        if (selectedInputReport) console.log("Report to edit: ", selectedInputReport);
+    }, [selectedInputReport])
 
-    return(
+    return (
         <div className="flex flex-col">
-            <LanguageBar/>
+            <LanguageBar />
             {
-                <HeaderBar/>
+                <HeaderBar />
             }
             <div className="flex w-full justify-center bg-grey mb-2">
                 <span className="flex py-1 justify-center text-[25px] font-bold font-Inter">Disaster Status</span>
@@ -98,13 +102,13 @@ export const EditReport = () =>{
                         sx={{ width: 400 }}
                         renderInput={(params) => <TextField {...params} label="Disaster Report" />}
                         value={selectedReport}
-                        onChange={(event, newValue)=>{
+                        onChange={(event, newValue) => {
                             changeSelected(newValue);
                         }}
                     />
                 </div>
                 {
-                    selectedInputReport && 
+                    selectedInputReport &&
                     <div className="flex-col items-center justify-center bg-white space-y-1 px-3 rounded-md">
                         <div className="flex text-[30px] text-white font-bold justify-center bg-reportTitleBg rounded-b-md shadow">Disaster Report</div>
                         <form onSubmit={onSubmitForm} className="p-2">
@@ -122,7 +126,7 @@ export const EditReport = () =>{
                                             onChange={handleChange}
                                             required
                                             disabled
-                                            >
+                                        >
                                             <option value="">Select Disaster Type</option>
                                             <option value="Flood">Flood</option>
                                             <option value="Tsunami">Tsunami</option>
@@ -139,16 +143,30 @@ export const EditReport = () =>{
                                             value={selectedInputReport.severity}
                                             onChange={handleChange}
                                             required
-                                            >
+                                        >
                                             <option value="">Select Severity</option>
                                             <option value="High">High</option>
                                             <option value="Medium">Medium</option>
                                             <option value="Low">Low</option>
                                         </select>
                                         <div className="flex font-bold">Disaster Locations</div>
-                                        <input type="text" name="disasterLocation" 
-                                            value={selectedInputReport.disasterLocation} 
+                                        <input type="text" name="disasterLocation"
+                                            value={selectedInputReport.disasterLocation}
                                             onChange={handleChange} required disabled />
+
+                                        <div className="flex font-bold">Disaster Confirmation : </div>
+                                        <select
+                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            name="confirmed"
+                                            value={selectedInputReport.confirmed}
+                                            onChange={handleChange}
+                                            required
+                                            disabled = {selectedInputReport.confirmed ?? true}
+                                        >
+                                            <option value="">Select status</option>
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
+                                        </select>
                                     </div>
                                     <div className="flex flex-col space-y-3">
                                         <div className="flex flex-col space-y-3 bg-white p-1">
@@ -158,7 +176,7 @@ export const EditReport = () =>{
                                             <div className="grid grid-cols-2 gap-2 items-center">
                                                 <div className="flex font-bold justify-center">Affected Count</div>
                                                 <input className="" type="number" name="affectedCount"
-                                                    value={selectedInputReport.affectedCount} 
+                                                    value={selectedInputReport.affectedCount}
                                                     onChange={handleChange} required />
                                                 <div className="flex font-bold justify-center">Total Requests</div>
                                                 <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">{selectedInputReport.disasterRequests.length}</div>
@@ -170,9 +188,9 @@ export const EditReport = () =>{
                                             </div>
                                             <div className="grid grid-col-2">
                                                 <div className="flex font-bold">Created Date</div>
-                                                <input type="text" name="createdDate" value={selectedInputReport.createdDate} readOnly/>
+                                                <input type="text" name="createdDate" value={selectedInputReport.createdDate} readOnly />
                                                 <div className="flex font-bold">Last Updated</div>
-                                                <input type="text" name="updatedDate" value={selectedInputReport.updatedDate} readOnly/>
+                                                <input type="text" name="updatedDate" value={selectedInputReport.updatedDate} readOnly />
                                                 <div className="flex font-bold">Finished</div>
                                                 <select
                                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -180,7 +198,7 @@ export const EditReport = () =>{
                                                     value={selectedInputReport.finished}
                                                     onChange={handleChange}
                                                     required
-                                                    >
+                                                >
                                                     <option value="">Select Status</option>
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
@@ -202,7 +220,7 @@ export const EditReport = () =>{
                             </div>
                         </form>
                         <Snackbar
-                            anchorOrigin={{ vertical: 'bottom', horizontal:'center' }}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                             open={open}
                             onClose={handleClose}
                             message="Report edited!"
