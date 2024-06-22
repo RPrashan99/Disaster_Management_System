@@ -43,7 +43,7 @@ router.post('/loginAdmin',handler(async (req,res) => {
 router.post(
     '/register',
     handler(async (req, res) => {
-        const {userName,email, password, address} = req.body;
+        const {userName,email, password, address, telephoneNumber} = req.body;
 
         const user = await UserModel.findOne({email});
 
@@ -63,6 +63,7 @@ router.post(
             email,
             password: hashedPassword,
             address,
+            telephoneNumber
         };
 
         const result = await UserModel.create(newUser);
