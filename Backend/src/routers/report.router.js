@@ -111,6 +111,7 @@ router.get('/getSeverity', handler(async(req, res) =>{
 
     try{
         const result = await DisasterReportModel.aggregate([
+            {$match: {finished: false}},
             {$group: {_id:'$severity', count: {$sum: 1}}},
             {$sort: {count: -1}},
             {$limit: 1}
