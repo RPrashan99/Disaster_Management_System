@@ -36,6 +36,9 @@ const NewsCreatorForm = ({selection}) => {
   // const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
+  const buttonStyle = {
+    background: 'linear-gradient(to right, #124E70, #5CDB95)',
+  }
   useEffect(() =>{
     if (selection){
       setFormData({
@@ -212,7 +215,7 @@ const NewsCreatorForm = ({selection}) => {
                 />
                 <Button
                   type="button"
-                  gradientDuoTone="purpleToBlue"
+                  style={buttonStyle}
                   size="sm"
                   outline
                   onClick={uploadImage}

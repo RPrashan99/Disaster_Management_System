@@ -220,7 +220,7 @@ export const NewsPreview = () =>{
                 <div className="w-1/3 border bg-opacity-20 bg-white border-[#ffffff]">
                     <div className="px-6 py-2 ">
                         <h1 className="text-white font-bold font-mono md:text-2xl text-lg py-3">              
-                        Reasent News
+                        Recent News
                         </h1>
                         {/* News item */}
                         <div className={ (showMoreItems ? "h-[600px] overflow-auto " : "h-[320px] overflow-hidden")}>

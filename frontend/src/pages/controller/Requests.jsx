@@ -458,7 +458,7 @@ export const Requests = () => {
                           >
                             <Card_Requests
                               D_type={request.disasterType}
-                              Verification={request.verify}
+                              Verification={request.verify? "Verified":"Unverified"}
                               Time={request.requestTime.split(" ")[0]}
                               Date={request.requestDate}
                               Location={request.disasterLocation}
