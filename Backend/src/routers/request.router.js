@@ -15,7 +15,8 @@ router.get('/request',handler(async (req,res) => {
         medicalNeed,
         otherNeeds,
         disasterLocationLatLan,
-        read} = req.body;
+        read,
+        requestProvince} = req.body;
 
         const currentDateTime = new Date();
         const requestDate = currentDateTime.toDateString();
@@ -34,7 +35,8 @@ router.get('/request',handler(async (req,res) => {
             otherNeeds,
             requestTime,
             requestDate,
-            read
+            read,
+            requestProvince
         };
 
         const result = await DisasterRequestModel.create(newRequest);
@@ -107,6 +109,34 @@ router.post('/setVerify', handler(async (req, res) =>{
         res.status(BAD_REQUEST).send("Request verify error")
     }
 }));
+
+//not finished
+const sendingResponds = async(requests) =>{
+
+
+
+    try{
+        const sendTo = "engerrev897@gmail.com";
+        const sendFrom = process.env.Email_USER;
+        const replyTo = "engerrev897@gmail.com";
+        const subject = "Disaster Management:Request Respond";
+        const message = `
+            <h3>Disaster Request Respond</h3>
+            <p>Request Name: ${requesterName}</P>
+            <p>Request Location: ${requesterLocation}</P>
+            <p>Request Location Map: ${requestLocationMap}</P>
+            <p>Approximate Affected: ${requestAffected}</P>
+            <p>Medical Need: ${medicalNeed}</P>
+        `;
+
+        await sendEmail(subject, message, sendTo, sendFrom, replyTo);
+        res.status(200).send("Email send successful!");
+
+    }catch(error){
+        console.log(error);
+        res.status(BAD_REQUEST).send("Email send failed!");
+    }
+}
 
 //need to change accordingly
 const generateRequestID = async(disasterType) => {
