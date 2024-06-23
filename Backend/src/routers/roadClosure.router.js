@@ -2,6 +2,7 @@ import { Router } from "express";
 import handler from 'express-async-handler';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/httpStatus.js";
 import { RoadClosureModel } from "../models/roadClosure.model.js";
+import { currentDateExtract } from "../common/dateExtract.js";
 
 const router = Router();
 

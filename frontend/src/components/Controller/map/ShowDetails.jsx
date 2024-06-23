@@ -37,7 +37,7 @@ export const ShowDetails = (props) => {
     };
 
     return (
-        <div className="grid grid-cols-2 gap-2 p-5">
+        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-2 p-5">
             <div className="flex flex-row items-center p-1 justify-center border rounded">
                 <div className="flex">
                     Disaster Coverage
