@@ -218,17 +218,17 @@ export const NewsPreview = () =>{
                 </div>
                 {/* Right Section */}
                 <div className="w-1/3 border bg-opacity-20 bg-white border-[#ffffff]">
-                    <div className="px-6 py-2 ">
+                    <div className="px-6 py-2">
                         <h1 className="text-white font-bold font-mono md:text-2xl text-lg py-3">              
                         Recent News
                         </h1>
                         {/* News item */}
-                        <div className={ (showMoreItems ? "h-[600px] overflow-auto " : "h-[320px] overflow-hidden")}>
+                        <div className={ (showMoreItems ? "h-[600px] overflow-auto" : "h-[320px] overflow-hidden")}>
                       
                             {Array.isArray(newsItems) && newsItems.map((news, i) => (
                                 <React.Fragment key={i}>
-                                    <div className="focus:bg-opacity-50"  onClick={() => handleCardClick(news)}>
-                                        <div className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2">
+                                    <div className="focus:bg-opacity-50 border mb-1"  onClick={() => handleCardClick(news)}>
+                                        <div className="flex items-center justify-start gap-2 bg-grey-200 h-20 my-2">
                                             <div className=" w-full   py-0 h-full">
                                                 {news.image &&  (
                                                     <img

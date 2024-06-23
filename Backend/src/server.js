@@ -11,6 +11,7 @@ import mapRouter from './routers/maps.router.js'
 import volunteerRouter from './routers/volunteer.router.js'
 import ContactRouter from './routers/contact.router.js'
 import RoadCloseRouter from './routers/roadClosure.router.js'
+import EmailRouter from './routers/email.router.js'
 
 import {dbconnect} from './config/database.config.js';
 import multer from 'multer';
@@ -37,6 +38,7 @@ app.use('/api/maps', mapRouter);
 app.use('/api/volunteers', volunteerRouter);
 app.use('/api/contacts', ContactRouter);
 app.use('/api/roadCloses', RoadCloseRouter);
+app.use('/api/email', EmailRouter);
 
 const PORT = 5000;
 app.listen(PORT, () =>{
