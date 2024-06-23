@@ -20,7 +20,7 @@ export const DisasterRequestSchema = new Schema(
         requestDate: {type: String, required: true},
         read: {type: Boolean, default: false},
         verify: {type: Boolean, default: false},
-        requestProvince: {type: String, required: true}
+        requestProvince: {type: String, required: false}
     },
    
     {
