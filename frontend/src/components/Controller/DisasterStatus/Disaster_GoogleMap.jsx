@@ -28,7 +28,7 @@ export const GoogleMap = (props) => {
   },[loc])
 
   return (
-    <APIProvider apiKey={'AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk'}>
+    <APIProvider apiKey={'AIzaSyBhfkqLaN1eslLiOFgqe9HcFZEk6M2DyXs'}>
       <div style={{height: "95vh", width: "100vh"}}>
         <Map defaultZoom={8} defaultCenter={position}>
           <Marker position={loc}/>

@@ -54,7 +54,7 @@ export const GoogleMap = () => {
   return (
     <div className="flex justify-between items-center px-0 py-[5px] relative self-stretch w-full flex-[0_0_auto]">
       <div className="flex item-center justify-center  flex-wrap relative self-stretch w-[100%] lg:h-[100%] md:h-[100%] sm:h-[100%] flex-[0_0_auto] ">
-        <APIProvider apiKey={"AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk"}>
+        <APIProvider apiKey={"AIzaSyBhfkqLaN1eslLiOFgqe9HcFZEk6M2DyXs"}>
           <div className=" shadow-sm flex border-[1rem]  border-y-[#525151] border-x-[#a5a9bd]  relative self-stretch lg:h-[100%] md:h-[100%] sm:h-[100%] w-[100%]">
             <Map Zoom={7} Center={position}>
               {reports &&
