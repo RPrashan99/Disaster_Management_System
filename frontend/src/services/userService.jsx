@@ -29,3 +29,8 @@ export const assignAdmin = async adminData => {
     const {data} = await axios.post('api/users/assignAdmin', adminData);
     return data;
 }
+
+export const getUserActive = async () => {
+    const {data} = await axios.post('api/users/getUserActive');
+    return data;
+};
