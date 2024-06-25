@@ -75,15 +75,15 @@ export const DisasterStatusBar = (props) => {
     },[currentReports])
 
     return(
-        <div className="flex flex-row bg-menuBlue px-5 py-1 justify-center h-full space-x-10">
-            <div className="flex flex-row bg-white rounded w-[680px] h-[250px] items-center">
+        <div className="flex flex-col lg:flex-row bg-menuBlue px-5 py-1 lg:justify-center md:items-center lg:space-x-10 lg:space-y-0 md:space-y-2">
+            <div className="flex flex-row bg-white rounded w-[650px] lg:h-[250px] md:h-[220px] md:w-[600px] items-center">
                 <div className="flex flex-col rounded h-full justify-center">
                     <div className="flex flex-col items-center ps-5 h-full">
                         <div className="flex flex-col">
-                            <span className="flex text-black text-[22px] font-bold">Disaster by type</span>
-                            <span className="flex text-barContentLow px-2 w-[420px]">Each Disaster report grouped by disaster type</span>
+                            <div className="flex text-black text-[22px] font-bold">Disaster by type</div>
+                            <div className="flex text-barContentLow px-2 w-[420px]">Each Disaster report grouped by disaster type</div>
                         </div>
-                        <div className="flex w-full pt-2">
+                        <div className="flex pt-2 lg:w-[400px] md:w-[300px]">
                             <PieChart
                                     series={[
                                     {
@@ -107,7 +107,7 @@ export const DisasterStatusBar = (props) => {
                     <div className="flex flex-row justify-center">
                         <div className="flex flex-col justify-center items-center me-5">
                             <span className="flex text-black text-[40px] font-bold">{reports.length}</span>
-                            <span className="flex text-black-[15px]">Total Disasters</span>
+                            <span className="flex text-black-[15px] text-center">Total Disasters</span>
                         </div>
                         <img className="flex w-14 h-14" src="/controller/reports_icon.png" alt="Reports_Icon"/>
                     </div>
@@ -121,7 +121,7 @@ export const DisasterStatusBar = (props) => {
                     <span className="flex text-grey pt-3">Last updated 1min ago</span>
                 </div>
             </div>
-            <div className="flex flex-row bg-white rounded border w-[600px] h-[250px]">
+            <div className="flex flex-row bg-white rounded border lg:w-[600px] lg:h-[250px] md:h-[220px] md:w-[600px]">
                 <div className="flex flex-col items-center justify-center w-4/5">
                 <div className="w-[120px] h-[120px] border-[10px] border-mapRed font-mono rounded-full justify-center font-bold text-[50px] text-center py-3">{newCurrentData.length}</div>
                     <div className="flex">Ongoing Disasters</div>

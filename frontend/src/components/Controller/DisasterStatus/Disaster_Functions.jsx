@@ -21,7 +21,7 @@ export const Disaster_Functions = (props) => {
                     <div className="mx-auto">{currentReports ? `${currentReports.disasterType} - ${currentReports.disasterLocation}` : "Data Loading.."}</div>
                 </div>
                 <div className="flex flex-col w-full border-l-2 justify-center space-y-3 border">
-                    <div className="font-bold ps-10">Last Report Submission</div>
+                    <div className="font-bold text-center">Last Report Submission</div>
                     <div className="flex justify-center">{currentReports ? currentReports.createdDate : "Data Loading.."}</div>
                 </div>
             </div>

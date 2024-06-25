@@ -46,7 +46,7 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 <span className="flex justify-center text-[25px] font-bold font-Inter">Users Status</span>
             </div>
 
-            <div className="flex flex-row-4 justify-around items-center p-5">
+            <div className="flex flex-row-4 justify-around md:space-x-1 items-center p-5">
                 <div className="flex flex-col space-y-5">
                     {Card_Status("Active Users", `Last updated : ${activeUsersDate}`)}
                     {Card_Status("District Coverage", `Last updated : ${DisctrictUsersDate}`)}
