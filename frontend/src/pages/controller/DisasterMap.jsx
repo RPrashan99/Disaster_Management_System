@@ -172,7 +172,7 @@ export const DisasterMap = () => {
             </div>
             <div className="flex flex-row space-x-5 p-3">
                 <div className="border border-black relative">
-                    <APIProvider apiKey={'AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk'}>
+                    <APIProvider apiKey={'AIzaSyBhfkqLaN1eslLiOFgqe9HcFZEk6M2DyXs'}>
                         <div style={{ height: "90vh", width: "120vh" }}>
                             <Map defaultZoom={8} defaultCenter={position}>
                                 {

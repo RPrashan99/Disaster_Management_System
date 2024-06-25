@@ -91,8 +91,8 @@ router.put('/updateRequest/:requestID', handler(async (req, res) => {
             { new: true } // Return the updated document
         );
         res.status(200).send(request);
+
     } catch (error) {
-        console.error(error);
         return res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
     }
 }));
@@ -112,9 +112,28 @@ router.post('/setVerify', handler(async (req, res) =>{
     }
 }));
 
+router.post('/showUnverify', handler(async (req, res) =>{
+    const {requestIDs} = req.body;
+
+    try{
+        const data = await DisasterRequestModel.aggregate([
+            { $match: { requestID: { $in: requestIDs }, respondSent: false } }
+        ]);
+
+        console.log("Unverify: ", data);
+
+        if(data != null){
+            res.send(true);
+        }else{
+            res.send(false);
+        }
+    }catch(error){
+        res.status(BAD_REQUEST).send("Request unverify check error")
+    }
+}));
+
 //not finished
 const sendingResponds = async(requests) =>{
-
     try{
         const sendTo = "engerrev897@gmail.com";
         const sendFrom = process.env.Email_USER;
@@ -153,4 +172,25 @@ const generateRequestID = async(disasterType) => {
 
 };
 
+const getRequestProvince = async (lat, lng) => {
+    try{
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLEMAP_API}`;
+
+        const response = await axios.get(url);
+        const results = response.data.results;
+
+        if (results.length > 0) {
+            // Loop through the address components to find the province
+            for (const component of results[0].address_components) {
+                if (component.types.includes("administrative_area_level_1")) {
+                    return component.long_name;  // Return the province name
+                }
+            }
+        }
+    }catch(error){
+        console.log("Province get error!");
+    }
+}
+
 export default router
+

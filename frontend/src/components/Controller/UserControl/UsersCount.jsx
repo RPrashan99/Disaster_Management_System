@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Card_Status } from "../../Common/Card_Status";
 import { CountCard } from "./Users_CountCard";
-import { getAllUsers } from "../../../services/userService";
+import { getAllUsers, getUserActive } from "../../../services/userService";
 
 export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, DisctrictAdminDate) => {
 
     const [newData, setNewData] = useState('');
+    const [allData, setAllData] = useState('');
+    const [userActive, setUserActive] = useState({"active": 10,"idle": 5});
+    const [adminActive, setadminActive] = useState({"active": 10,"idle": 5});
+
+    const [userDistrict, setuserDistrict] = useState({"active": 10,"idle": 5});
+    const [adminDistrict, setadminDistrict] = useState({"active": 10,"idle": 5});
 
     useEffect ( () => {
         const fetchUserData = async () => {
             try{
                 const data = await getAllUsers();
+                setAllData(data);
         
                 const groupedData = data.reduce((acc,user) => {
                     const accessLevel = user.accessLevel;
@@ -39,6 +46,19 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
         if(newData.length != 0) console.log("newData:",newData);
     },[newData]);
 
+    useEffect(()=> {
+        const getActiveDetails = async() =>{
+            const data = await getUserActive();
+            const userData = {"active": data.activeUsers,"idle": data.totalUsers - data.activeUsers};
+            const adminData = {"active": data.activeAdmins,"idle": data.totalAdmins - data.activeAdmins};
+
+            setUserActive(userData);
+            setadminActive(adminData);
+        }
+
+        getActiveDetails();
+    },[allData])
+
     return(
         <div className="flex flex-col bg-grey">
 
@@ -46,10 +66,10 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 <span className="flex justify-center text-[25px] font-bold font-Inter">Users Status</span>
             </div>
 
-            <div className="flex flex-row-4 justify-around items-center p-5">
+            <div className="flex flex-row-4 justify-around md:space-x-1 items-center p-5">
                 <div className="flex flex-col space-y-5">
-                    {Card_Status("Active Users", `Last updated : ${activeUsersDate}`)}
-                    {Card_Status("District Coverage", `Last updated : ${DisctrictUsersDate}`)}
+                    {Card_Status("Active Users", `Last updated : ${activeUsersDate}`, userActive)}
+                    {Card_Status("District Coverage", `Last updated : ${DisctrictUsersDate}`, userDistrict)}
                 </div>
 
                 {
@@ -60,8 +80,8 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 }
 
                 <div className="flex flex-col space-y-5">
-                    {Card_Status("Active Admins", `Last updated : ${activeAdminsDate}`)}
-                    {Card_Status("District Coverage", `Last updated : ${DisctrictAdminDate}`)}
+                    {Card_Status("Active Admins", `Last updated : ${activeAdminsDate}`, adminActive)}
+                    {Card_Status("District Coverage", `Last updated : ${DisctrictAdminDate}`, adminDistrict)}
                 </div>
             </div>
 

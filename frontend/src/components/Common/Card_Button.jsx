@@ -12,14 +12,14 @@ export const Card_Button = (props) => {
     };
 
     return(
-        <div className="flex flex-row w-[365px] border rounded-lg bg-white ps-5 space-x-2 shadow hover:ring focus:bg-white-500" 
+        <div className="flex flex-row lg:w-[365px] border rounded-lg bg-white md:ps-2 lg:ps-5 space-x-2 shadow hover:ring focus:bg-white-500" 
             onClick={handleClick}>
 
             <div className="flex flex-col space-y-1 justify-center w-3/4">
-                <div className="text-black font-bold">{main_text}</div>
+                <div className="text-black font-bold md:text-[10px] lg:text-[18px]">{main_text}</div>
                 <div className="flex justify-center text-[10px]">{other_text}</div>
             </div>
-            <img className="flex border-l-2" src={`${path_img}`} alt= "Image"/>
+            <img className="flex border-l-2 md:w-[60px] md:h-[80px] lg:h-[80px] lg:w-[90px]" src={`${path_img}`} alt= "Image"/>
         </div>
     )
 }

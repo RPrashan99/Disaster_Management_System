@@ -46,7 +46,7 @@ export const UsersAnalysis = () => {
     },[newData]);
 
     return(
-        <div className="flex flex-row space-x-3 bg-grey p-2 mt-1">
+        <div className="flex flex-row space-x-3 justify-center bg-grey p-2 mt-1">
             {
                 AnalysisCard("Users By District","Each Users divided by districts",exData)
             }
