@@ -16,14 +16,14 @@ router.get('/request',handler(async (req,res) => {
         otherNeeds,
         disasterLocationLatLan,
         read,
-        image,
-        requestProvince} = req.body;
+        image} = req.body;
 
         const currentDateTime = new Date();
         const requestDate = currentDateTime.toDateString();
         const requestTime = currentDateTime.toTimeString();
 
         const newID = await generateRequestID(disasterType);
+        const requestProvince = await getRequestProvince(disasterLocationLatLan);
 
         const newRequest = {
             requestID: newID,
@@ -38,7 +38,7 @@ router.get('/request',handler(async (req,res) => {
             requestDate,
             read,
             image,
-            requestProvince
+            requestProvince: requestProvince
         };
 
         const result = await DisasterRequestModel.create(newRequest);
@@ -172,16 +172,16 @@ const generateRequestID = async(disasterType) => {
 
 };
 
-const getRequestProvince = async (lat, lng) => {
+const getRequestProvince = async (locationLat) => {
     try{
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLEMAP_API}`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationLat[0]},${locationLat[1]}&key=${process.env.GOOGLEMAP_API}`;
 
-        const response = await axios.get(url);
-        const results = response.data.results;
+        const response = await fetch(url);
+        const data = await response.json();
 
-        if (results.length > 0) {
+        if (data.results.length > 0) {
             // Loop through the address components to find the province
-            for (const component of results[0].address_components) {
+            for (const component of data.results[0].address_components) {
                 if (component.types.includes("administrative_area_level_1")) {
                     return component.long_name;  // Return the province name
                 }
