@@ -7,7 +7,7 @@ export const Menues = () => {
       title: "Family Emergency Plans",
       description: "Tool to create plans during the Emergency.",
       image: "/controller/Full Family.png",
-      url: "/controller/home"
+      url: "/controller/information"
     },
     {
       id: 2,

@@ -13,6 +13,7 @@ export const DisasterRequestSchema = new Schema(
                 }
             ],
             default: []},
+        image: {type:[{type:String}], required:false},        
         affectedCount: {type: String, required: true},
         medicalNeed: {type: Boolean, default: false},
         otherNeeds: {type: String, required: false},

@@ -16,6 +16,7 @@ router.get('/request',handler(async (req,res) => {
         otherNeeds,
         disasterLocationLatLan,
         read,
+        image,
         requestProvince} = req.body;
 
         const currentDateTime = new Date();
@@ -36,6 +37,7 @@ router.get('/request',handler(async (req,res) => {
             requestTime,
             requestDate,
             read,
+            image,
             requestProvince
         };
 
@@ -112,8 +114,6 @@ router.post('/setVerify', handler(async (req, res) =>{
 
 //not finished
 const sendingResponds = async(requests) =>{
-
-
 
     try{
         const sendTo = "engerrev897@gmail.com";

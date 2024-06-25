@@ -56,7 +56,7 @@ export const Requests = () => {
   const disasters = ["flood", "tsunami", "fire", "wind", "landslide"];
   useEffect(() => {
     const loadRequests = getRequests();
-    console.log("Requests", requests);
+    console.log("Requests", loadRequests);
     loadRequests.then(requests => {
       // Sort requests by date and time in descending order
       const sortedRequests = requests.sort((a, b) => {
@@ -162,12 +162,14 @@ export const Requests = () => {
         const response = await axios.put(
           `http://localhost:5000/api/requests/updateRequest/${request.requestID}`
         );
-        updatedRequest = response.data;
+        updatedRequest = request;
+        console.log("response:", response.data)
+        console.log("image:", updatedRequest.image)
       }
       setSelectedRequest(updatedRequest);
+      console.log("request Image", request.image);
       const updatedRequests = await getRequests();
       setShowRequests(updatedRequests);
-      console.log("Updated Request:", updatedRequest.read);
     } catch (error) {
       console.error("Error updating request:", error);
     }
@@ -247,6 +249,7 @@ export const Requests = () => {
                     medicalNeed={selectedRequest.medicalNeed}
                     otherNeeds={selectedRequest.otherNeeds}
                     verification={selectedRequest.verify}
+                    image={selectedRequest.image}
                     locationLatLan={selectedRequest.disasterLocationLatLan}
                   />
                 </div>
