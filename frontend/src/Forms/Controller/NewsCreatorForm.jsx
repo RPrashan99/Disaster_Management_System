@@ -3,6 +3,24 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {message} from "antd";
 import PropTypes from 'prop-types';
+import { CircularProgressbar } from "react-circular-progressbar";
+import {
+  Label,
+  TextInput,
+  Select,
+  Checkbox,
+  FileInput,
+  Textarea,
+  Alert,
+  Button,
+} from "flowbite-react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../../firebase";
 
 const NewsCreatorForm = ({selection}) => {
 
@@ -14,18 +32,26 @@ const NewsCreatorForm = ({selection}) => {
     newsBody:'',
     show: ''
   });
+  const [imageFile, setImageFiles] = useState(null);
+  // const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(null);
+  const [imageUploadError, setImageUploadError] = useState(null);
+  const buttonStyle = {
+    background: 'linear-gradient(to right, #124E70, #5CDB95)',
+  }
   useEffect(() =>{
     if (selection){
       setFormData({
         newsId: selection.newsId || '',
         heading: selection.heading || '',
         author: selection.author || '',
-        image: selection.author || null,
+        image: selection.image || '',
         newsBody: selection.newsBody || '',
         show: selection.show || ''
       });
     }
-    console.log("selectionData:",selection)
+    console.log("selection Author:", formData.author)
+    console.log("selection Image:", formData.image)
   },[selection]);
 
   const handleChange = (e) => {
@@ -45,25 +71,14 @@ const NewsCreatorForm = ({selection}) => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    if (!formData.heading || !formData.author || !formData.newsBody  || !formData.newsBody) {
+    if (!formData.heading || !formData.author || !formData.newsBody ) {
       message.error('Missing required fields');
       return;
     }
     
     else{
-      const formDataObj = new FormData();
-      formDataObj.append('heading', formData.heading);
-      formDataObj.append('author', formData.author);
-      formDataObj.append('newsBody', formData.newsBody);
-      if (formData.image) {
-        formDataObj.append('image', formData.image);
-      }
       try{
-        const response = await axios.post('http://localhost:5000/api/news/createNews', formDataObj, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
+        const response = await axios.post('http://localhost:5000/api/news/createNews', {...formData});
         console.log('Form submitted succedded: ', response.data);
         message.success('News is created!')
         setFormData({
@@ -90,16 +105,15 @@ const NewsCreatorForm = ({selection}) => {
     }
     else{
       try{
-        const formDataObj = new FormData();
-        formDataObj.append('newsId', formData.newsId);
-        formDataObj.append('heading', formData.heading);
-        formDataObj.append('author', formData.author);
-        formDataObj.append('newsBody', formData.newsBody);
-        if (formData.image) {
-            formDataObj.append('image', formData.image);
-        }
+        const currentImageURL = selection.image;
+        const imageURL = formData.image? formData.image : currentImageURL;
 
-        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, formDataObj);
+        const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {
+          heading:formData.heading,
+          newsBody:formData.newsBody,
+          author:formData.author,
+          image: imageURL,
+        });
         console.log('Form update succeeded: ', response.data);
         setFormData({
           ...formData,
@@ -116,6 +130,43 @@ const NewsCreatorForm = ({selection}) => {
   
     }
   }
+
+  const uploadImage = async () => {
+    try {
+      if (!imageFile) {
+        setImageUploadError("Please select an image file");
+        return;
+      }
+      setImageUploadError(null);
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + imageFile.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, imageFile);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setImageUploadProgress(progress.toFixed(0));
+        },
+        (error) => {
+          setImageUploadError(
+            "Could not upload the image file must be less than 10MB"
+          );
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImageUploadProgress(null);
+            setImageUploadError(null);
+            setFormData({...formData, image: downloadURL});
+          });
+        }
+      );
+    } catch (err) {
+      setImageUploadError("An error occurred while uploading the image");
+      setImageUploadProgress(null);
+    }
+  };
 
   return (
     <div className="border-[10px] border-[gray]">
@@ -143,15 +194,57 @@ const NewsCreatorForm = ({selection}) => {
                       placeholder="Enter Name"
                       className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-[50%] p-2.5 my-2"
                     ></input>
-                    <label htmlFor="image">Media Files</label>
+                    {/* <label htmlFor="image">Media Files</label> */}
                     {/* <DragDrop/>     */}
-                    <input 
+                    {/* <input 
                       type="file"
                       id="image"
                       name="image"
                       onChange={(e) => handleChange(e)}
                       className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-[Gray] focus:border-[gray] block w-[50%] p-2.5 my-2"
-                    ></input>
+                    ></input> */}
+                      <div className="px-5 pb-3">
+              <div>
+                <Label htmlFor="image" value="Click to upload the images" />
+              </div>
+              <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
+                <FileInput
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImageFiles(e.target.files[0])}
+                />
+                <Button
+                  type="button"
+                  style={buttonStyle}
+                  size="sm"
+                  outline
+                  onClick={uploadImage}
+                  disabled={imageUploadProgress}
+                >
+                  {imageUploadProgress ? (
+                    <div className="w-16 h-16">
+                      <CircularProgressbar
+                        value={imageUploadProgress}
+                        text={`${imageUploadProgress || 0}`}
+                      />
+                    </div>
+                  ) : (
+                    "Upload Image"
+                  )}
+                </Button>
+              </div>
+            </div>
+            {imageUploadError && (
+              <Alert color="failure">{imageUploadError}</Alert>
+            )}
+            {formData.image && (
+              <img
+                src={(formData.image)}
+                alt="uploaded image"
+                className="w-full h-71 object-cover"
+              />
+            )}
+
                 </div>
             </div>
 
@@ -202,3 +295,14 @@ NewsCreatorForm.propTypes = {
   selection: PropTypes.any.isRequired // Adjust the PropTypes type according to your needs
 };
 export default NewsCreatorForm;
+
+
+
+
+
+
+
+
+
+
+

@@ -11,9 +11,9 @@ const router = Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.post('/createNews', upload.single('image'), handler(async (req, res) => {
+router.post('/createNews', handler(async (req, res) => {
 
-    const {heading, author, newsBody} = req.body;
+    const {heading, author, newsBody, image} = req.body;
     const currentDateTime = new Date(); //real time
     const createdDate = currentDateTime.toDateString();
     const createdTime = currentDateTime.toTimeString();
@@ -24,22 +24,13 @@ router.post('/createNews', upload.single('image'), handler(async (req, res) => {
             return res.status(BAD_REQUEST).send("Missing required fields");
           }
     const newID = await generateNewsId(heading);
-    
-    let imageData;
-    let contentType;
-    if (req.file) {
-        imageData = req.file.buffer; // Convert image buffer to base64 string
-        contentType = req.file.mimetype;
-    }
 
     try {
         const newNews = await NewsModel.create({
             newsId: newID,
             heading,
             author,
-
-            image : { data: imageData, contentType: contentType },
-
+            image,
             newsBody,
             createdDate,
             createdTime,
@@ -54,9 +45,9 @@ router.post('/createNews', upload.single('image'), handler(async (req, res) => {
 
 }));
 
-router.patch('/updateNews/:newsId', upload.single('image'), handler(async (req, res) => {
+router.patch('/updateNews/:newsId', handler(async (req, res) => {
     const { newsId } = req.params;
-    const {heading, author, newsBody, show} = req.body;
+    const {heading, author, newsBody, show, image} = req.body;
     const currentDateTime = new Date(); //real time
     const createdDate = currentDateTime.toDateString();
     const createdTime = currentDateTime.toTimeString();
@@ -64,14 +55,7 @@ router.patch('/updateNews/:newsId', upload.single('image'), handler(async (req, 
         if (!heading || !author || !newsBody ) {
             return res.status(BAD_REQUEST).send("Missing required fields");
         }    
-        let updateData = { heading, author, newsBody, show, createdDate, createdTime};
-
-        if (req.file) {
-          updateData.image = {
-            data: req.file.buffer,
-            contentType: req.file.mimetype
-          };
-        } 
+        let updateData = { heading, author, newsBody, show, createdDate, createdTime, image};
     try{
         const updatedNews = await NewsModel.findOneAndUpdate(
             { newsId: newsId },
