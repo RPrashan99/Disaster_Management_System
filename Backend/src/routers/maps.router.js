@@ -23,7 +23,7 @@ router.post('/getGeoCode', handler(async(req,res) => {
 
 router.post ('/getProvince',handler( async(req,res) => {
     const {location} = req.body;
-    const apiKey = 'AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk';
+    const apiKey = process.env.GOOGLEMAP_API;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)},Sri%20Lanka&key=${apiKey}`;
 
     try {
