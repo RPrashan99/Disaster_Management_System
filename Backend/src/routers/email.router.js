@@ -40,7 +40,6 @@ router.post('/sendMail', handler(async (req, res) => {
     }
 }));
 
-//not finished
 router.post('/sendResponds', handler(async (req, res) => {
 
     const {
