@@ -22,7 +22,7 @@ const Login = () => {
       try {
         const data = {email:email, password: password};
         const result = await login(data);
-        console.log(result);
+        localStorage.setItem('token', result.token);
         const message = {message:"Login Successful!", severity:"success"};
         setSnackMessage(message);
         navigate('/controller/home');
