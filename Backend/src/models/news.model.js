@@ -7,7 +7,7 @@ export const NewsSchema = new Schema(
         author: {type: String, required: true},
         createdDate: {type: String, required: true},
         createdTime: {type: String, required: true},
-        image: {data: Buffer , contentType: String},
+        image: {type:String , default:false},
         newsBody: {type: String, required: true},
         show: {type: Boolean, default:false} //if and only if show is true news are displayed in the user's side
     },

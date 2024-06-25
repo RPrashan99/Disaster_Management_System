@@ -76,6 +76,26 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
       return eachRequest.read === false;
     })
   : [];
+  const monthlyAccepted = Array.isArray(monthly)
+  ? monthly.filter(eachRequest => {
+      return eachRequest.verify === true;
+    })
+  : [];
+  const monthlyNotAccepted = Array.isArray(monthly)
+  ? monthly.filter(eachRequest => {
+      return eachRequest.verify === false;
+    })
+  : [];
+  const todayAccepted = Array.isArray(today)
+  ? today.filter(eachRequest => {
+      return eachRequest.verify === true;
+    })
+  : [];
+  const todayNotAccepted = Array.isArray(today)
+  ? today.filter(eachRequest => {
+      return eachRequest.verify === false;
+    })
+  : [];
 
   return(
     <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 flex-wrap w-[90%] rounded-md bg-gray-500 justify-center mx-10 mb-10 space-x-2 h-full">
@@ -83,7 +103,7 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
         <span className="flex text-ControllerPrim text-[24px] p-2 items-center w-full justify-center font-bold">Daily Forcast</span>
         <div className="grid grid-cols-1 lg:grid-cols-2 mb-0 rounded w-full">
           <div className="lg:col-start-1 lg:row-start-1 order-2 lg:order-none items-center justify-center gap-1 px-4 ">
-            <div className="flex w-[100%] gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2">
+            <div className="flex w-[100%] gap-5 rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-2">
             <span className="flex text-ControllerPrim font-sarif items-center justify-center text-[20px] font-bold">Read Requests</span>    
               <PieChart
                 colors={['#4172cc', '#bbbaba']}
@@ -126,9 +146,49 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                 }}                       
               /> 
             </div>
-            <div className="flex w-[100%] relative gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
+            <div className="flex w-[100%] relative gap-5 rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-2">
                 <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>
-                <img className=" flex" src="/controller/Circle1.png" alt="Analysis"/>
+                {/* <img className=" flex" src="/controller/Circle1.png" alt="Analysis"/> */}
+                <PieChart
+                colors={['#4172cc', '#bbbaba']}
+                series={[
+                  {
+                    data: [
+                        { id: 0, value:todayAccepted.length, label: `${todayAccepted.length}`},
+                        { id: 1, value:todayNotAccepted.length},
+                      ],
+                
+                      outerRadius: 50,
+                      innerRadius:40,
+                      paddingAngle: 1,
+                      cornerRadius: 5,
+                      startAngle: 0,
+                      endAngle: 360,
+                      cx: 45,
+                      cy: 45,
+                      
+                  },
+                                                                                            
+                ]}
+                width={100}
+                height={100}
+                segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+                segmentsShift={(index) => (index === 0 ? 2 : 0)}
+                slotProps={{
+                  legend: {
+                    direction: 'row',
+                    position: { vertical: 'middle', horizontal: 'middle' },
+                    padding: 0,
+                    labelStyle: {
+                      fontSize: 35,
+                      fill: 'black',
+                      fontWeight: 'bolder'
+                    },
+                    itemMarkWidth: 0,
+                    itemMarkHeight: 0,
+                  },                                    
+                }}                       
+              /> 
             </div>
           </div>
           <div className="lg:col-start-2 lg:row-start-1 order-1 lg:order-none justify-center mx-5 mb-3 rounded-md shadow-lg ">
@@ -193,7 +253,7 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
             </div>
           </div>
           <div className="lg:col-start-2 lg:row-start-1 order-2 lg:order-none items-center justify-center gap-1 px-4 ">
-            <div className="flex w-[100%] gap-5 justify-between rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 pt-2"> 
+            <div className="flex w-[100%] gap-5 justify-between rounded-md flex-row border-b-[3px] border-[#9c9c9c] shadow-lg px-3 py-2"> 
                 <PieChart
                   colors={[  '#bbbaba', '#4172cc']}
                   series={[
@@ -233,8 +293,48 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                 />
               <span className="flex text-ControllerPrim font-sarif items-center justify-center text-[20px] font-bold">Read Requests</span>       
             </div>
-            <div className="flex w-[100%] gap-5 justify-between rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-1">
-              <img className="flex " src="/controller/Circle1.png" alt="Analysis"/>
+            <div className="flex w-[100%] gap-5 justify-between rounded-md border-b-[3px] border-[#9c9c9c] shadow-xl flex-row px-3 py-2">
+              {/* <img className="flex " src="/controller/Circle1.png" alt="Analysis"/> */}
+              <PieChart
+                colors={['#4172cc', '#bbbaba']}
+                series={[
+                  {
+                    data: [
+                        { id: 0, value:monthlyAccepted.length, label: `${monthlyAccepted.length}`},
+                        { id: 1, value:monthlyNotAccepted.length},
+                      ],
+                
+                      outerRadius: 50,
+                      innerRadius:40,
+                      paddingAngle: 1,
+                      cornerRadius: 5,
+                      startAngle: 0,
+                      endAngle: 360,
+                      cx: 45,
+                      cy: 45,
+                      
+                  },
+                                                                                            
+                ]}
+                width={100}
+                height={100}
+                segmentsStyle={{ transition: 'stroke .3s', cursor: 'pointer' }}
+                segmentsShift={(index) => (index === 0 ? 2 : 0)}
+                slotProps={{
+                  legend: {
+                    direction: 'row',
+                    position: { vertical: 'middle', horizontal: 'middle' },
+                    padding: 0,
+                    labelStyle: {
+                      fontSize: 35,
+                      fill: 'black',
+                      fontWeight: 'bolder'
+                    },
+                    itemMarkWidth: 0,
+                    itemMarkHeight: 0,
+                  },                                    
+                }}                       
+              /> 
               <span className="flex text-ControllerPrim text-[16px] items-center justify-center font-bold">Accepted Requests</span>
             </div>
           </div>   

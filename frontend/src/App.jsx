@@ -13,6 +13,7 @@ import { EditReport } from './components/Controller/DisasterStatus/DisasterEditR
 import ContactInfoAdder from './pages/controller/ContactInfoAdder';
 import { ShelterLocationPage } from './pages/controller/ShelterLocations';
 import { VolunteeringPage } from './pages/controller/VolunteeringPage';
+import { DisasterInformationAdder } from './pages/controller/DisasterInformationAdder';
 import { DisasterMap } from './pages/controller/DisasterMap';
 import SearchResults from './components/Controller/SearchResult';
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/controller/volunteering" element = {<VolunteeringPage/>} />
         <Route path="/controller/map" element = {<DisasterMap/>}/>
         <Route path='/search' element = {<SearchResults/>}/>
+        <Route path= '/controller/information' element = {<DisasterInformationAdder/>}/>
       </Routes>
     </BrowserRouter>
     

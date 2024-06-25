@@ -16,6 +16,7 @@ router.get('/request',handler(async (req,res) => {
         otherNeeds,
         disasterLocationLatLan,
         read,
+        image,
         requestProvince} = req.body;
 
         const currentDateTime = new Date();
@@ -36,6 +37,7 @@ router.get('/request',handler(async (req,res) => {
             requestTime,
             requestDate,
             read,
+            image,
             requestProvince
         };
 
@@ -88,7 +90,8 @@ router.put('/updateRequest/:requestID', handler(async (req, res) => {
             { read: true },
             { new: true } // Return the updated document
         );
-        return res.status(200).send(request);
+        res.status(200).send(request);
+
     } catch (error) {
         return res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
     }
@@ -131,7 +134,6 @@ router.post('/showUnverify', handler(async (req, res) =>{
 
 //not finished
 const sendingResponds = async(requests) =>{
-
     try{
         const sendTo = "engerrev897@gmail.com";
         const sendFrom = process.env.Email_USER;
@@ -191,3 +193,4 @@ const getRequestProvince = async (lat, lng) => {
 }
 
 export default router
+

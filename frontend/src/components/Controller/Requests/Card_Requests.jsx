@@ -6,7 +6,7 @@ export const Card_Requests = ({
   Time,
   Date,
   Location,
-  AffectedPeople,
+  AffectedPeople
 }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3  shadow-2xl border-b-[5px] border-[gray] bg-slate-100 relative rounded-lg justify-center items-center h-full w-[100%]  self-stretch flex-wrap md:text-wrap sm:text-wrap">
