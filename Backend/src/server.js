@@ -13,23 +13,33 @@ import ContactRouter from './routers/contact.router.js'
 import RoadCloseRouter from './routers/roadClosure.router.js'
 import EmailRouter from './routers/email.router.js'
 
-import {dbconnect} from './config/database.config.js';
+import { dbconnect } from './config/database.config.js';
 import multer from 'multer';
 
-dbconnect();
+import { Server as SocketServer } from "socket.io";
+import http from 'http';
 
 const app = express();
+const server = http.createServer(app);
+const io = new SocketServer(server, {
+    cors: {
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST"],
+    },
+});
+
+dbconnect(io);
 
 app.use(express.json());
 
 app.use(cors({
-    credentials:true,
+    credentials: true,
     origin: ['http://localhost:5173'],
-    })
+})
 );
 
-app.use('/api/users',userRouter);
-app.use('/api/requests',disasterRequestRouter);
+app.use('/api/users', userRouter);
+app.use('/api/requests', disasterRequestRouter);
 app.use('/api/reports', disasterReportRouter);
 app.use('/api/news', newsRouter);
 app.use('/api/shelters', shelterRouter);
@@ -40,6 +50,6 @@ app.use('/api/roadCloses', RoadCloseRouter);
 app.use('/api/email', EmailRouter);
 
 const PORT = 5000;
-app.listen(PORT, () =>{
-    console.log('listening on port '+ PORT);
+app.listen(PORT, () => {
+    console.log('listening on port ' + PORT);
 })
