@@ -4,28 +4,27 @@ import { CountCard } from "./Users_CountCard";
 import { getAllUsers, getUserActive } from "../../../services/userService";
 
 import io from 'socket.io-client';
-const socket = io('http://localhost:5000');
 
-export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, DisctrictAdminDate) => {
+export const UserCount = (activeUsersDate, DisctrictUsersDate, activeAdminsDate, DisctrictAdminDate) => {
 
     const [newData, setNewData] = useState('');
     const [allData, setAllData] = useState('');
-    const [userActive, setUserActive] = useState({"active": 10,"idle": 5});
-    const [adminActive, setadminActive] = useState({"active": 10,"idle": 5});
+    const [userActive, setUserActive] = useState({ "active": 10, "idle": 5 });
+    const [adminActive, setadminActive] = useState({ "active": 10, "idle": 5 });
 
-    const [userDistrict, setuserDistrict] = useState({"active": 10,"idle": 5});
-    const [adminDistrict, setadminDistrict] = useState({"active": 10,"idle": 5});
+    const [userDistrict, setuserDistrict] = useState({ "active": 10, "idle": 5 });
+    const [adminDistrict, setadminDistrict] = useState({ "active": 10, "idle": 5 });
 
-    useEffect ( () => {
+    useEffect(() => {
         const fetchUserData = async () => {
-            try{
+            try {
                 // const data = await getAllUsers();
                 // setAllData(data);
-        
-                const groupedData = allData.reduce((acc,user) => {
+
+                const groupedData = allData.reduce((acc, user) => {
                     const accessLevel = user.accessLevel;
-        
-                    if(acc[accessLevel]){
+
+                    if (acc[accessLevel]) {
                         acc[accessLevel].count++;
                     } else {
                         acc[accessLevel] = {
@@ -33,46 +32,48 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                             count: 1,
                         };
                     }
-        
+
                     return acc;
-                },{})
+                }, {})
                 setNewData(groupedData);
-        
+
             } catch (error) {
                 console.error("Data not found");
             }
         };
         fetchUserData();
-    },[allData]);
+    }, [allData]);
 
-    useEffect(()=> {
-        if(newData.length != 0) console.log("newData:",newData);
-    },[newData]);
+    useEffect(() => {
+        if (newData.length != 0) console.log("newData:", newData);
+    }, [newData]);
 
-    useEffect(()=> {
-        const getActiveDetails = async() =>{
+    useEffect(() => {
+        const getActiveDetails = async () => {
             const data = await getUserActive();
-            const userData = {"active": data.activeUsers,"idle": data.totalUsers - data.activeUsers};
-            const adminData = {"active": data.activeAdmins,"idle": data.totalAdmins - data.activeAdmins};
+            const userData = { "active": data.activeUsers, "idle": data.totalUsers - data.activeUsers };
+            const adminData = { "active": data.activeAdmins, "idle": data.totalAdmins - data.activeAdmins };
 
             setUserActive(userData);
             setadminActive(adminData);
         }
 
         getActiveDetails();
-    },[allData])
+    }, [allData])
 
-    useEffect(()=>{
+    useEffect(() => {
+        const socket = io('http://localhost:5000');
+        
         socket.on('userListUpdate', (updatedUserList) => {
             setAllData(updatedUserList);
-          });
-      
-          return () => {
-            socket.off('userListUpdate');
-          };
-    },[])
+        });
 
-    return(
+        return () => {
+            socket.off('userListUpdate');
+        };
+    }, [])
+
+    return (
         <div className="flex flex-col bg-grey">
 
             <div className="flex justify-center bg-grey border bg-white mt-3 mx-5">
@@ -86,10 +87,10 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 </div>
 
                 {
-                    CountCard("USERS", "Total Users Count",3,newData)
+                    CountCard("USERS", "Total Users Count", 3, newData)
                 }
                 {
-                    CountCard("ADMINS", "Total Admins Count",1, newData)
+                    CountCard("ADMINS", "Total Admins Count", 1, newData)
                 }
 
                 <div className="flex flex-col space-y-5">

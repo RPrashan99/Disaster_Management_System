@@ -20,16 +20,6 @@ import { Server as SocketServer } from "socket.io";
 import http from 'http';
 
 const app = express();
-const server = http.createServer(app);
-const io = new SocketServer(server, {
-    cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"],
-    },
-});
-
-dbconnect(io);
-
 app.use(express.json());
 
 app.use(cors({
@@ -37,6 +27,16 @@ app.use(cors({
     origin: ['http://localhost:5173'],
 })
 );
+
+const server = http.createServer(app);
+const io = new SocketServer(server, {
+    cors: {
+        credentials: true,
+        origin: "http://localhost:5173"
+    },
+});
+
+dbconnect(io);
 
 app.use('/api/users', userRouter);
 app.use('/api/requests', disasterRequestRouter);
