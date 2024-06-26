@@ -10,6 +10,7 @@ import { GoogleMap } from "./Disaster_GoogleMap";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { ModelAffectedAdd } from "./ModelAffectedAdd";
 import { checkUnverifyRequests } from "../../../services/requestService";
+import { sendRespond } from "../../../services/emailServices";
 //import { MapContainer } from "./Disaster_GoogleMap";
 
 const testValues = [
@@ -80,24 +81,33 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
         }
     };
 
-    const handlePenClick = (value) => {
-        if (value == "Alert") console.log("Alert button pressed !");
-        else console.log("Respond button pressed !");
+    const handlePenClick = async (value) => {
+        if (value == "Alert") {
+            console.log("Alert button pressed !");
+        }
+        else {
+            try {
+                await sendRespond(selectedReport.disasterRequests);
+                console.log("Respond send success!");
+            } catch (error) {
+                console.log("Respond send error!");
+            }
+        }
     };
 
     useEffect(() => {
-        
-        if(selectedReport != ""){
+
+        if (selectedReport != "") {
             const checkNewRequest = async () => {
-                if(!selectedReport.respondSent){
-                    if(await checkUnverifyRequests(selectedReport.disasterRequests)){
+                if (!selectedReport.respondSent) {
+                    if (await checkUnverifyRequests(selectedReport.disasterRequests)) {
                         setShowRespondAVB(true);
-                    }else{
+                    } else {
                         setShowRespondAVB(false);
                     }
                     console.log("Respond: ", showRespondAVB);
                 }
-        
+
             }
             checkNewRequest();
         }
@@ -105,9 +115,9 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
 
     const handleRespond = async () => {
 
-        if(showRespondAVB){
+        if (showRespondAVB) {
             console.log("Respond Sent");
-        }else{
+        } else {
             console.log("No new requests");
         }
 
@@ -181,7 +191,7 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
                             />
                             <div className="absolute top-0 right-0">
                                 <Button onClick={addAffectedClose}>
-                                    <AddCircleIcon fontSize="large"/>
+                                    <AddCircleIcon fontSize="large" />
                                 </Button>
                             </div>
 

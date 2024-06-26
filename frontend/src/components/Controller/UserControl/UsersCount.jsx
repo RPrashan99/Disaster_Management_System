@@ -79,10 +79,10 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 </div>
 
                 {
-                    CountCard("USERS", "Total Users Count",3,newData)
+                    CountCard("USERS", "Total Users Count",1,newData)
                 }
                 {
-                    CountCard("ADMINS", "Total Admins Count",1, newData)
+                    CountCard("ADMINS", "Total Admins Count",3, newData)
                 }
 
                 <div className="flex flex-col space-y-5">
