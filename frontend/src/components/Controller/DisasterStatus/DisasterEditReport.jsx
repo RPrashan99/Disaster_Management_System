@@ -54,14 +54,19 @@ export const EditReport = () => {
 
                 return filteredRequests;
             } else {
-                return requests;
+                return 0;
             }
         }
         if (selectedInputReport.disasterType != null && selectedInputReport.disasterLocation != null) {
             setDisable(true);
             setSync(true);
-            const requests = await getRequests(date);
-            setNumOfRequests(selectedInputReport.disasterRequests.length + requests.length);
+            const newRequests = await getRequests(date);
+            let requests = selectedInputReport.disasterRequests;
+            if(newRequests != 0){
+                requests = [...selectedInputReport.disasterRequests, ...newRequests];
+            }
+            console.log("AllRequests: ", requests);
+            setNumOfRequests(selectedInputReport.disasterRequests.length + newRequests.length);
             setSelectedInputReport((prevDetails) => ({ ...prevDetails, ["disasterRequests"]: requests }));
 
             setSync(false);
