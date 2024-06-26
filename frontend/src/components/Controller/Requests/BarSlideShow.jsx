@@ -47,7 +47,7 @@ import { Fa2 } from 'react-icons/fa6';
                   landslide:provReq.filter(request => request.disasterType.toLowerCase().includes("landslide") ).length,
                   wind:provReq.filter(request => request.disasterType.toLowerCase().includes("wind") ).length,
                   fire:provReq.filter(request => request.disasterType.toLowerCase().includes("fire") ).length,
-                  fire:provReq.filter(request =>!disasters.some(disasters =>request.disasterType.toLowerCase().includes(disasters))).length,
+                  other:provReq.filter(request =>!disasters.some(disasters =>request.disasterType.toLowerCase().includes(disasters))).length,
               };
             provinceDataset.push(provinceData);
           }
