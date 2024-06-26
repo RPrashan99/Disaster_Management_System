@@ -24,7 +24,7 @@ export const dbconnect = async () => {
         console.log('Connected successfully!');
 
         // Watch for changes only after seeding is done
-        await watchUsers();
+        //await watchUsers();
     } catch (error) {
         console.log(error);
     }

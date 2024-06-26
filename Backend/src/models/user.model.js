@@ -9,7 +9,7 @@ export const UserSchema = new Schema(
         address: {type: String, default: "none"},
         accessLevel: {type: Number, default: 1},
         department: {type: String, default: "None"},
-        telephoneNumber: {type: String, required: true},
+        telephoneNumber: {type: String, required: false},
         lastLogged: {type: Date, default: "2023/10/12"}
     },
     {
