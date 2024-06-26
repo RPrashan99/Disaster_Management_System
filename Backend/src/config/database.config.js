@@ -32,43 +32,43 @@ export const dbconnect = async (io) => {
 };
 
 //real time users
-async function watchUsers(io){
-    
+async function watchUsers(io) {
+
     const changeStream = UserModel.watch();
 
     changeStream.on('change', async (change) => {
         console.log(change);
 
-    const userList = await UserModel.find();
-    io.emit('userListUpdate', userList); 
+        const userList = await UserModel.find();
+        io.emit('userListUpdate', userList);
     });
 
-    await new Promise(()=>{});
+    await new Promise(() => { });
 }
 
 //real time alerts
-async function watchAlerts(){
-    
+async function watchAlerts() {
+
     const changeStream = AlertModel.watch();
 
     changeStream.on('change', async (change) => {
         console.log(change);
 
-    const alerts = await AlertModel.find();
-    console.log('Alerts :', alerts); 
+        const alerts = await AlertModel.find();
+        console.log('Alerts :', alerts);
     });
 
-    await new Promise(()=>{});
+    await new Promise(() => { });
 }
 
 async function seedUsers() {
     const usersCount = await UserModel.countDocuments();
-    if(usersCount > 0 ) {
+    if (usersCount > 0) {
         console.log('User seed is already done!');
         return;
     }
 
-    for(let user of sample_user) {
+    for (let user of sample_user) {
         user.password = await bcrypt.hash(user.password, PASSWORD_HASH_SALT_ROUNDS);
         await UserModel.create(user);
     }
@@ -76,15 +76,15 @@ async function seedUsers() {
     console.log('User seed is done!');
 }
 
-async function seedNews(){
+async function seedNews() {
     const newsCount = await NewsModel.countDocuments();
 
-    if(newsCount > 0){
+    if (newsCount > 0) {
         console.log('News seed is already done!');
         return;
     }
 
-    for(let news of sample_news){
+    for (let news of sample_news) {
         await NewsModel.create(news);
     }
     console.log('News seed is done!');

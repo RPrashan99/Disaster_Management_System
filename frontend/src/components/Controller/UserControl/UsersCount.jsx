@@ -3,7 +3,7 @@ import { Card_Status } from "../../Common/Card_Status";
 import { CountCard } from "./Users_CountCard";
 import { getAllUsers, getUserActive } from "../../../services/userService";
 
-import io from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 
 export const UserCount = (activeUsersDate, DisctrictUsersDate, activeAdminsDate, DisctrictAdminDate) => {
 
@@ -18,10 +18,10 @@ export const UserCount = (activeUsersDate, DisctrictUsersDate, activeAdminsDate,
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                // const data = await getAllUsers();
-                // setAllData(data);
+                const data = await getAllUsers();
+                setAllData(data);
 
-                const groupedData = allData.reduce((acc, user) => {
+                const groupedData = data.reduce((acc, user) => {
                     const accessLevel = user.accessLevel;
 
                     if (acc[accessLevel]) {
@@ -42,7 +42,7 @@ export const UserCount = (activeUsersDate, DisctrictUsersDate, activeAdminsDate,
             }
         };
         fetchUserData();
-    }, [allData]);
+    }, []);
 
     useEffect(() => {
         if (newData.length != 0) console.log("newData:", newData);
@@ -62,15 +62,15 @@ export const UserCount = (activeUsersDate, DisctrictUsersDate, activeAdminsDate,
     }, [allData])
 
     useEffect(() => {
-        const socket = io('http://localhost:5000');
+        // const socket = socketIOClient('http://localhost:5000');
         
-        socket.on('userListUpdate', (updatedUserList) => {
-            setAllData(updatedUserList);
-        });
+        // socket.on('userListUpdate', (updatedUserList) => {
+        //     setAllData(updatedUserList);
+        // });
 
-        return () => {
-            socket.off('userListUpdate');
-        };
+        // return () => {
+        //     socket.off('userListUpdate');
+        // };
     }, [])
 
     return (
