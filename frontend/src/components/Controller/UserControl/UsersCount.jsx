@@ -59,6 +59,12 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
         getActiveDetails();
     },[allData])
 
+    useEffect(()=>{
+        if(userActive != null){
+            console.log("User Active: ", userActive);
+        }
+    },[userActive])
+
     return(
         <div className="flex flex-col bg-grey">
 
@@ -73,10 +79,10 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
                 </div>
 
                 {
-                    CountCard("USERS", "Total Users Count",3,newData)
+                    CountCard("USERS", "Total Users Count",1,newData)
                 }
                 {
-                    CountCard("ADMINS", "Total Admins Count",1, newData)
+                    CountCard("ADMINS", "Total Admins Count",3, newData)
                 }
 
                 <div className="flex flex-col space-y-5">

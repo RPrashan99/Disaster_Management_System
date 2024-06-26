@@ -9,6 +9,8 @@ import { TestReport_Card } from "./testReportCard";
 import { GoogleMap } from "./Disaster_GoogleMap";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { ModelAffectedAdd } from "./ModelAffectedAdd";
+import { checkUnverifyRequests } from "../../../services/requestService";
+import { sendRespond } from "../../../services/emailServices";
 //import { MapContainer } from "./Disaster_GoogleMap";
 
 const testValues = [
@@ -51,6 +53,7 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
     const [ongoingReports, setOngoingReports] = useState('');
     const [selectedReport, setSelectedReport] = useState('');
     const [addAffected, setAddAffected] = useState(false);
+    const [showRespondAVB, setShowRespondAVB] = useState(false);
     const formRef = useRef(null);
 
     const addAffectedClose = () => {
@@ -61,7 +64,6 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
         if (fetchedReports) {
             setReports(fetchedReports);
             setSelectedReport(fetchedReports[0]);
-            console.log("Selected Report: ", selectedReport);
         }
     }, [fetchedReports]);
 
@@ -69,7 +71,6 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
         if (currentReports) {
             setOngoingReports(currentReports);
             setSelectedReport(currentReports[0]);
-            console.log("Selected Report: ", selectedReport);
         }
     }, [currentReports]);
 
@@ -78,13 +79,49 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
         if (formRef.current) {
             formRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-        console.log("Selected Report: ", selectedReport);
     };
 
-    const handlePenClick = (value) => {
-        if (value == "Alert") console.log("Alert button pressed !");
-        else console.log("Respond button pressed !");
+    const handlePenClick = async (value) => {
+        if (value == "Alert") {
+            console.log("Alert button pressed !");
+        }
+        else {
+            try {
+                await sendRespond(selectedReport.disasterRequests);
+                console.log("Respond send success!");
+            } catch (error) {
+                console.log("Respond send error!");
+            }
+        }
     };
+
+    useEffect(() => {
+
+        if (selectedReport != "") {
+            const checkNewRequest = async () => {
+                if (!selectedReport.respondSent) {
+                    if (await checkUnverifyRequests(selectedReport.disasterRequests)) {
+                        setShowRespondAVB(true);
+                    } else {
+                        setShowRespondAVB(false);
+                    }
+                    console.log("Respond: ", showRespondAVB);
+                }
+
+            }
+            checkNewRequest();
+        }
+    }, [selectedReport])
+
+    const handleRespond = async () => {
+
+        if (showRespondAVB) {
+            console.log("Respond Sent");
+        } else {
+            console.log("No new requests");
+        }
+
+    }
 
     return (
         <div className="flex flex-col px-5 py-3">
@@ -106,11 +143,11 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
             {
                 selectedReport &&
                 <div className="flex flex-row px-5 py-1 border" ref={formRef}>
-                    <div className="flex flex-col bg-mapGreen border space-y-3 px-3 py-3 rounded-l-md">
+                    <div className="flex flex-col bg-mapGreen border space-y-3 px-3 py-3 rounded-l-md lg:w-[350px]">
                         {Disaster_Map_Card("DISASTER TYPE", selectedReport.disasterType)}
                         {Disaster_Map_Card("SEVERITY", selectedReport.severity)}
 
-                        <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md">
+                        <div className="flex flex-col md:w-[250px] lg:w-[300px] px-5 py-3 bg-white border rounded-md">
                             <div className="flex text-[16px] font-bold">TOTAL AFFECTED</div>
                             <div className="flex flex-row space-x-5 items-center justify-end pe-5">
                                 <div className="text-[25px] text-right">{selectedReport.affectedCount}</div>
@@ -118,9 +155,9 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md">
+                        <div className="flex flex-col md:w-[250px] lg:w-[300px] px-5 py-3 bg-white border rounded-md">
                             <div className="flex text-[16px] font-bold pb-2">AFFECTED LOCATIONS</div>
-                            <ul className="ps-[120px]">
+                            <ul className="md:ps-[90px] lg:ps-[120px]">
                                 {selectedReport.disasterLocation.map(name =>
                                     <li>{name}</li>
                                 )}
@@ -128,10 +165,10 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
 
                         </div>
 
-                        <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md">
+                        <div className="flex flex-col md:w-[250px] lg:w-[300px] px-5 py-3 bg-white border rounded-md">
                             <div className="flex text-[16px] font-bold">TOTAL REQUESTS</div>
                             <div className="flex flex-row space-x-5 items-center justify-end pe-5">
-                                <div className="text-[25px] text-right">1522</div>
+                                <div className="text-[25px] text-right">{selectedReport.disasterRequests.length}</div>
                                 <div className="text-[15px] text-right bg-mapGreen rounded-full border p-1">12%</div>
                             </div>
                         </div>
@@ -142,8 +179,8 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
 
                     <GoogleMap location={selectedReport.disasterLocation} />
 
-                    <div className="flex flex-col bg-mapGreen border space-y-3 px-3 py-3 rounded-r-md">
-                        <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md relative">
+                    <div className="flex flex-col bg-mapGreen border space-y-3 px-3 py-3 rounded-r-md lg:w-[350px]">
+                        <div className="flex flex-col md:w-[250px] lg:w-[300px]  px-5 py-3 bg-white border rounded-md relative">
                             <div className="flex text-[16px] font-bold">Afftected Details</div>
                             <BarChart
                                 dataset={dataset}
@@ -154,7 +191,7 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
                             />
                             <div className="absolute top-0 right-0">
                                 <Button onClick={addAffectedClose}>
-                                    <AddCircleIcon fontSize="large"/>
+                                    <AddCircleIcon fontSize="large" />
                                 </Button>
                             </div>
 
@@ -167,7 +204,7 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
                         </div>
                         {Disaster_Map_Card("SHELTER LOCATIONS", "None")}
 
-                        <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md">
+                        <div className="flex flex-col md:w-[250px] lg:w-[300px] px-5 py-3 bg-white border rounded-md">
                             <div className="flex text-[16px] font-bold">RESPOND SETTINGS</div>
                             <div className="flex flex-col space-y-2 items-end pt-3 pe-3">
                                 <div className="flex flex-row items-center">
@@ -193,8 +230,8 @@ export const Disaster_Map = (fetchedReports, currentReports) => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col w-[300px] px-5 py-3 bg-white border rounded-md">
-                            <div className="flex text-[16px] font-bold">RESPOND SETTINGS</div>
+                        <div className="flex flex-col md:w-[250px] lg:w-[300px] px-5 py-3 bg-white border rounded-md">
+                            <div className="flex text-[16px] font-bold">ADDITIONAL SETTINGS</div>
                             <div className="flex flex-col items-end space-y-2 pt-3 pe-1">
                                 <div className="flex flex-row items-center">
                                     <div className="text-[15px] text-right pe-4">EVACUATION ROUTES</div>

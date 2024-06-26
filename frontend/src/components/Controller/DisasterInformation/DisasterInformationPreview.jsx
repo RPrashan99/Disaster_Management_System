@@ -10,7 +10,6 @@ import { green } from '@mui/material/colors';
 import axios from "axios";
 import { Buffer } from 'buffer';
 
-
 const GreenSwitch = styled(Switch)(({ theme }) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
       color: green[900],
@@ -21,7 +20,7 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
       backgroundColor: green[600],
     },
-  }));
+}));
 
 const intialState = { newsItems: []};
 const reducer = (state, action) => {
@@ -33,7 +32,8 @@ const reducer = (state, action) => {
     }
 };
 
-export const NewsPreview = () =>{
+
+export const DisasterInformationPreview = () =>{
     const [selectedNews, setSelectedNews] = useState(null);
     const [state,dispatch] = useReducer(reducer, intialState);
     const {newsItems} = state;
@@ -105,7 +105,7 @@ export const NewsPreview = () =>{
     setFormData({ ...formData, show: newShowValue });
 
     try {
-      const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {...formData, show:newShowValue});
+    //   const response = await axios.patch('http://localhost:5000/api/news/updateNews/' + formData.newsId, {...formData, show:newShowValue});
       message.success(`Show is ${newShowValue ? 'enabled' : 'disabled'} now!`);
       setTimeout(() => {
         window.location.reload();

@@ -2,10 +2,11 @@ import { Router } from "express";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/httpStatus.js";
 import handler from 'express-async-handler';
 import { DisasterRequestModel } from "../models/disasterRequest.model.js";
+import { DisasterReportModel } from "../models/disasterReport.model.js";
 
 const router = Router();
 
-router.get('/request',handler(async (req,res) => {
+router.post('/request',handler(async (req,res) => {
 
     const {
         disasterType,
@@ -16,13 +17,14 @@ router.get('/request',handler(async (req,res) => {
         otherNeeds,
         disasterLocationLatLan,
         read,
-        requestProvince} = req.body;
+        image} = req.body;
 
         const currentDateTime = new Date();
         const requestDate = currentDateTime.toDateString();
         const requestTime = currentDateTime.toTimeString();
 
         const newID = await generateRequestID(disasterType);
+        const requestProvince = await getRequestProvince(disasterLocationLatLan);
 
         const newRequest = {
             requestID: newID,
@@ -36,7 +38,8 @@ router.get('/request',handler(async (req,res) => {
             requestTime,
             requestDate,
             read,
-            requestProvince
+            image,
+            requestProvince: requestProvince
         };
 
         const result = await DisasterRequestModel.create(newRequest);
@@ -88,9 +91,9 @@ router.put('/updateRequest/:requestID', handler(async (req, res) => {
             { read: true },
             { new: true } // Return the updated document
         );
-        return res.status(INTERNAL_SERVER_ERROR).send(request);
+        res.status(200).send(request);
+
     } catch (error) {
-        console.error(error);
         return res.status(INTERNAL_SERVER_ERROR).send("Internal server error");
     }
 }));
@@ -132,7 +135,6 @@ router.post('/showUnverify', handler(async (req, res) =>{
 
 //not finished
 const sendingResponds = async(requests) =>{
-
     try{
         const sendTo = "engerrev897@gmail.com";
         const sendFrom = process.env.Email_USER;
@@ -161,26 +163,36 @@ const generateRequestID = async(disasterType) => {
 
     const disasterCode = disasterType.substring(0, 2);
     const min = 0;
-    const max = 100;
-    const requestNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    const max = 1000;
+    let requestNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    const newID = disasterCode + requestNumber.toString();
-    console.log("ID",newID);
+    let newID = disasterCode + requestNumber.toString();
+
+    try{
+        while(await DisasterRequestModel.findOne({requestID: newID})){
+            requestNumber++;
+            newID = disasterCode + requestNumber.toString();
+        }
+        console.log("ID",newID);
+        return newID;
+    }catch(error){
+        console.log("ID generate error");
+    }
 
     return newID;
 
 };
 
-const getRequestProvince = async (lat, lng) => {
+const getRequestProvince = async (locationLat) => {
     try{
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLEMAP_API}`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationLat[0]},${locationLat[1]}&key=${process.env.GOOGLEMAP_API}`;
 
-        const response = await axios.get(url);
-        const results = response.data.results;
+        const response = await fetch(url);
+        const data = await response.json();
 
-        if (results.length > 0) {
+        if (data.results.length > 0) {
             // Loop through the address components to find the province
-            for (const component of results[0].address_components) {
+            for (const component of data.results[0].address_components) {
                 if (component.types.includes("administrative_area_level_1")) {
                     return component.long_name;  // Return the province name
                 }
@@ -192,3 +204,4 @@ const getRequestProvince = async (lat, lng) => {
 }
 
 export default router
+

@@ -3,6 +3,7 @@ import { MdPermMedia } from "react-icons/md";
 import { BackButton } from "../components/Common/BackButton";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { LocationMap } from "../components/Controller/Requests/LocationMap";
+import { Button } from "flowbite-react";
 
 export const WindowComponent = ({
   requestID,
@@ -13,8 +14,10 @@ export const WindowComponent = ({
   medicalNeed,
   otherNeeds,
   verification,
+  image,
   locationLatLan,
 }) => {
+  const [clickButton,setclickButton] = useState();
   const lat = parseFloat(locationLatLan[0]);
   const lng = parseFloat(locationLatLan[1]);
   const position = { lat: lat, lng: lng };
@@ -23,6 +26,7 @@ export const WindowComponent = ({
       console.log("position",position);
       console.log("requestDetails:", requestID);
       console.log("requestLocationLatLon:", locationLatLan);
+      console.log("Media images", image)
     },
     [requestID]
   );
@@ -106,19 +110,18 @@ export const WindowComponent = ({
                   id="country-option-1"
                   className="block p-2.5 text-sm w-full text-gray-600 bg-gray-50 rounded-lg border border-b-4 border-gray-400"
                 >
-                  {medicalNeed.toString()}
+                  {medicalNeed? "Medical needs required.":"Medical needs not required"}
                 </text>
               </div>
               <div className="flex items-center relative flex-row justify-start px-1">
                 <label htmlFor="message" className="block mx-1 my-2 w-[50%]">
-                  Your message
+                  Requester's message
                 </label>
                 <text
                   id="message"
                   rows="4"
                   className="block p-2.5 w-full text-sm text-gray-600 bg-gray-50 border rounded-lg border-b-4 border-gray-400"
-                >
-                  {otherNeeds}
+                > {otherNeeds && otherNeeds !== "" ? otherNeeds : "No other needs"}
                 </text>
               </div>
               <div className="flex w-[60%] self-center h-full py-1 px-2">
@@ -127,14 +130,25 @@ export const WindowComponent = ({
                   className="flex items-center justify-center flex-col w-full border border-b-4 border-gray-400 rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 "
                 >
                   <div className="flex flex-col items-center justify-center py-3">
-                    {}
-                    <MdPermMedia />
-                    <p className="mb-2 text-sm text-gray-500 ">
-                      <span className="font-semibold">Click to view</span>
-                    </p>
-                    <p className="text-xs text-gray-500 ">
-                      Watch uploaded images or videos
-                    </p>
+                    {clickButton?(
+                        (image && image.length > 0 && (
+                          <div>
+                            {image.map((image, index) => (
+                              <img key={index} src={image} alt={`Request Image ${index}`} />
+                            ))}
+                          </div>
+                        ))
+                    ):(
+                      <div className="flex flex-col juitems-center  self-center">
+                        <MdPermMedia />
+                        <p className="text-xs text-gray-500 ">
+                          Watch uploaded images or videos
+                        </p>
+                        <p className="mb-2 text-sm text-gray-500 p-5 ">
+                          <Button className="font-semibold" onClick={()=>setclickButton(true)}>Click to view</Button>
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </label>
               </div>

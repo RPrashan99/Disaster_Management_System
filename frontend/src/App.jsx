@@ -13,6 +13,7 @@ import { EditReport } from './components/Controller/DisasterStatus/DisasterEditR
 import ContactInfoAdder from './pages/controller/ContactInfoAdder';
 import { ShelterLocationPage } from './pages/controller/ShelterLocations';
 import { VolunteeringPage } from './pages/controller/VolunteeringPage';
+import { DisasterInformationAdder } from './pages/controller/DisasterInformationAdder';
 import { DisasterMap } from './pages/controller/DisasterMap';
 import SearchResults from './components/Controller/SearchResult';
 import PrivateRoute from './authanticate/PrivateRoutes';

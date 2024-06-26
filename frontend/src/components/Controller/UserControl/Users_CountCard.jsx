@@ -7,12 +7,13 @@ export const CountCard = (title, description,accessLevel, users) => {
     useEffect(() => {
         if(users){
             if(accessLevel == 1){
-                const adminCount = users[1].count + users[2].count;
+                const adminCount = users[1].count;
                 setUserCount(adminCount);
             } else {
-                const normalCount = users[3].count;
+                const normalCount = users[3].count + users[2].count;
                 setUserCount(normalCount);
             }
+            console.log("GetCount:", users);
         }
     },[users]);
 

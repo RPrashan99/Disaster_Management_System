@@ -29,6 +29,7 @@ export const ReportForm = () => {
 
     const extractLatLang = async(location) =>{
         const result = await getGeoCode(location);
+        console.log(result);
         const lat = result.results[0].geometry.location.lat;
         const lang = result.results[0].geometry.location.lng;
         const marker = {latitude:lat, longitude:lang};
@@ -96,6 +97,7 @@ export const ReportForm = () => {
         if (details.disasterType != null && details.severity != null
             && details.disasterLocation != null && details.affectedCount != null && details.finished != null) {
             try {
+                console.log("Details: ", details);
                 const result = await insertReport(details);
 
                 if (details.disasterRequests.length != 0) {
@@ -131,6 +133,12 @@ export const ReportForm = () => {
             setOpen(true);
         }
     }, [snackMessage])
+
+    useEffect(()=> {
+        if(details != null){
+            console.log("Details: ", details);
+        }
+    },[details])
 
     return (
         <div className="flex flex-col">

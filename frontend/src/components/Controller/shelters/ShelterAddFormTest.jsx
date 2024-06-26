@@ -8,8 +8,8 @@ export const ShelterAddFormTest = React.forwardRef(function (props, ref) {
 
     const { initialDetails, handleClose } = props;
 
-    const [ open, setOpen ] = useState(false);
-    const [ snackMessage, setSnackMessage ] = useState({message:"", severity:""});
+    const [open, setOpen] = useState(false);
+    const [snackMessage, setSnackMessage] = useState({ message: "", severity: "" });
 
     const [details, setDetails] = useState(initialDetails ||
     {
@@ -106,7 +106,10 @@ export const ShelterAddFormTest = React.forwardRef(function (props, ref) {
                         </div>
                     </div>
                 </form>
-                <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+                <div className="flex flex-row space-x-3">
+                    <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+                    <Button variant="contained" onClick={handleClose}>Close</Button>
+                </div>
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                     open={open}

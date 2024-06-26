@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LanguageBar } from "../../components/Controller/LanguageBar";
 import { HeaderBar } from "../../components/Controller/HeaderBar";
 import { deleteShelter, getAllShelters } from "../../services/shelterService";
@@ -14,9 +14,9 @@ export const ShelterLocationPage = () => {
     const [open, setOpen] = useState(false);//for alerts
     const [formOpen, setFormopen] = useState(false);
     const [change, setChange] = useState(false);
+    const formRef = useRef(null);
 
-    
-    const [ snackMessage, setSnackMessage ] = useState({message:"", severity:""});
+    const [snackMessage, setSnackMessage] = useState({ message: "", severity: "" });
 
     const getShelters = async () => {
         const allShelters = await getAllShelters();
@@ -40,15 +40,16 @@ export const ShelterLocationPage = () => {
         { col: "Shelter ID", width: "120px" },
         { col: "Shelter Name", width: "250px" },
         { col: "Shelter Type", width: "200px" },
-        { col: "Location", width: "300px" },
-        { col: "Person In Charge", width: "250px" },
+        { col: "Location", width: "350px" },
+        { col: "Person In Charge", width: "230px" },
         { col: "Phone Number", width: "150px" },
+        { col: "Action", width: "100px" },
     ];
 
     const [shelters, setShelters] = useState(null);
 
     const handleDelete = async (id) => {
-        try{
+        try {
             const result = await deleteShelter(id);
             setChange(!change);
             await getShelters();
@@ -57,15 +58,15 @@ export const ShelterLocationPage = () => {
             setSnackMessage(msg);
 
             console.log("Result: ", result);
-        }catch(error){
+        } catch (error) {
             const msg = { message: "Shelter delete failed!", severity: "error" };
             setSnackMessage(msg);
             console.log(error);
         }
     }
 
-    const handleEdit = () => {
-        
+    const handleEdit = (id) => {
+
     }
 
     const alertClose = () => {
@@ -88,6 +89,16 @@ export const ShelterLocationPage = () => {
         }
     }, [snackMessage])
 
+    useEffect(() => {
+        if (formRef.current && formOpen) {
+            const timer = setTimeout(() => {      
+                formRef.current.scrollIntoView({ behavior: 'smooth' });
+              }, 500); // 1 seconds delay
+          
+              return () => clearTimeout(timer);
+        }
+    }, [formOpen])
+
     return (
         <div>
             <LanguageBar />
@@ -107,46 +118,48 @@ export const ShelterLocationPage = () => {
                 </div>
             </div>
             <div className="flex-row bg-grey border m-5 p-2">
-                <div className="flex flex-row justify-start space-x-1 bg-grey w-full mb-2 ps-2">
+                <div className="flex flex-row justify-start space-x-1 bg-grey mb-2 ps-1 w-full">
                     {
                         tableCols.map((item, index) => (
                             <div className={`flex bg-white w-[${item.width}] justify-center font-bold text-[18px] shadow`} key={index}>{item.col}</div>
                         ))
                     }
                 </div>
-                <div className="flex flex-col bg-white ps-2 divide-y-2">
+                <div className="flex flex-col bg-white ps-2 divide-y-2 w-full">
                     {
                         shelters && shelters.length > 0 ?
                             shelters.map((shelter, index) => (
                                 <RowCardShelter key={index} shelterItem={shelter}
                                     shelterDelete={() => {
                                         handleDelete(shelter.shelterId);
-                                    }} 
-                                    shelterEdit={()=>{}}/>
+                                    }}
+                                    shelterEdit={(id) => { handleEdit(id) }} />
                             ))
                             : <div className="flex justify-center bg-white items-center w-full font-bold text-[20px] py-20">No shelters found</div>
                     }
                 </div>
             </div>
-            <Collapse in={formOpen}
-                mountOnEnter
-                unmountOnExit>
-                <ShelterAddFormTest handleClose={handleClose} />
-            </Collapse>
+            <div ref={formRef}>
+                <Collapse in={formOpen}
+                    mountOnEnter
+                    unmountOnExit>
+                    <ShelterAddFormTest handleClose={handleClose} />
+                </Collapse>
+            </div>
             <Snackbar
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    open={open}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={open}
+                onClose={alertClose}
+                autoHideDuration={1800}
+            >
+                <Alert
                     onClose={alertClose}
-                    autoHideDuration={1800}
-                >
-                    <Alert
-                        onClose={alertClose}
-                        severity={snackMessage.severity}
-                        variant="filled"
-                        sx={{ width: '100%' }}
-                    >{snackMessage.message}
-                    </Alert>
-                </Snackbar>
+                    severity={snackMessage.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >{snackMessage.message}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

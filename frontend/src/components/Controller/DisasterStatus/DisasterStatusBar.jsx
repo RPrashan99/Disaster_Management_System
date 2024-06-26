@@ -115,7 +115,7 @@ export const DisasterStatusBar = (props) => {
                         newReportCount != 0 && 
                         <div className="flex items-center gap-5 px-2">
                             <img className="flex ps-1" src="/controller/plus_icon.png"/>
-                            <span className="flex text-barContentLow text-[15px] text-left">{newReportCount} new Reports added within 7 days</span>
+                            <span className="flex text-barContentLow text-[15px] text-left">{newReportCount} new Reports</span>
                         </div>
                     }
                     <span className="flex text-grey pt-3">Last updated 1min ago</span>

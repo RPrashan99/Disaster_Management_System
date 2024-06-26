@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { HeaderBar } from "../HeaderBar";
 import { LanguageBar } from "../LanguageBar";
 import TextField from '@mui/material/TextField';
-import { Button, Snackbar } from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import Autocomplete from '@mui/material/Autocomplete';
 import { editReport, getCurrentReports, insertReport } from "../../../services/reportService";
+import { getUnverifiedRequests, setVerifyRequests } from "../../../services/requestService";
 
 const disasterReports = [
     { reportID: "id_1", reportName: 'report_1' },
@@ -21,6 +24,9 @@ export const EditReport = () => {
     const [selectedReport, setSelectedReport] = useState(null);
     const [selectedInputReport, setSelectedInputReport] = useState();
     const [snackMessage, setSnackMessage] = useState({ message: "", severity: "" });
+    const [numOfRequests, setNumOfRequests] = useState(0);
+    const [disable, setDisable] = useState(false);
+    const [sync, setSync] = useState(false);
 
     const navigate = useNavigate();
 
@@ -33,13 +39,56 @@ export const EditReport = () => {
         setSelectedInputReport((prevDetails) => ({ ...prevDetails, [name]: value }));
     }
 
-    const handleRequests = () => {
+    const handleRequests = async (date) => {
+        const getRequests = async () => {
+            const requests = await getUnverifiedRequests();
+            console.log("requests: ", requests);
+            const today = new Date();
 
+            if (requests != null) {
+                const filteredRequests = requests
+                    .filter(request => (request.disasterType == selectedInputReport.disasterType) && (request.disasterLocation == selectedInputReport.disasterLocation))
+                    .map(request => request.requestID);
+
+                console.log("filtered requests: ", filteredRequests);
+
+                return filteredRequests;
+            } else {
+                return 0;
+            }
+        }
+        if (selectedInputReport.disasterType != null && selectedInputReport.disasterLocation != null) {
+            setDisable(true);
+            setSync(true);
+            const newRequests = await getRequests(date);
+            let requests = selectedInputReport.disasterRequests;
+            if(newRequests != 0){
+                requests = [...selectedInputReport.disasterRequests, ...newRequests];
+            }
+            console.log("AllRequests: ", requests);
+            setNumOfRequests(selectedInputReport.disasterRequests.length + newRequests.length);
+            setSelectedInputReport((prevDetails) => ({ ...prevDetails, ["disasterRequests"]: requests }));
+
+            setSync(false);
+
+            if (requests.length == 0) {
+                const message = { message: "No current requests!", severity: "error" };
+                setSnackMessage(message);
+            }
+            console.log("Sync success");
+        } else {
+            const message = { message: "Please provide disaster type and location!", severity: "error" };
+            setSnackMessage(message);
+        }
     }
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
+            if (selectedInputReport.disasterRequests.length != 0) {
+                const resultVerify = await setVerifyRequests(selectedInputReport.disasterRequests);
+                console.log("Request verify result: ", resultVerify);
+            }
             const result = await editReport(selectedInputReport);
             console.log("Submit form result: ", result);
             setOpen(true);
@@ -79,7 +128,10 @@ export const EditReport = () => {
     }, [reports])
 
     useEffect(() => {
-        if (selectedInputReport) console.log("Report to edit: ", selectedInputReport);
+        if (selectedInputReport) {
+            console.log("Report to edit: ", selectedInputReport);
+            setNumOfRequests(selectedInputReport.disasterRequests.length)
+        }
     }, [selectedInputReport])
 
     return (
@@ -161,7 +213,7 @@ export const EditReport = () => {
                                             value={selectedInputReport.confirmed}
                                             onChange={handleChange}
                                             required
-                                            disabled = {selectedInputReport.confirmed ?? true}
+                                            disabled={selectedInputReport.confirmed ?? true}
                                         >
                                             <option value="">Select status</option>
                                             <option value="true">Yes</option>
@@ -179,7 +231,7 @@ export const EditReport = () => {
                                                     value={selectedInputReport.affectedCount}
                                                     onChange={handleChange} required />
                                                 <div className="flex font-bold justify-center">Total Requests</div>
-                                                <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">{selectedInputReport.disasterRequests.length}</div>
+                                                <div className="flex text-[18px] text-white font-bold bg-langGrey justify-center rounded">{numOfRequests}</div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col space-y-3 bg-white p-1">
@@ -208,10 +260,14 @@ export const EditReport = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-row justify-center space-x-5">
-                                    <Button variant="contained"
-                                        onClick={handleRequests}>
-                                        Sync Requests
-                                    </Button>
+                                    <LoadingButton
+                                        size="small"
+                                        onClick={handleRequests}
+                                        endIcon={<SyncAltIcon />}
+                                        loading={sync}
+                                        loadingPosition="end"
+                                        variant="contained"
+                                    > <span>Sync Requests</span></LoadingButton>
                                     <Button variant="contained"
                                         onClick={onSubmitForm}>
                                         Edit
@@ -223,8 +279,16 @@ export const EditReport = () => {
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                             open={open}
                             onClose={handleClose}
-                            message="Report edited!"
-                        />
+                            autoHideDuration={1800}
+                        >
+                            <Alert
+                                onClose={handleClose}
+                                severity={snackMessage.severity}
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                            >{snackMessage.message}
+                            </Alert>
+                        </Snackbar>
                     </div>
                 }
             </div>
