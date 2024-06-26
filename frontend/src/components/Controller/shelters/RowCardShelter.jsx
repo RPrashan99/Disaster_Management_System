@@ -20,15 +20,15 @@ export const RowCardShelter = ({ shelterItem, shelterDelete, shelterEdit }) => {
             { col: "Shelter ID", value: shelterItem.shelterId, width: "120px" },
             { col: "Shelter Name", value: shelterItem.shelterName, width: "250px" },
             { col: "Shelter Type", value: shelterItem.shelterType, width: "200px" },
-            { col: "Location", value: shelterItem.location, width: "300px" },
-            { col: "Person In Charge", value: shelterItem.personInCharge, width: "250px" },
+            { col: "Location", value: shelterItem.location, width: "350px" },
+            { col: "Person In Charge", value: shelterItem.personInCharge, width: "230px" },
             { col: "Phone Number", value: shelterItem.phoneNumber, width: "150px" },
         ];
         setShelter(Data);
     }, [])
 
     return (
-        <div key={shelter.shelterId} className="flex space-x-1 bg-gray w-full justify-start items-center py-1 divide-x-2">
+        <div key={shelter.shelterId} className="flex space-x-2 bg-gray w-full justify-start items-center py-1 divide-x-2">
             {
                 shelter.map((item, index) => (
                     <div key={index} className={`flex bg-white w-[${item.width}] justify-center text-[15px]`}>{item.value}</div>
