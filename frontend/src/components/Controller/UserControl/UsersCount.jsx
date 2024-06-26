@@ -59,6 +59,10 @@ export const UserCount = (activeUsersDate,DisctrictUsersDate, activeAdminsDate, 
         getActiveDetails();
     },[allData])
 
+    useEffect(()=>{
+
+    },[])
+
     return(
         <div className="flex flex-col bg-grey">
 
