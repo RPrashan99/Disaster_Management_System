@@ -157,7 +157,7 @@ export const NewsPreview = () =>{
                             <h1 className="text-primary font-bold md:text-3xl text-lg">
                                 {selectedNews.heading}
                             </h1>
-                            <p className="my-3 text-base">{selectedNews.author}</p>
+                            <p className="my-3 text-base">by {selectedNews.author}</p>
                             <div className="w-1/4 flex justify-between text-xs text-gray-500">
                                 <p>{selectedNews.createdTime.split(' ')[0]} </p>
                                 <p>{selectedNews.createdDate}</p>
@@ -224,10 +224,10 @@ export const NewsPreview = () =>{
                         </h1>
                         {/* News item */}
                         <div className={ (showMoreItems ? "h-[600px] overflow-auto" : "h-[320px] overflow-hidden")}>
-                      
+            
                             {Array.isArray(newsItems) && newsItems.map((news, i) => (
                                 <React.Fragment key={i}>
-                                    <div className="focus:bg-opacity-50 border mb-1"  onClick={() => handleCardClick(news)}>
+                                    <div className="focus:bg-opacity-50 border mb-1 "  onClick={() => handleCardClick(news)}>
                                         <div className="flex items-center justify-start gap-2 bg-grey-200 h-20 my-2">
                                             <div className=" w-full   py-0 h-full">
                                                 {news.image &&  (
@@ -245,7 +245,7 @@ export const NewsPreview = () =>{
                                             </h1>
 
                                             <div className=" mt-3 flex justify-between text-xs">
-                                                <p className="text-black">{news.author}</p>
+                                                <p className="text-black">by {news.author}</p>
                                                 <p className="text-gray-900">{news.createdDate}</p>
                                                 <p> Display :<span className="text-gray-800">{(news.show).toString()}</span> </p>
                                             </div>

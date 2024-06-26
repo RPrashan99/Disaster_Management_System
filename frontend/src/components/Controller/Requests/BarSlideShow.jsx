@@ -16,9 +16,10 @@ import { Fa2 } from 'react-icons/fa6';
     const [currentMonth, setCurrentMonth] = useState(0); // Index of current month dataset
     //const dataset =[];
     const [dataset, setDataset] = useState([]);
-    const months = [ "March","April", "May"];
-    const provinces =["Colombo", "Rathnapura","Galle","Kottawa"];
-    // const provinces =["Western Province", "Southern Province", "Sabaragamuwa Province"];
+    const months = [ "March","April", "May", "June"];
+    // const provinces =["Colombo", "Rathnapura","Galle","Kottawa"];
+    const provinces =["Western Province", "Southern Province", "Sabaragamuwa Province"];
+    const disasters = ["flood", "tsunami", "fire", "wind", "landslide"];
     const newDataset = [];
     
     
@@ -29,7 +30,7 @@ import { Fa2 } from 'react-icons/fa6';
           const provinceDataset = [];
           for(let k=0;k<provinces.length;k++){
               
-            const provReq = monthlyReq.filter(request => (request.disasterLocation) === provinces[k]);
+            const provReq = monthlyReq.filter(request => (request.requestProvince) === provinces[k]);
 
             //  const provReq = monthlyReq.filter(async(request) => {await getProvince(request.disasterLocation) === provinces[k]});
             // const provReq = await Promise.all(monthlyReq.map(async (request) => {
@@ -46,6 +47,7 @@ import { Fa2 } from 'react-icons/fa6';
                   landslide:provReq.filter(request => request.disasterType.toLowerCase().includes("landslide") ).length,
                   wind:provReq.filter(request => request.disasterType.toLowerCase().includes("wind") ).length,
                   fire:provReq.filter(request => request.disasterType.toLowerCase().includes("fire") ).length,
+                  fire:provReq.filter(request =>!disasters.some(disasters =>request.disasterType.toLowerCase().includes(disasters))).length,
               };
             provinceDataset.push(provinceData);
           }
@@ -74,7 +76,7 @@ import { Fa2 } from 'react-icons/fa6';
           <Bar dataKey="landslide" fill='MediumSpringGreen'/>
           <Bar dataKey="wind" fill='Azure' />
           <Bar dataKey="fire" fill='MediumOrchid'/>
-          
+          <Bar dataKey="other" fill='Blue'/>
         </ReBarChart>
       </ResponsiveContainer>
     );

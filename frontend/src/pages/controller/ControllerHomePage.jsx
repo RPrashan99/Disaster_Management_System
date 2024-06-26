@@ -27,8 +27,6 @@ export const ControllerHomePage = () => {
                 <Weather/>
             </div>  
             <Footer/>
-  
-
         </div>
 
     )
