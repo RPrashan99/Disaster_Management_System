@@ -93,7 +93,7 @@ export const Requests = () => {
         request.disasterType.toLowerCase().includes("landslide")
       );
       const verified = requests.filter(
-        request => request.verification === "verified"
+        request => request.verify === true
       );
       const today = requests.filter(
         request => request.requestDate === new Date().toDateString()
@@ -103,7 +103,7 @@ export const Requests = () => {
           request.requestDate.split(" ")[1] ===
           new Date().toDateString().split(" ")[1]
       );
-      const allRead = requests.filter(request => request.read === false);
+      const allRead = requests.filter(request => request.read === true);
       const todayRead = requests.filter(
         request =>
           request.read === true &&
@@ -168,6 +168,7 @@ export const Requests = () => {
       }
       setSelectedRequest(updatedRequest);
       console.log("request Image", request.image);
+      console.log("request province", request.requestProvince);
       const updatedRequests = await getRequests();
       setShowRequests(updatedRequests);
     } catch (error) {
@@ -202,6 +203,12 @@ export const Requests = () => {
       setShowRequests([]);
     }
   };
+
+  useEffect(()=>{
+    if(showRequests.length != 0){
+      console.log("Request filtered!");
+    }
+  },[showRequests])
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
@@ -250,6 +257,7 @@ export const Requests = () => {
                     otherNeeds={selectedRequest.otherNeeds}
                     verification={selectedRequest.verify}
                     image={selectedRequest.image}
+                    province = {selectedRequest.requestProvince}
                     locationLatLan={selectedRequest.disasterLocationLatLan}
                   />
                 </div>
@@ -259,67 +267,67 @@ export const Requests = () => {
                   <div>
                     <div className="md:flex hidden flex-row justify-center items-center my-3 mx-10">
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer"
                         onClick={() => handleTag("all")}
                       >
                         All{" "}
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-2xl cursor-pointer"
                         onClick={() => handleTag("flood")}
                       >
                         Flood{" "}
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[#ffffff] m-1 p-1 shadow-xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[#ffffff] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("tsunami")}
                       >
                         Tsunami
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("extreme wind")}
                       >
                         Extreme Wind
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("fire")}
                       >
                         Fire
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("landslide")}
                       >
                         Landslide
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("other")}
                       >
                         Other
                       </Tag>
                       <Tag
-                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className=" w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] focus:bg-slate-600 text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("today")}
                       >
                         Today
                       </Tag>
                       <Tag
-                        className="w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className="w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("monthly")}
                       >
                         Monthly
                       </Tag>
                       <Tag
-                        className="w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className="w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("verified")}
                       >
                         Verified
                       </Tag>
                       <Tag
-                        className="w-32 h-8 bg-[#707070] hover:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
+                        className="w-32 h-8 bg-[#707070] hover:bg-slate-600 focus:bg-slate-600 text-[1rem] text-center text-[white] m-1 p-1 shadow-xl cursor-pointer"
                         onClick={() => handleTag("read")}
                       >
                         Read

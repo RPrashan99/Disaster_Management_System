@@ -231,8 +231,7 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                 },
               ]}
               width={300}
-              height={200}
-                                  
+              height={200}                     
             /> 
           </div>
         </div> 
@@ -303,7 +302,6 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                         { id: 0, value:monthlyAccepted.length, label: `${monthlyAccepted.length}`},
                         { id: 1, value:monthlyNotAccepted.length},
                       ],
-                
                       outerRadius: 50,
                       innerRadius:40,
                       paddingAngle: 1,
@@ -311,10 +309,8 @@ export const RequestsDetails = ({flood,tsunami,fire,wind,other,today, monthly}) 
                       startAngle: 0,
                       endAngle: 360,
                       cx: 45,
-                      cy: 45,
-                      
-                  },
-                                                                                            
+                      cy: 45,    
+                  },                                                                             
                 ]}
                 width={100}
                 height={100}

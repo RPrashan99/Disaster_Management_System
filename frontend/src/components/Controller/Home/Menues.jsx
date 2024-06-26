@@ -4,9 +4,9 @@ export const Menues = () => {
   const service = [
     {
       id: 1,
-      title: "Family Emergency Plans",
-      description: "Tool to create plans during the Emergency.",
-      image: "/controller/Full Family.png",
+      title: "Disaster Information",
+      description: "Aware about various kinds of disasters in Sri Lanka",
+      image: "/controller/Info.png",
       url: "/controller/information"
     },
     {
@@ -22,7 +22,7 @@ export const Menues = () => {
       title: "Emergency Contacts",
       description:
         "Discover essential contact info for any disaster. Be ready, stay vigilant.",
-      image: "/controller/Light On.png",
+      image: "/controller/Search Contacts.png",
       url: "/controller/ContactInfoAdder"
     },
     {
@@ -31,7 +31,7 @@ export const Menues = () => {
       description:
         "Contribute today to support disaster relief efforts, helping communities rebuild and thrive. ",
       image: "/controller/Donation.png",
-      url: "/controller/news"
+      url: "/controller/donations"
     },
     {
       id: 5,
