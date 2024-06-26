@@ -5,7 +5,7 @@ import { DisasterRequestModel } from "../models/disasterRequest.model.js";
 
 const router = Router();
 
-router.get('/request',handler(async (req,res) => {
+router.post('/request',handler(async (req,res) => {
 
     const {
         disasterType,
