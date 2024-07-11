@@ -17,6 +17,8 @@ import { DisasterInformationAdder } from './pages/controller/DisasterInformation
 import { DisasterMap } from './pages/controller/DisasterMap';
 import SearchResults from './components/Controller/SearchResult';
 import PrivateRoute from './authanticate/PrivateRoutes';
+import { DonationsPage } from './pages/controller/DonationsPage';
+import { InformationPage } from './pages/controller/InformationPage';
 
 const isAuthenticated = () => {
   // Check if the user is logged in (e.g., check if token exists in localStorage)
@@ -44,6 +46,8 @@ function App() {
         <Route path="/controller/volunteering" element = {<PrivateRoute isAuthenticated={isAuthenticated} element={VolunteeringPage}/>} />
         <Route path="/controller/map" element = {<PrivateRoute isAuthenticated={isAuthenticated} element={DisasterMap}/>}/>
         <Route path='/search' element = {<PrivateRoute isAuthenticated={isAuthenticated} element={SearchResults}/>}/>
+        <Route path='/controller/donations' element = {<PrivateRoute isAuthenticated={isAuthenticated} element={DonationsPage}/>}/>
+        <Route path='/controller/information' element = {<PrivateRoute isAuthenticated={isAuthenticated} element={InformationPage}/>}/>
       </Routes>
     </BrowserRouter>
     

@@ -15,7 +15,8 @@ export const WindowComponent = ({
   otherNeeds,
   verification,
   image,
-  locationLatLan,
+  province,
+  locationLatLan
 }) => {
   const [clickButton,setclickButton] = useState();
   const lat = parseFloat(locationLatLan[0]);
@@ -48,7 +49,7 @@ export const WindowComponent = ({
           </h1>
           <h2 className=" text-center font-bold m-5 text-2xl">
             <span className="w-full px-3 py-2 m-5 h-full font-bold rounded-3xl bg-ControllerSec text-black shadow-md text-xl md:2xl">
-              {verification}
+              {verification? "Verified": "Unverified"}
             </span>
           </h2>
 
@@ -101,7 +102,7 @@ export const WindowComponent = ({
                   id="No_of_people_effected"
                   className="block p-2.5 text-sm w-full text-gray-600 bg-gray-50 rounded-lg border border-b-4 border-gray-400"
                 >
-                  {affectedCount}
+                  {affectedCount}{province}
                 </text>
               </div>
               <div className="flex items-center relative flex-row justify-start px-1">
